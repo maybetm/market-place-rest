@@ -3,9 +3,11 @@ package com.maybetm.mplrest.controllers.product;
 import com.maybetm.mplrest.controllers.product.db.DBProduct;
 import com.maybetm.mplrest.controllers.product.db.IDBProduct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Optional;
 /**
  * @author: ZebzeevSV
@@ -37,7 +39,7 @@ public class ProductController {
 	}
 
 	@GetMapping(value = "getAllProducts")
-	public Iterable<DBProduct> getAllProducts(@RequestParam Long id)
+	public Iterable<DBProduct> getAllProducts()
 	{
 		return idbProduct.findAll();
 	}
