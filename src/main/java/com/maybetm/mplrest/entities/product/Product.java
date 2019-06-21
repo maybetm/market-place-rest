@@ -27,6 +27,12 @@ public class Product extends AEntity {
 
 	private Long marketId;
 
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "categoryId")
+  public Category getCategory() {
+    return category;
+  }
+
 	public String getName() {
 		return name;
 	}
@@ -77,11 +83,5 @@ public class Product extends AEntity {
 
 	public void setMarketId(Long marketId) {
 		this.marketId = marketId;
-	}
-
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "categoryId")
-	public Category getCategory() {
-		return category;
 	}
 }

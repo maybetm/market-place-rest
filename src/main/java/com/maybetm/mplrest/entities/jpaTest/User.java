@@ -15,6 +15,12 @@ public class User extends AEntity {
 
 	private Address address;
 
+  @ManyToOne()
+  @JoinColumn(name = "address_id", nullable = false)
+  public Address getAddress() {
+    return address;
+  }
+
 	public String getLogin() {
 		return login;
 	}
@@ -25,12 +31,6 @@ public class User extends AEntity {
 
 	public void setAddress(Address address) {
 		this.address = address;
-	}
-
-	@ManyToOne()
-	@JoinColumn(name = "address_id", nullable = false)
-	public Address getAddress() {
-		return address;
 	}
 
 }

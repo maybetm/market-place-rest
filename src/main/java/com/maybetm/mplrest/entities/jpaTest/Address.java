@@ -18,6 +18,11 @@ public class Address extends AEntity {
 
 	private Set<User> user;
 
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "address")
+  public Set<User> getUser() {
+    return user;
+  }
+
 	public String getName_address() {
 		return name_address;
 	}
@@ -28,10 +33,5 @@ public class Address extends AEntity {
 
 	public void setUser(Set<User> user) {
 		this.user = user;
-	}
-
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "address")
-	public Set<User> getUser() {
-		return user;
 	}
 }
