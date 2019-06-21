@@ -1,6 +1,6 @@
 package com.maybetm.mplrest.controllers.market;
 
-import com.maybetm.mplrest.market.Market;
+import com.maybetm.mplrest.entities.market.Market;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
