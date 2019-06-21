@@ -21,6 +21,7 @@ public class ProductController {
 		this.idbProduct = idbProduct;
 	}
 
+  // fixme не реализован
 	@GetMapping(value = "getProducts")
 	public String getProducts(@RequestParam Long count,
 														@RequestParam Long offset,
