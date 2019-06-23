@@ -1,5 +1,6 @@
 package com.maybetm.mplrest.entities.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.maybetm.mplrest.commons.AEntity;
 
 import javax.persistence.*;
@@ -23,9 +24,9 @@ public class Product extends AEntity {
 
 	private String logo;
 
-	private Category category;
-
 	private Long marketId;
+
+	private Category category;
 
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "categoryId")
