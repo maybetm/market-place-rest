@@ -50,17 +50,21 @@ public class ProductController
     return idbProduct.findAll();
   }
 
-  // fixme не реализован
   @DeleteMapping (value = "deleteProduct")
-  public void deleteProduct(Long id)
+  public void deleteProduct(@RequestParam Long id)
   {
-
+    idbProduct.deleteById(id);
   }
 
-  // fixme не реализован
   @PatchMapping (value = "editProduct")
-  public void editProduct(Product product)
+  public Product editProduct(@RequestBody Product product)
   {
+    return idbProduct.save(product);
+  }
 
+  @PutMapping (value = "createProduct")
+  public Product createProduct(@RequestBody Product product)
+  {
+    return idbProduct.save(product);
   }
 }
