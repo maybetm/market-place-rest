@@ -15,39 +15,52 @@ import java.util.Optional;
  * @version: 09.06.2019 23:53
  */
 @RestController
-@RequestMapping(value = "product")
-public class ProductController {
+@RequestMapping (value = "product")
+public class ProductController
+{
 
-	private final IDBProduct idbProduct;
+  private final IDBProduct idbProduct;
 
-	@Autowired
-	public ProductController(IDBProduct idbProduct) {
-		this.idbProduct = idbProduct;
-	}
+  @Autowired
+  public ProductController(IDBProduct idbProduct)
+  {
+    this.idbProduct = idbProduct;
+  }
 
-	@GetMapping(value = "getProducts")
-	public List<Product> getProducts(@RequestParam(required = false, defaultValue = "") String search,
-																	 @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable) {
-		if (search != null && !search.isEmpty()) {
-			return idbProduct.findProductsByNameIgnoreCase(search, pageable).getContent();
-		} else {
-			return idbProduct.findAll(pageable).getContent();
-		}
-	}
+  @GetMapping (value = "getProducts")
+  public List<Product> getProducts(@RequestParam (required = false, defaultValue = "") String search,
+                                   @PageableDefault (sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable)
+  {
+    if (search != null && !search.isEmpty()) {
+      return idbProduct.findProductsByNameIgnoreCase(search, pageable).getContent();
+    } else {
+      return idbProduct.findAll(pageable).getContent();
+    }
+  }
 
-	@GetMapping(value = "getProduct")
-	public Optional<Product> getProduct(@RequestParam Long id) {
-		return idbProduct.findById(id);
-	}
+  @GetMapping (value = "getProduct")
+  public Optional<Product> getProduct(@RequestParam Long id)
+  {
+    return idbProduct.findById(id);
+  }
 
-	@GetMapping(value = "getAllProducts")
-	public Iterable<Product> getAllProducts() {
-		return idbProduct.findAll();
-	}
+  @GetMapping (value = "getAllProducts")
+  public Iterable<Product> getAllProducts()
+  {
+    return idbProduct.findAll();
+  }
 
-	// fixme не реализован
-	@PutMapping(value = "updateProduct")
-	public void updateProduct(Product product) {
+  // fixme не реализован
+  @DeleteMapping (value = "deleteProduct")
+  public void deleteProduct(Long id)
+  {
 
-	}
+  }
+
+  // fixme не реализован
+  @PatchMapping (value = "editProduct")
+  public void editProduct(Product product)
+  {
+
+  }
 }
