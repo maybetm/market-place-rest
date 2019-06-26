@@ -23,7 +23,6 @@ public class TestController {
 		this.idbTestController = idbProduct;
 	}
 
-	// fixme не реализован
 	@GetMapping(value = "getDetail")
 	public Optional<User> getDetail(@RequestParam Long id) {
 		return idbTestController.findById(id);
