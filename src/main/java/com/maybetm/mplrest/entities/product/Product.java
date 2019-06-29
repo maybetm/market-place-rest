@@ -28,8 +28,8 @@ public class Product extends AEntity {
 
 	private Category category;
 
-  @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "categoryId")
+  @ManyToOne
+	@JoinColumn(name = "categoryId", nullable = false, updatable = false)
   public Category getCategory() {
     return category;
   }

@@ -1,6 +1,7 @@
 package com.maybetm.mplrest.controllers.product;
 
 import com.maybetm.mplrest.entities.product.Product;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -57,9 +58,11 @@ public class ProductController
   }
 
   @PatchMapping (value = "editProduct")
-  public Product editProduct(@RequestBody Product product)
+  public Product editProduct(@RequestParam("id") Product productfromDb,
+                             @RequestBody Product productEdit)
   {
-    return idbProduct.save(product);
+    BeanUtils.copyProperties(productEdit, productfromDb, "id");
+    return idbProduct.save(productfromDb);
   }
 
   @PutMapping (value = "createProduct")
