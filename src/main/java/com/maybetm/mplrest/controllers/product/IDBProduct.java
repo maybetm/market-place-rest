@@ -1,6 +1,6 @@
 package com.maybetm.mplrest.controllers.product;
 
-import com.maybetm.mplrest.commons.repositories.CommonRepository;
+import com.maybetm.mplrest.commons.repositories.ICommonRepository;
 import com.maybetm.mplrest.entities.product.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
  * @author: ZebzeevSV
  * @version: 16.06.2019 21:06
  */
-public interface IDBProduct extends CommonRepository<Product> {
+public interface IDBProduct extends ICommonRepository<Product> {
 
 	/**
 	 * Returns list of products filtered by name

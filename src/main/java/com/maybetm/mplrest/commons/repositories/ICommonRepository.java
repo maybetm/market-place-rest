@@ -10,5 +10,5 @@ import org.springframework.data.repository.NoRepositoryBean;
  * @version: 09.06.2019 23:36
  */
 @NoRepositoryBean
-public interface CommonRepository<Model extends AEntity> extends JpaRepository<Model, Long> {
+public interface ICommonRepository<Model extends AEntity> extends JpaRepository<Model, Long> {
 }
