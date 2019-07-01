@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -33,7 +34,7 @@ public class TestController {
 	}
 
 	@GetMapping(value = "getAll")
-	public Iterable<User> getAll(@PageableDefault (sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable) {
+	public List<User> getAll(@PageableDefault (sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable) {
 		return userService.getEntityPage(pageable).getContent();
 	}
 
