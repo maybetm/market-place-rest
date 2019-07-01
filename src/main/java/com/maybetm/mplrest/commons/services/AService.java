@@ -2,9 +2,9 @@ package com.maybetm.mplrest.commons.services;
 
 import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.commons.repositories.ICommonRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 
@@ -16,12 +16,13 @@ public abstract class AService<E extends AEntity, R extends ICommonRepository<E>
 
 	private final R repository;
 
+  @Autowired
 	public AService(R repository) {
 		this.repository = repository;
 	}
 
 	@Override
-	public Page<E> findAll(Pageable pageable) {
+	public Page<E> getEntityPage(Pageable pageable) {
 		return repository.findAll(pageable);
 	}
 

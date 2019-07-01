@@ -18,7 +18,7 @@ public interface ICommonService<E extends AEntity> {
 	 * @param pageable параметры пагинации.
 	 * @return возвращает список найденных объектов, сокрытых в объекте списке content.
 	 */
-	public Page<E> findAll(Pageable pageable);
+	Page<E> getEntityPage(Pageable pageable);
 
 	/**
 	 * В идеале должен возвщращать ту сущность, которую сохранил
@@ -26,7 +26,7 @@ public interface ICommonService<E extends AEntity> {
 	 * @param entity сохраняемоя сущность.
 	 * @return возвращает E унаследованный от AEntity.
 	 */
-	public Optional<E> save(E entity);
+	Optional<E> save(E entity);
 
 	/**
 	 * Возвращает детальную информацию сущности
@@ -34,12 +34,12 @@ public interface ICommonService<E extends AEntity> {
 	 * @param id уникальный идентификатор объекта в бд.
 	 * @return возвращает E унаследованный от AEntity.
 	 */
-	public Optional<E> findById(Long id);
+	Optional<E> findById(Long id);
 
 	/**
 	 * Удаляет объект из бд
 	 *
 	 * @param id параметры пагинации.
 	 */
-	public void deleteById(Long id);
+	void deleteById(Long id);
 }

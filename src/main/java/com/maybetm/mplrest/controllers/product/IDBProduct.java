@@ -9,23 +9,16 @@ import org.springframework.data.domain.Pageable;
  * @author: ZebzeevSV
  * @version: 16.06.2019 21:06
  */
-public interface IDBProduct extends ICommonRepository<Product> {
+public interface IDBProduct extends ICommonRepository<Product>
+{
 
-	/**
-	 * Returns list of products filtered by name
-	 *
-	 * @param pageable value of name pageable.
-	 * @return list of matching products.
-	 */
-	Page<Product> findAll(Pageable pageable);
-
-	/**
-	 * Returns list of products filtered by name
-	 *
-	 * @param likeName value of name search.
-	 * @param pageable value of name pageable.
-	 * @return list of matching products.
-	 */
-	Page<Product> findProductsByNameIgnoreCase(String likeName, Pageable pageable);
+  /**
+   * Поиск товаров по введеному название
+   *
+   * @param likeName входной параметр с предполоагаемым наименованием продукта.
+   * @param pageable параметр отвечающий за пагинацию результирующего списка.
+   * @return для получения списка товаров требуется вызвать метод getContent(), возвращаемого объекта Page<Product>.
+   */
+  Page<Product> findProductsByNameIgnoreCase(String likeName, Pageable pageable);
 
 }
