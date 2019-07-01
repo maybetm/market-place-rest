@@ -34,7 +34,7 @@ public class TestController {
 
 	@GetMapping(value = "getAll")
 	public Iterable<User> getAll(@PageableDefault (sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable) {
-		return userService.getEntityPage(pageable);
+		return userService.getEntityPage(pageable).getContent();
 	}
 
 }

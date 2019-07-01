@@ -1,7 +1,7 @@
 package com.maybetm.mplrest.entities.product;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.maybetm.mplrest.commons.AEntity;
+import com.maybetm.mplrest.entities.category.Category;
 
 import javax.persistence.*;
 

@@ -1,7 +1,6 @@
-package com.maybetm.mplrest.controllers.test;
+package com.maybetm.mplrest.entities.jpaTest;
 
 import com.maybetm.mplrest.commons.repositories.ICommonRepository;
-import com.maybetm.mplrest.entities.jpaTest.User;
 
 /**
  * @author: ZebzeevSV

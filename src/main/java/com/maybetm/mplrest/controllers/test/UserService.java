@@ -1,6 +1,7 @@
 package com.maybetm.mplrest.controllers.test;
 
 import com.maybetm.mplrest.commons.services.AService;
+import com.maybetm.mplrest.entities.jpaTest.IDBTestController;
 import com.maybetm.mplrest.entities.jpaTest.User;
 import org.springframework.stereotype.Service;
 

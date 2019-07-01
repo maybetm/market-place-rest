@@ -1,7 +1,6 @@
-package com.maybetm.mplrest.controllers.product;
+package com.maybetm.mplrest.entities.product;
 
 import com.maybetm.mplrest.commons.repositories.ICommonRepository;
-import com.maybetm.mplrest.entities.product.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,7 +12,7 @@ public interface IDBProduct extends ICommonRepository<Product>
 {
 
   /**
-   * Поиск товаров по введеному название
+   * Поиск товаров по введеному названию
    *
    * @param likeName входной параметр с предполоагаемым наименованием продукта.
    * @param pageable параметр отвечающий за пагинацию результирующего списка.

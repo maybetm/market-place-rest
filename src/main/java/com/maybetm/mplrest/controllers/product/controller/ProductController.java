@@ -1,15 +1,16 @@
-package com.maybetm.mplrest.controllers.product;
+package com.maybetm.mplrest.controllers.product.controller;
 
+import com.maybetm.mplrest.controllers.product.service.ProductService;
 import com.maybetm.mplrest.entities.product.Product;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author: ZebzeevSV
@@ -17,46 +18,41 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping(value = "product")
-public class ProductController {
+public class ProductController implements IProductController<Product> {
 
-	private final IDBProduct idbProduct;
+	private final ProductService productService;
 
 	@Autowired
-	public ProductController(IDBProduct idbProduct) {
-		this.idbProduct = idbProduct;
+	public ProductController(ProductService productService) {
+		this.productService = productService;
 	}
 
 	@GetMapping(value = "getProducts")
 	public List<Product> getProducts(@RequestParam(required = false, defaultValue = "") String search,
 																	 @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable) {
-		if (search != null && !search.isEmpty()) {
-			return idbProduct.findProductsByNameIgnoreCase(search, pageable).getContent();
-		} else {
-			return idbProduct.findAll(pageable).getContent();
-		}
+    return productService.getProductsFromDb(search, pageable);
 	}
 
-	@GetMapping(value = "getProduct")
-	public Optional<Product> getProduct(@RequestParam Long id) {
-		return idbProduct.findById(id);
+  @GetMapping(value = "getProduct")
+	public ResponseEntity<Product> getProduct(@RequestParam Long id) {
+		return ResponseEntity.of(productService.findById(id));
 	}
 
 	@DeleteMapping(value = "deleteProduct")
 	public void deleteProduct(@RequestParam Long id) {
-		idbProduct.deleteById(id);
+    productService.deleteById(id);
 	}
 
 	@PostMapping(value = "createProduct")
-	public Product createProduct(@RequestBody Product product) {
-		return idbProduct.save(product);
+	public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+		return ResponseEntity.of(productService.save(product));
 	}
 
 	@PatchMapping(value = "editProduct")
-	public Product editProduct(@RequestParam("id") Product productfromDb,
+	public ResponseEntity<Product> editProduct(@RequestParam("id") Product productfromDb,
 														 @RequestBody Product productEdit) {
 		BeanUtils.copyProperties(productEdit, productfromDb, "id");
-		return idbProduct.save(productfromDb);
+		return ResponseEntity.of(productService.save(productfromDb));
 	}
-
 
 }
