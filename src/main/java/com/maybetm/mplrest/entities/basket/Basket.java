@@ -2,11 +2,11 @@ package com.maybetm.mplrest.entities.basket;
 
 import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.entities.product.Product;
+import com.maybetm.mplrest.entities.user.User;
+import org.hibernate.FetchMode;
+import org.hibernate.annotations.Fetch;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * jpa сущность корзины
@@ -14,36 +14,40 @@ import javax.persistence.Table;
  * @author zebzeev-sv
  * @version 02.07.2019 13:24
  */
-@Table
-@Entity (name = "basket")
-public class Basket extends AEntity
-{
+@Entity(name = "baskets")
+public class Basket extends AEntity {
 
-  /** fixme до лучших времён private User user; */
+	private User user;
 
-  private Long count;
+	private Long count;
 
-  private Product productInBasket;
+	private Product product;
 
-  @ManyToOne
-  @JoinColumn (name = "productId", nullable = false, updatable = false)
-  public Product getProduct()
-  {
-    return productInBasket;
-  }
+	@ManyToOne
+	@JoinColumn(name = "productId", nullable = false, updatable = false)
+	private Product getProduct() {
+		return product;
+	}
 
-  public void setProduct(Product product)
-  {
-    this.productInBasket = product;
-  }
+	@ManyToOne
+	@JoinColumn(name = "userId", nullable = false, updatable = false)
+	public User getUser() {
+		return user;
+	}
 
-  public Long getCount()
-  {
-    return count;
-  }
+	public void setProduct(Product product) {
+		this.product = product;
+	}
 
-  public void setCount(Long count)
-  {
-    this.count = count;
-  }
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Long getCount() {
+		return count;
+	}
+
+	public void setCount(Long count) {
+		this.count = count;
+	}
 }

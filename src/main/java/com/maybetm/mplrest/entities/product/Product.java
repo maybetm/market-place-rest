@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.entities.basket.Basket;
 import com.maybetm.mplrest.entities.category.Category;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -14,9 +16,8 @@ import java.util.Set;
  * @author: ZebzeevSV
  * @version: 09.06.2019 23:43
  */
-@Table
 @Entity(name = "products")
-@JsonIgnoreProperties ({"product"})
+@JsonIgnoreProperties ({"basket"})
 public class Product extends AEntity {
 
 	private String name;
@@ -41,7 +42,7 @@ public class Product extends AEntity {
     return category;
   }
 
-  @OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
   public Set<Basket> getBasket()
   {
     return basket;
