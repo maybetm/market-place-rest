@@ -3,7 +3,10 @@ package com.maybetm.mplrest.entities.product;
 import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.entities.category.Category;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * Модель товара в магазине
@@ -11,7 +14,9 @@ import javax.persistence.*;
  * @author: ZebzeevSV
  * @version: 09.06.2019 23:43
  */
+@Table
 @Entity(name = "products")
+/*@JsonIgnoreProperties ({""})*/
 public class Product extends AEntity {
 
 	private String name;
@@ -26,6 +31,8 @@ public class Product extends AEntity {
 
 	private Long marketId;
 
+ // private Set<Basket> basket;
+
 	private Category category;
 
   @ManyToOne
@@ -34,6 +41,16 @@ public class Product extends AEntity {
     return category;
   }
 
+  /*public Set<Basket> getBasket()
+  {
+    return basket;
+  }
+
+  public void setBasket(Set<Basket> basket)
+  {
+    this.basket = basket;
+  }
+*/
 	public String getName() {
 		return name;
 	}
@@ -85,4 +102,5 @@ public class Product extends AEntity {
 	public void setMarketId(Long marketId) {
 		this.marketId = marketId;
 	}
+
 }

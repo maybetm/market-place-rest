@@ -22,7 +22,7 @@ public abstract class AService<E extends AEntity, R extends ICommonRepository<E>
 	}
 
 	@Override
-	public Page<E> getEntityPage(Pageable pageable) {
+	public Page<E> getEntityOnPage(Pageable pageable) {
 		return repository.findAll(pageable);
 	}
 
