@@ -1,8 +1,11 @@
 package com.maybetm.mplrest.entities.basket;
 
 import com.maybetm.mplrest.commons.AEntity;
+import com.maybetm.mplrest.entities.product.Product;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -16,12 +19,14 @@ import javax.persistence.Table;
 public class Basket extends AEntity
 {
 
-/*  private Product productInBasket;
-
-  private User user;*/
+  /** fixme до лучших времён private User user; */
 
   private Long count;
-/*
+
+  private Product productInBasket;
+
+  @ManyToOne
+  @JoinColumn (name = "productId", nullable = false, updatable = false)
   public Product getProduct()
   {
     return productInBasket;
@@ -31,16 +36,6 @@ public class Basket extends AEntity
   {
     this.productInBasket = product;
   }
-
-  public User getUser()
-  {
-    return user;
-  }
-
-  public void setUser(User user)
-  {
-    this.user = user;
-  }*/
 
   public Long getCount()
   {

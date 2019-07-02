@@ -1,12 +1,12 @@
 package com.maybetm.mplrest.entities.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.maybetm.mplrest.commons.AEntity;
+import com.maybetm.mplrest.entities.basket.Basket;
 import com.maybetm.mplrest.entities.category.Category;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Модель товара в магазине
@@ -16,7 +16,7 @@ import javax.persistence.Table;
  */
 @Table
 @Entity(name = "products")
-/*@JsonIgnoreProperties ({""})*/
+@JsonIgnoreProperties ({"product"})
 public class Product extends AEntity {
 
 	private String name;
@@ -31,7 +31,7 @@ public class Product extends AEntity {
 
 	private Long marketId;
 
- // private Set<Basket> basket;
+  private Set<Basket> basket;
 
 	private Category category;
 
@@ -41,7 +41,8 @@ public class Product extends AEntity {
     return category;
   }
 
-  /*public Set<Basket> getBasket()
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
+  public Set<Basket> getBasket()
   {
     return basket;
   }
@@ -50,7 +51,7 @@ public class Product extends AEntity {
   {
     this.basket = basket;
   }
-*/
+
 	public String getName() {
 		return name;
 	}

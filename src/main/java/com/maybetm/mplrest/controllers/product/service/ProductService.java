@@ -21,7 +21,7 @@ public class ProductService extends AService<Product, IDBProduct>
     super(repository);
   }
 
-  public List<Product> getProductsFromDb(String search, Pageable pageable)
+  public List<Product> getProductsFromDb(String search,Pageable pageable)
   {
     if (search != null && !search.isEmpty()) {
       return repository.findProductsByNameIgnoreCase(search, pageable).getContent();
