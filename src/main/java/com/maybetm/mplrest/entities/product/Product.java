@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.entities.basket.Basket;
 import com.maybetm.mplrest.entities.category.Category;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.Set;
