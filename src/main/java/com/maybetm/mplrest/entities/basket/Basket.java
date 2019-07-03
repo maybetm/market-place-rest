@@ -3,10 +3,10 @@ package com.maybetm.mplrest.entities.basket;
 import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.entities.product.Product;
 import com.maybetm.mplrest.entities.user.User;
-import org.hibernate.FetchMode;
-import org.hibernate.annotations.Fetch;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * jpa сущность корзины
