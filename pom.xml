@@ -69,6 +69,36 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-	</build>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>dev-local</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <resources>
+          <resource>
+            <directory>src/main/resources/dev</directory>
+          </resource>
+        </resources>
+      </build>
+    </profile>
+
+    <profile>
+      <id>release</id>
+      <properties>
+        <type>release</type>
+      </properties>
+      <build>
+        <resources>
+          <resource>
+            <directory>src/main/resources/release</directory>
+          </resource>
+        </resources>
+      </build>
+    </profile>
+  </profiles>
 
 </project>

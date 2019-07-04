@@ -16,23 +16,26 @@ public class BasketController implements IBasketController
 {
 
   @Override
-  @PutMapping
+  @PutMapping(value = "addProductToBasket")
   public void addProductToBasket(@RequestBody User user, @RequestBody Product product)
   {
-
+    // надо сделать поле product_id в корзине уникальным для конкретного юзера.
+    // пользователь апи не может добавить ещё один такой же товар в корзину,
+    // для этого нужно использовать функцию обновления позиции в корзине.
   }
 
   @Override
-  @PostMapping
+  @PostMapping(value = "deleteProductInBasket")
   public void deleteProductInBasket(@RequestParam Long id)
   {
 
   }
 
   @Override
-  @PostMapping
+  @PostMapping(value = "payProducts")
   public void payProducts(@RequestParam Set<Product> products)
   {
-
+    // вот тут интересный момент
+    // раньше я вызывал тут хранимую процедуру, а сейчас как быть?
   }
 }
