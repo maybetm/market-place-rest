@@ -1,7 +1,9 @@
 package com.maybetm.mplrest.controllers.basket.controller;
 
+import com.maybetm.mplrest.controllers.basket.service.BasketService;
 import com.maybetm.mplrest.entities.product.Product;
 import com.maybetm.mplrest.entities.user.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -14,6 +16,14 @@ import java.util.Set;
 @RequestMapping (value = "basket")
 public class BasketController implements IBasketController
 {
+
+  private final BasketService basketService;
+
+  @Autowired
+  public BasketController(BasketService basketService)
+  {
+    this.basketService = basketService;
+  }
 
   @Override
   @PutMapping(value = "addProductToBasket")
@@ -28,7 +38,7 @@ public class BasketController implements IBasketController
   @PostMapping(value = "deleteProductInBasket")
   public void deleteProductInBasket(@RequestParam Long id)
   {
-
+    basketService.deleteById(id);
   }
 
   @Override
