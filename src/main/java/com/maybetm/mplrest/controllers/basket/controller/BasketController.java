@@ -42,6 +42,13 @@ public class BasketController implements IBasketController
   }
 
   @Override
+  @PostMapping(value = "updateBasketLine")
+  public void updateBasketLine(@RequestParam Long id)
+  {
+
+  }
+
+  @Override
   @PostMapping(value = "payProducts")
   public void payProducts(@RequestParam Set<Product> products)
   {

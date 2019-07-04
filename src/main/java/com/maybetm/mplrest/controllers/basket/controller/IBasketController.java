@@ -17,6 +17,8 @@ public interface IBasketController
   void addProductToBasket(@RequestBody User user, @RequestBody Product product);
   // удалить из корзины
   void deleteProductInBasket(@RequestParam Long id);
+  // изменить данные позиции в корзине
+  void updateBasketLine(@RequestParam Long id);
   // оплатить выбранные элементы в корзине
   void payProducts(@RequestParam Set<Product> products);
 }
