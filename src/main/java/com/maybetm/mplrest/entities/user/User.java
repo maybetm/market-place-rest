@@ -1,5 +1,6 @@
 package com.maybetm.mplrest.entities.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.entities.basket.Basket;
 import com.maybetm.mplrest.entities.roles.Role;
@@ -15,6 +16,7 @@ import java.util.Set;
  * @version 02.07.2019 14:13
  */
 @Entity(name = "users")
+@JsonIgnoreProperties ({"basket"})
 public class User extends AEntity
 {
   private String login;

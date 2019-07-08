@@ -1,5 +1,6 @@
 package com.maybetm.mplrest.entities.roles;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.entities.user.User;
 
@@ -13,6 +14,7 @@ import java.util.Set;
  * @version: 02.07.2019 23:29
  */
 @Entity(name = "roles")
+@JsonIgnoreProperties ({"users"})
 public class Role extends AEntity {
 
 	private String name;

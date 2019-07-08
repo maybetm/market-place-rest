@@ -1,11 +1,16 @@
 package com.maybetm.mplrest.controllers.basket.controller;
 
 import com.maybetm.mplrest.controllers.basket.service.BasketService;
+import com.maybetm.mplrest.entities.basket.Basket;
 import com.maybetm.mplrest.entities.product.Product;
-import com.maybetm.mplrest.entities.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -14,7 +19,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping (value = "basket")
-public class BasketController implements IBasketController
+public class BasketController implements IBasketController<Basket>
 {
 
   private final BasketService basketService;
@@ -26,12 +31,18 @@ public class BasketController implements IBasketController
   }
 
   @Override
-  @PutMapping(value = "addProductToBasket")
-  public void addProductToBasket(@RequestBody User user, @RequestBody Product product)
+  @PostMapping(value = "addProductToBasket")
+  public ResponseEntity<Basket> addProductToBasket(@RequestBody Basket basket)
   {
-    // надо сделать поле product_id в корзине уникальным для конкретного юзера.
-    // пользователь апи не может добавить ещё один такой же товар в корзину,
-    // для этого нужно использовать функцию обновления позиции в корзине.
+    return ResponseEntity.of(basketService.save(basket));
+  }
+
+  @Override
+  @GetMapping(value = "getBasketByClientId")
+  public List<Basket> getBasketByClientId(@RequestParam Long id,
+                                            @PageableDefault (sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable)
+  {
+    return basketService.getBasketByClient(id, pageable).getContent();
   }
 
   @Override

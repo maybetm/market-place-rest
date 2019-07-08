@@ -4,9 +4,7 @@ import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.entities.product.Product;
 import com.maybetm.mplrest.entities.user.User;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  * jpa сущность корзины
@@ -15,13 +13,14 @@ import javax.persistence.ManyToOne;
  * @version 02.07.2019 13:24
  */
 @Entity(name = "baskets")
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"userId", "productId"}))
 public class Basket extends AEntity {
 
 	private User user;
 
-	private Long count;
-
 	private Product product;
+
+  private Long count;
 
 	@ManyToOne
 	@JoinColumn(name = "productId", nullable = false, updatable = false)
@@ -30,7 +29,7 @@ public class Basket extends AEntity {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "userId", nullable = false, updatable = false)
+	@JoinColumn(name = "userId", updatable = false)
 	public User getUser() {
 		return user;
 	}
