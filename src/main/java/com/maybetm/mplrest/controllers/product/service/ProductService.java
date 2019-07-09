@@ -3,6 +3,7 @@ package com.maybetm.mplrest.controllers.product.service;
 import com.maybetm.mplrest.commons.services.AService;
 import com.maybetm.mplrest.entities.product.IDBProduct;
 import com.maybetm.mplrest.entities.product.Product;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @Service
 public class ProductService extends AService<Product, IDBProduct>
 {
-
+  @Autowired
   public ProductService(IDBProduct repository)
   {
     super(repository);

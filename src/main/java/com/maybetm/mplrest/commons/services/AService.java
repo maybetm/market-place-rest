@@ -16,7 +16,6 @@ public abstract class AService<E extends AEntity, R extends ICommonRepository<E>
 
 	protected final R repository;
 
-  @Autowired
 	public AService(R repository) {
 		this.repository = repository;
 	}
