@@ -30,7 +30,7 @@ public class Address extends AEntity
     this.name = name;
   }
 
-  @OneToMany (fetch = FetchType.EAGER, mappedBy = "address", cascade = CascadeType.ALL)
+  @OneToMany (fetch = FetchType.LAZY, mappedBy = "address", cascade = CascadeType.ALL)
   public Set<UsersAddress> getUsersAddress()
   {
     return usersAddress;

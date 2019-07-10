@@ -37,7 +37,7 @@ public class User extends AEntity
     return role;
   }
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+  @OneToMany (fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
   public Set<Basket> getBasket() {
     return basket;
   }

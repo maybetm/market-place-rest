@@ -12,7 +12,7 @@ import javax.persistence.*;
  * @author zebzeev-sv
  * @version 02.07.2019 13:24
  */
-@Entity(name = "baskets")
+@Entity(name = "basket")
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"userId", "productId"}))
 public class Basket extends AEntity {
 

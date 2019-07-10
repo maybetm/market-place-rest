@@ -30,9 +30,9 @@ public class Product extends AEntity {
 
 	private Long marketId;
 
-  private Set<Basket> basket;
+  private Category category;
 
-	private Category category;
+  private Set<Basket> basket;
 
   @ManyToOne
 	@JoinColumn(name = "categoryId", nullable = false, updatable = false)
@@ -40,7 +40,7 @@ public class Product extends AEntity {
     return category;
   }
 
-  @OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
+  @OneToMany (fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
   public Set<Basket> getBasket()
   {
     return basket;

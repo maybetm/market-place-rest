@@ -23,7 +23,7 @@ public class Person extends AEntity
 
   private Set<UsersAddress> usersAddress;
 
-  @OneToMany (fetch = FetchType.EAGER, mappedBy = "person", cascade = CascadeType.ALL)
+  @OneToMany (fetch = FetchType.LAZY, mappedBy = "person", cascade = CascadeType.ALL)
   public Set<UsersAddress> getUsersAddress()
   {
     return usersAddress;

@@ -31,7 +31,7 @@ public class CategoryAddress extends AEntity
     this.nameCategory = nameCategory;
   }
 
-  @OneToMany (mappedBy = "categoryAddress", fetch = FetchType.EAGER)
+  @OneToMany (mappedBy = "categoryAddress", fetch = FetchType.LAZY)
   public Set<Address> getAddresses()
   {
     return addresses;
