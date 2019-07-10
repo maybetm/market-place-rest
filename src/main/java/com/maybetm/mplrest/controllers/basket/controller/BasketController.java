@@ -40,10 +40,10 @@ public class BasketController implements IBasketController<Basket>
 
   @Override
   @GetMapping (value = "getBasketByClientId")
-  public Optional<Basket> getBasketByClientId(@RequestParam Long id,
+  public List<Basket> getBasketByClientId(@RequestParam Long id,
                                           @PageableDefault (sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable)
   {
-    return basketService.findById(id);
+    return basketService.getBasketByClient(id, pageable).getContent();
   }
 
   @Override

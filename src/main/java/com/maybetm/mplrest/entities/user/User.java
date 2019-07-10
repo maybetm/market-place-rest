@@ -42,8 +42,8 @@ public class User extends AEntity
     return basket;
   }
 
-  public void setBasket(Set<Basket> basket) {
-    this.basket = basket;
+  public void setBasket(Set<Basket> baskets) {
+    this.basket = baskets;
   }
 
   public void setRole(Role role) {

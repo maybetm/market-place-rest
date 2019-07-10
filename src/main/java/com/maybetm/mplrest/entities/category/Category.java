@@ -21,12 +21,14 @@ public class Category extends AEntity {
 
 	private String name;
 
-	private Set<Product> product;
+/*	private Set<Product> product;*/
+/*
 
 	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
 	public Set<Product> getProduct() {
 		return product;
 	}
+*/
 
 	public String getName() {
 		return name;
@@ -36,7 +38,7 @@ public class Category extends AEntity {
 		this.name = name;
 	}
 
-	public void setProduct(Set<Product> product) {
+/*	public void setProduct(Set<Product> product) {
 		this.product = product;
-	}
+	}*/
 }

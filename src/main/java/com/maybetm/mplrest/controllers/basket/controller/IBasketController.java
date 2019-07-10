@@ -22,7 +22,7 @@ public interface IBasketController<E>
   // добавить в корзину
   ResponseEntity<E> addProductToBasket(@RequestBody E basket);
   // Получить корзину по id покупателя
-  Optional<E> getBasketByClientId(@RequestParam Long id,
+  List<E> getBasketByClientId(@RequestParam Long id,
                             @PageableDefault (sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable);
   // получить все корзины с учётом пагинации
   List<Basket> getBaskets(@PageableDefault (sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable);

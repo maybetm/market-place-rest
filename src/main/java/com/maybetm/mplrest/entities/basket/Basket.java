@@ -4,6 +4,7 @@ import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.entities.product.Product;
 import com.maybetm.mplrest.entities.user.User;
 
+import javax.jws.soap.SOAPBinding;
 import javax.persistence.*;
 
 /**
@@ -13,33 +14,25 @@ import javax.persistence.*;
  * @version 02.07.2019 13:24
  */
 @Entity(name = "basket")
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"userId", "productId"}))
+//@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"userId", "productId"}))
 public class Basket extends AEntity {
-
-	private User user;
 
 	private Product product;
 
-  private Long count;
+	private User user;
+
+	private Long count;
 
 	@ManyToOne
 	@JoinColumn(name = "productId", nullable = false, updatable = false)
-	private Product getProduct() {
+	public Product getProduct() {
 		return product;
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "userId", updatable = false)
+	@JoinColumn(name = "userId", nullable = false, updatable = false)
 	public User getUser() {
 		return user;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 	public Long getCount() {
@@ -48,5 +41,13 @@ public class Basket extends AEntity {
 
 	public void setCount(Long count) {
 		this.count = count;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 }

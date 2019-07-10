@@ -32,7 +32,7 @@ public class Product extends AEntity {
 
   private Category category;
 
-  private Set<Basket> basket;
+	private Set<Basket> basket;
 
   @ManyToOne
 	@JoinColumn(name = "categoryId", nullable = false, updatable = false)
@@ -40,16 +40,14 @@ public class Product extends AEntity {
     return category;
   }
 
-  @OneToMany (fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
-  public Set<Basket> getBasket()
-  {
-    return basket;
-  }
+	@OneToMany (fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
+	public Set<Basket> getBasket() {
+		return basket;
+	}
 
-  public void setBasket(Set<Basket> basket)
-  {
-    this.basket = basket;
-  }
+	public void setBasket(Set<Basket> basket) {
+		this.basket = basket;
+	}
 
 	public String getName() {
 		return name;
