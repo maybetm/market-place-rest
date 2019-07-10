@@ -40,7 +40,7 @@ public class Product extends AEntity {
     return category;
   }
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
   public Set<Basket> getBasket()
   {
     return basket;

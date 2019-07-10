@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -38,11 +39,18 @@ public class BasketController implements IBasketController<Basket>
   }
 
   @Override
-  @GetMapping(value = "getBasketByClientId")
-  public List<Basket> getBasketByClientId(@RequestParam Long id,
-                                            @PageableDefault (sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable)
+  @GetMapping (value = "getBasketByClientId")
+  public Optional<Basket> getBasketByClientId(@RequestParam Long id,
+                                          @PageableDefault (sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable)
   {
-    return basketService.getBasketByClient(id, pageable).getContent();
+    return basketService.findById(id);
+  }
+
+  @Override
+  @GetMapping (value = "getBaskets")
+  public List<Basket> getBaskets(@PageableDefault (sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable)
+  {
+    return basketService.getBaskets(pageable).getContent();
   }
 
   @Override
