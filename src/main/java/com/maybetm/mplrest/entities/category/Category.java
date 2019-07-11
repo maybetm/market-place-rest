@@ -2,18 +2,14 @@ package com.maybetm.mplrest.entities.category;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.maybetm.mplrest.commons.AEntity;
-import com.maybetm.mplrest.entities.product.Product;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import java.util.Set;
 
 /**
  * Сущность категорий продуктов
  *
- * @author: ZebzeevSV
- * @version: 19.06.2019 20:46
+ * @author zebzeev-sv
+ * @version 19.06.2019 20:46
  */
 @Entity(name = "category")
 @JsonIgnoreProperties({"product"})

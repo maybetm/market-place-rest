@@ -6,8 +6,8 @@ import javax.persistence.*;
  * Базовый класс для всех сущностей jpa
  * Все наследники должны использовать приватные поля с геттерами и сеттерами.
  *
- * @author: ZebzeevSV
- * @version: 09.06.2019 23:42
+ * @author zebzeev-sv
+ * @version 09.06.2019 23:42
  */
 @MappedSuperclass
 public abstract class AEntity {

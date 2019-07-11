@@ -7,8 +7,8 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 /**
- * @author: ZebzeevSV
- * @version: 29.06.2019 18:37
+ * @author zebzeev-sv
+ * @version 29.06.2019 18:37
  */
 public interface ICommonService<E extends AEntity>
 {

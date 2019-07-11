@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @author: ZebzeevSV
- * @version: 09.06.2019 23:53
+ * @author zebzeev-sv
+ * @version 09.06.2019 23:53
  */
 @RestController
 @RequestMapping(value = "product")

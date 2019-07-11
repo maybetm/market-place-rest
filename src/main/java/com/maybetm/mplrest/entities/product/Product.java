@@ -11,8 +11,8 @@ import java.util.Set;
 /**
  * Модель товара в магазине
  *
- * @author: ZebzeevSV
- * @version: 09.06.2019 23:43
+ * @author zebzeev-sv
+ * @version 09.06.2019 23:43
  */
 @Entity(name = "products")
 @JsonIgnoreProperties ({"basket"})

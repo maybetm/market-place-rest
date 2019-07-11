@@ -10,8 +10,8 @@ import javax.persistence.OneToMany;
 import java.util.Set;
 
 /**
- * @author: ZebzeevSV
- * @version: 02.07.2019 23:29
+ * @author zebzeev-sv
+ * @version 02.07.2019 23:29
  */
 @Entity(name = "roles")
 @JsonIgnoreProperties ({"users"})

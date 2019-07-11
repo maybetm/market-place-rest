@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * @author: ZebzeevSV
- * @version: 09.06.2019 23:52
+ * @author zebzeev-sv
+ * @version 09.06.2019 23:52
  */
 
 @RestController
