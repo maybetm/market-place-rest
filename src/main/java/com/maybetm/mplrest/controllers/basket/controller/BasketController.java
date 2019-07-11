@@ -60,16 +60,18 @@ public class BasketController implements IBasketController<Basket>
   }
 
   @Override
-  @PostMapping(value = "updateBasketLine")
-  public void updateBasketLine(@RequestParam Long id, @RequestBody Basket basket)
+  @PostMapping (value = "updateBasketLine")
+  public ResponseEntity<Basket> updateBasketLine(@RequestParam ("id") Basket basketFromDb,
+                                                 @RequestBody Basket updatableBasket)
   {
-
+    return ResponseEntity.of(basketService.updateBasketLine(basketFromDb, updatableBasket));
   }
 
   @Override
   @PostMapping(value = "payProducts")
   public void payProducts(@RequestParam Set<Product> products)
   {
+    // fixme возможно стоит все работы с платежами вынести в отдельный контроллер
     // вот тут интересный момент
     // раньше я вызывал тут хранимую процедуру, а сейчас как быть?
   }

@@ -28,7 +28,7 @@ public interface IBasketController<E>
   // удалить из корзины
   void deleteProductInBasket(@RequestParam Long id);
   // изменить данные позиции в корзине
-  void updateBasketLine(@RequestParam Long id, @RequestBody Basket basket);
+  ResponseEntity<E> updateBasketLine(@RequestParam ("id") Basket basketFromDb, @RequestBody Basket updatableBasket);
   // оплатить выбранные элементы в корзине
   void payProducts(@RequestParam Set<Product> products);
 }
