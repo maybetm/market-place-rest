@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -54,7 +53,7 @@ public class BasketController implements IBasketController<Basket>
   }
 
   @Override
-  @PostMapping(value = "deleteProductInBasket")
+  @DeleteMapping(value = "deleteProductInBasket")
   public void deleteProductInBasket(@RequestParam Long id)
   {
     basketService.deleteById(id);
@@ -62,7 +61,7 @@ public class BasketController implements IBasketController<Basket>
 
   @Override
   @PostMapping(value = "updateBasketLine")
-  public void updateBasketLine(@RequestParam Long id)
+  public void updateBasketLine(@RequestParam Long id, @RequestBody Basket basket)
   {
 
   }

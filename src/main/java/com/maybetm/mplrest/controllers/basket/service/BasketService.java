@@ -20,7 +20,6 @@ public class BasketService extends AService<Basket, IDBBasket>
     super(repository);
   }
 
-
   public Page<Basket> getBasketByClient(Long id, Pageable pageable) {
 
     return repository.findByUserId(id, pageable);
