@@ -4,6 +4,7 @@ import com.maybetm.mplrest.commons.services.AService;
 import com.maybetm.mplrest.entities.basket.Basket;
 import com.maybetm.mplrest.entities.basket.IDBBasket;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ import java.util.Optional;
 @Service
 public class BasketService extends AService<Basket, IDBBasket>
 {
-
+  @Autowired
   public BasketService(IDBBasket repository)
   {
     super(repository);
