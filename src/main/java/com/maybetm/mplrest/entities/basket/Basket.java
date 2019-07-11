@@ -4,7 +4,6 @@ import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.entities.product.Product;
 import com.maybetm.mplrest.entities.user.User;
 
-import javax.jws.soap.SOAPBinding;
 import javax.persistence.*;
 
 /**
@@ -14,7 +13,7 @@ import javax.persistence.*;
  * @version 02.07.2019 13:24
  */
 @Entity(name = "basket")
-//@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"userId", "productId"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"userId", "productId"}))
 public class Basket extends AEntity {
 
 	private Product product;
