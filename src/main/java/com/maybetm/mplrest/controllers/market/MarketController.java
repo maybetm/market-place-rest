@@ -1,11 +1,7 @@
 package com.maybetm.mplrest.controllers.market;
 
-import com.maybetm.mplrest.entities.market.Market;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * @author zebzeev-sv
@@ -16,7 +12,5 @@ import java.util.List;
 @RequestMapping("market")
 public class MarketController {
 
-	public List<Market> getMarkets(@PathVariable("id") Market market) {
-		return null;
-	}
+
 }
