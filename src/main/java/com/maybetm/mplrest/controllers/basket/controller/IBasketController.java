@@ -1,7 +1,6 @@
 package com.maybetm.mplrest.controllers.basket.controller;
 
 import com.maybetm.mplrest.entities.basket.Basket;
-import com.maybetm.mplrest.entities.product.Product;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author zebzeev-sv
@@ -29,6 +27,5 @@ public interface IBasketController<E>
   void deleteProductInBasket(@RequestParam Long id);
   // изменить данные позиции в корзине
   ResponseEntity<E> updateBasketLine(@RequestParam ("id") Basket basketFromDb, @RequestBody Basket updatableBasket);
-  // оплатить выбранные элементы в корзине
-  void payProducts(@RequestParam Set<Product> products);
+
 }

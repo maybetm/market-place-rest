@@ -2,7 +2,6 @@ package com.maybetm.mplrest.controllers.basket.controller;
 
 import com.maybetm.mplrest.controllers.basket.service.BasketService;
 import com.maybetm.mplrest.entities.basket.Basket;
-import com.maybetm.mplrest.entities.product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -11,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author zebzeev-sv
@@ -67,12 +65,4 @@ public class BasketController implements IBasketController<Basket>
     return ResponseEntity.of(basketService.updateBasketLine(basketFromDb, updatableBasket));
   }
 
-  @Override
-  @PostMapping(value = "payProducts")
-  public void payProducts(@RequestParam Set<Product> products)
-  {
-    // fixme возможно стоит все работы с платежами вынести в отдельный контроллер
-    // вот тут интересный момент
-    // раньше я вызывал тут хранимую процедуру, а сейчас как быть?
-  }
 }
