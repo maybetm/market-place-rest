@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Set;
 
 /**
+ * Контроллер для работы с платежами
+ *
  * @author zebzeev-sv
  * @version 12.07.2019 10:59
  */

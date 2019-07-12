@@ -4,6 +4,7 @@ import com.maybetm.mplrest.commons.services.AService;
 import com.maybetm.mplrest.entities.payments.IDBPayment;
 import com.maybetm.mplrest.entities.payments.Payment;
 import com.maybetm.mplrest.entities.product.Product;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ import java.util.Set;
 @Service
 public class PaymentsService extends AService<Payment, IDBPayment>
 {
-
+  @Autowired
   public PaymentsService(IDBPayment repository)
   {
     super(repository);
@@ -31,7 +32,8 @@ public class PaymentsService extends AService<Payment, IDBPayment>
     // то вычетаем количество покупаемых продуктов из products
 
     // создаём запись в таблице payments с каждой позицией
-    // product_id, count, cost, datetime
+    // product_id, product_name, category, count, cost, datetime
+    // можно сделать просто embedded коллекцию
 
     return null;
   }
