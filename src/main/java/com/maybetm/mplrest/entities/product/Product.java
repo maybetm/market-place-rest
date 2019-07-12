@@ -16,7 +16,7 @@ import java.util.Set;
  */
 @Entity(name = "products")
 @JsonIgnoreProperties ({"basket"})
-public class Product extends AEntity {
+public class  Product extends AEntity {
 
 	private String name;
 
