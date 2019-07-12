@@ -48,10 +48,10 @@ public class ProductController implements IProductController<Product> {
 	}
 
   @PatchMapping (value = "editProduct")
-  public ResponseEntity<Product> editProduct(@RequestParam ("id") Product productfromDb,
+  public ResponseEntity<Product> editProduct(@RequestParam("id") Product productfromDb,
                                              @RequestBody Product productEdit)
   {
-    return ResponseEntity.of(productService.updateEntity(productEdit, productfromDb));
+    return ResponseEntity.of(productService.updateEntity(productfromDb, productEdit));
   }
 
 }
