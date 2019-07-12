@@ -2,6 +2,7 @@ package com.maybetm.mplrest.commons.services;
 
 import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.commons.repositories.ICommonRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -43,6 +44,11 @@ public abstract class AService<E extends AEntity, R extends ICommonRepository<E>
   public void deleteById(Long id)
   {
     repository.deleteById(id);
+  }
+
+  public Optional<E> updateEntity (E fromDB, E updatable) {
+    BeanUtils.copyProperties(updatable, fromDB, "id");
+    return save(fromDB);
   }
 
 }

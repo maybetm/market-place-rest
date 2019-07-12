@@ -2,7 +2,6 @@ package com.maybetm.mplrest.controllers.product.controller;
 
 import com.maybetm.mplrest.controllers.product.service.ProductService;
 import com.maybetm.mplrest.entities.product.Product;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -48,11 +47,11 @@ public class ProductController implements IProductController<Product> {
 		return ResponseEntity.of(productService.save(product));
 	}
 
-	@PatchMapping(value = "editProduct")
-	public ResponseEntity<Product> editProduct(@RequestParam("id") Product productfromDb,
-														 @RequestBody Product productEdit) {
-		BeanUtils.copyProperties(productEdit, productfromDb, "id");
-		return ResponseEntity.of(productService.save(productfromDb));
-	}
+  @PatchMapping (value = "editProduct")
+  public ResponseEntity<Product> editProduct(@RequestParam ("id") Product productfromDb,
+                                             @RequestBody Product productEdit)
+  {
+    return ResponseEntity.of(productService.updateEntity(productEdit, productfromDb));
+  }
 
 }

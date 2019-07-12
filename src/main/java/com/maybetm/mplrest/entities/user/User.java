@@ -11,6 +11,8 @@ import java.util.Set;
 
 /**
  * jpa сущность пользователей
+ * fixme переименовать бы в account,
+ * fixme так-как тут хранится информация для аутитентификации
  *
  * @author zebzeev-sv
  * @version 02.07.2019 14:13

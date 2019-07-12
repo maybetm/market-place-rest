@@ -43,4 +43,13 @@ public interface ICommonService<E extends AEntity>
    * @param id параметры пагинации.
    */
   void deleteById(Long id);
+
+  /**
+   * Обновление сущности в бд
+   *
+   * @param fromDB - Создаётся сущность на основе входных данных.
+   * @param updatable - входная информация для обновления сущности.
+   * @return возвращает обнавлённых объект в случае успеха
+   */
+  Optional<E> updateEntity (E fromDB, E updatable);
 }
