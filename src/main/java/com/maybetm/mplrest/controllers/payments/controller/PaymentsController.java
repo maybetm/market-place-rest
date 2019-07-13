@@ -1,5 +1,6 @@
 package com.maybetm.mplrest.controllers.payments.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.maybetm.mplrest.controllers.payments.service.PaymentsService;
 import com.maybetm.mplrest.entities.product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * @author zebzeev-sv
@@ -27,13 +28,8 @@ public class PaymentsController implements IPaymentsController
     this.paymentsService = paymentsService;
   }
 
-  @PostMapping(value = "get")
-  public void get(){
-    System.out.println("tetetetetheracherac");
-  }
-
   @PostMapping(value = "payProducts")
-  public void payProducts(@RequestBody List<Product> products)
+  public void payProducts(@RequestBody Set<Product> products) throws JsonProcessingException
   {
     paymentsService.payProducts(products);
   }
