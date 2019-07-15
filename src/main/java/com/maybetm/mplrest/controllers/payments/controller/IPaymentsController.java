@@ -13,6 +13,6 @@ import java.util.Set;
 public interface IPaymentsController
 {
   // оплатить выбранные элементы в корзине
-  void payProducts(@RequestBody Set<Product> products) throws JsonProcessingException;
+  void createPayment(@RequestBody Set<Product> products) throws JsonProcessingException;
 
 }

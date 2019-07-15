@@ -34,7 +34,7 @@ public class PaymentsService extends AService<Payment, IDBPayment>
     this.idbProduct = idbProduct;
   }
 
-  public ResponseEntity<Set<Payment>> payProducts(Set<Product> products)
+  public ResponseEntity<Set<Payment>> createPayment(Set<Product> products)
   {
 
     // fixme валидацию можно перенести в отдельный дефолтный метод

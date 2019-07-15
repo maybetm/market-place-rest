@@ -27,9 +27,9 @@ public class PaymentsController implements IPaymentsController
     this.paymentsService = paymentsService;
   }
 
-  @PostMapping(value = "payProducts")
-  public void payProducts(@RequestBody Set<Product> products)
+  @PostMapping(value = "createPayment")
+  public void createPayment(@RequestBody Set<Product> products)
   {
-    paymentsService.payProducts(products);
+    paymentsService.createPayment(products);
   }
 }
