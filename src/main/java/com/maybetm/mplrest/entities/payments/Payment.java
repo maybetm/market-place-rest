@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 /**
  * jpa сущность для хранения платежей
@@ -25,7 +26,17 @@ public class Payment extends AEntity
 
   private Long costTimeOfPayment;
 
-  private LocalDateTime paymentTime;
+  private ZonedDateTime paymentTime;
+
+  public Payment() {
+  }
+
+  public Payment(User user, Product product, Long costTimeOfPayment, ZonedDateTime paymentTime) {
+    this.user = user;
+    this.product = product;
+    this.costTimeOfPayment = costTimeOfPayment;
+    this.paymentTime = paymentTime;
+  }
 
   @ManyToOne
   @JoinColumn(name = "userId", nullable = false, updatable = false)
@@ -61,12 +72,12 @@ public class Payment extends AEntity
     this.costTimeOfPayment = costTimeOfPayment;
   }
 
-  public LocalDateTime getPaymentTime()
+  public ZonedDateTime getPaymentTime()
   {
     return paymentTime;
   }
 
-  public void setPaymentTime(LocalDateTime paymentTime)
+  public void setPaymentTime(ZonedDateTime paymentTime)
   {
     this.paymentTime = paymentTime;
   }

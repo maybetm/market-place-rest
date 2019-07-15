@@ -2,6 +2,7 @@ package com.maybetm.mplrest.controllers.payments.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.maybetm.mplrest.entities.product.Product;
+import com.maybetm.mplrest.entities.user.User;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Set;
@@ -13,6 +14,6 @@ import java.util.Set;
 public interface IPaymentsController
 {
   // оплатить выбранные элементы в корзине
-  void createPayment(@RequestBody Set<Product> products) throws JsonProcessingException;
+  void createPayment(@RequestBody Set<Product> products, @RequestBody User user);
 
 }

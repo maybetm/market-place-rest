@@ -8,6 +8,7 @@ import com.maybetm.mplrest.entities.roles.Role;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Set;
 
 /**
@@ -28,7 +29,7 @@ public class User extends AEntity
 
   private String email;
 
-  private LocalDateTime dateRegistration;
+  private ZonedDateTime dateRegistration;
 
   private Role role;
 
@@ -90,11 +91,11 @@ public class User extends AEntity
     this.email = email;
   }
 
-  public LocalDateTime getDateRegistration() {
+  public ZonedDateTime getDateRegistration() {
     return dateRegistration;
   }
 
-  public void setDateRegistration(LocalDateTime dateRegistration) {
+  public void setDateRegistration(ZonedDateTime dateRegistration) {
     this.dateRegistration = dateRegistration;
   }
 }

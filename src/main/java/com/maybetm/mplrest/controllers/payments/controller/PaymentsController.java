@@ -2,6 +2,7 @@ package com.maybetm.mplrest.controllers.payments.controller;
 
 import com.maybetm.mplrest.controllers.payments.service.PaymentsService;
 import com.maybetm.mplrest.entities.product.Product;
+import com.maybetm.mplrest.entities.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,8 +29,8 @@ public class PaymentsController implements IPaymentsController
   }
 
   @PostMapping(value = "createPayment")
-  public void createPayment(@RequestBody Set<Product> products)
+  public void createPayment(@RequestBody Set<Product> products, @RequestBody User user)
   {
-    paymentsService.createPayment(products);
+    paymentsService.createPayment(products, user);
   }
 }
