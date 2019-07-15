@@ -3,6 +3,7 @@ package com.maybetm.mplrest.entities.user;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.entities.basket.Basket;
+import com.maybetm.mplrest.entities.payments.Payment;
 import com.maybetm.mplrest.entities.roles.Role;
 
 import javax.persistence.*;
@@ -33,15 +34,26 @@ public class User extends AEntity
 
   private Set<Basket> basket;
 
+  private Set<Payment> payments;
+
   @ManyToOne
   @JoinColumn(name = "roleId", nullable = false, updatable = false)
   public Role getRole() {
     return role;
   }
 
-  @OneToMany (fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
   public Set<Basket> getBasket() {
     return basket;
+  }
+
+  public Set<Payment> getPayments()
+  {
+    return payments;
+  }
+
+  public void setPayments(Set<Payment> payments)
+  {
+    this.payments = payments;
   }
 
   public void setBasket(Set<Basket> baskets) {

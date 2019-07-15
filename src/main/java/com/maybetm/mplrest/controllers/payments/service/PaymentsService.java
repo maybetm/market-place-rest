@@ -1,26 +1,20 @@
 package com.maybetm.mplrest.controllers.payments.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.maybetm.mplrest.commons.services.AService;
 import com.maybetm.mplrest.entities.payments.IDBPayment;
 import com.maybetm.mplrest.entities.payments.Payment;
 import com.maybetm.mplrest.entities.product.IDBProduct;
 import com.maybetm.mplrest.entities.product.Product;
 import com.maybetm.mplrest.entities.product.QueryProductIdAndCount;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.sun.xml.internal.txw2.IllegalSignatureException;
-import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
-import java.util.function.Predicate;
 import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 /**
@@ -43,6 +37,8 @@ public class PaymentsService extends AService<Payment, IDBPayment>
   public ResponseEntity<Set<Payment>> payProducts(Set<Product> products)
   {
 
+    // fixme валидацию можно перенести в отдельный дефолтный метод
+
     final Map<Long, Long> productsFromBasket = products
         .stream().collect(Collectors.toMap(Product::getId, Product::getCount));
 
@@ -62,10 +58,9 @@ public class PaymentsService extends AService<Payment, IDBPayment>
       throw new IllegalSignatureException("Запрашиваемое количество товаров не совпадает с количеством товаров на складе.");
     }
 
-    final BiFunction<Long, Long, Boolean> checkProductCount = (key, value) -> productsFromStore.get(key) <= value;
-
+    final BiFunction<Long, Long, Boolean> checkProductCountFromStore = (key, value) -> productsFromStore.get(key) <= value;
     productsFromBasket.forEach((key, value) -> {
-      if (checkProductCount.apply(key, value)) {
+      if (checkProductCountFromStore.apply(key, value)) {
         throw new IllegalSignatureException("Количество товаров на складе меньше, чем было запрошенно.");
       }
     });

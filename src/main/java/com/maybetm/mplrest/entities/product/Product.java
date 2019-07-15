@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.entities.basket.Basket;
 import com.maybetm.mplrest.entities.category.Category;
+import com.maybetm.mplrest.entities.payments.Payment;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -16,7 +17,7 @@ import java.util.Set;
  */
 @Entity(name = "products")
 @JsonIgnoreProperties ({"basket"})
-public class  Product extends AEntity {
+public class Product extends AEntity {
 
 	private String name;
 
@@ -34,13 +35,25 @@ public class  Product extends AEntity {
 
 	private Set<Basket> basket;
 
+  private Set<Payment> payments;
+
   @ManyToOne
-	@JoinColumn(name = "categoryId", nullable = false, updatable = false)
+  @JoinColumn(name = "categoryId", nullable = false, updatable = false)
   public Category getCategory() {
     return category;
   }
 
-	@OneToMany (fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
+  public Set<Payment> getPayments()
+  {
+    return payments;
+  }
+
+  public void setPayments(Set<Payment> payments)
+  {
+    this.payments = payments;
+  }
+
+	@OneToMany (fetch = FetchType.LAZY, mappedBy = "product")
 	public Set<Basket> getBasket() {
 		return basket;
 	}
@@ -100,5 +113,4 @@ public class  Product extends AEntity {
 	public void setMarketId(Long marketId) {
 		this.marketId = marketId;
 	}
-
 }

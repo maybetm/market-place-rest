@@ -22,7 +22,6 @@ public class Basket extends AEntity {
 
 	private Product product;
 
-  // fixme нужно запретить редактировать
   // fixme возможно стоит переделать в <<Long userId>>
 	private User user;
 
