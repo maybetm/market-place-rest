@@ -37,6 +37,15 @@ public class Product extends AEntity {
 
   private Set<Payment> payments;
 
+  public Product()
+  {
+  }
+
+  public Product (Long id, Long count) {
+    this.setId(id);
+    this.setCount(count);
+  }
+
   @ManyToOne
   @JoinColumn(name = "categoryId", nullable = false, updatable = false)
   public Category getCategory() {

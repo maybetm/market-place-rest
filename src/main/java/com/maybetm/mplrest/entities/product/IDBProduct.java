@@ -4,7 +4,6 @@ import com.maybetm.mplrest.commons.repositories.ICommonRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -29,5 +28,6 @@ public interface IDBProduct extends ICommonRepository<Product>
    * @param ids - список уникальных идентификаторов
    * @return - используем пагинацию, если вдруг вернётся слишком много записей.
    */
-  List<QueryProductIdAndCount> findByIdIn (Set<Long> ids);
+  Set<Product> findByIdIn (Set<Long> ids);
+
 }
