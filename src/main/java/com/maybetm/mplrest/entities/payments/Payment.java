@@ -4,7 +4,9 @@ import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.entities.product.Product;
 import com.maybetm.mplrest.entities.user.User;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
 /**
@@ -25,14 +27,18 @@ public class Payment extends AEntity
 
   private LocalDateTime paymentTime;
 
-  public Product getProduct()
-  {
-    return product;
-  }
-
+  @ManyToOne
+  @JoinColumn(name = "userId", nullable = false, updatable = false)
   public User getUser()
   {
     return user;
+  }
+
+  @ManyToOne
+  @JoinColumn(name = "productId", nullable = false, updatable = false)
+  public Product getProduct()
+  {
+    return product;
   }
 
   public void setProduct(Product product)

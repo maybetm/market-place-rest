@@ -41,7 +41,7 @@ public class AccountController implements IAccountController<User>
   }
 
   @Override
-  @PatchMapping(name = "createAccount")
+  @PatchMapping(name = "updateAccount")
   public ResponseEntity<User> updateAccount(@RequestParam ("id") User fromDB, @RequestBody User toEdit)
   {
     return ResponseEntity.of(accountService.updateEntity(fromDB, toEdit));

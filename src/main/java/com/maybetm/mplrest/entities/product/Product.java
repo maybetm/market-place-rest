@@ -16,7 +16,7 @@ import java.util.Set;
  * @version 09.06.2019 23:43
  */
 @Entity(name = "products")
-@JsonIgnoreProperties ({"basket"})
+@JsonIgnoreProperties ({"basket", "payments"})
 public class Product extends AEntity {
 
 	private String name;
@@ -43,6 +43,12 @@ public class Product extends AEntity {
     return category;
   }
 
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+	public Set<Basket> getBasket() {
+		return basket;
+	}
+
+  @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
   public Set<Payment> getPayments()
   {
     return payments;
@@ -52,11 +58,6 @@ public class Product extends AEntity {
   {
     this.payments = payments;
   }
-
-	@OneToMany (fetch = FetchType.LAZY, mappedBy = "product")
-	public Set<Basket> getBasket() {
-		return basket;
-	}
 
 	public void setBasket(Set<Basket> basket) {
 		this.basket = basket;

@@ -53,14 +53,14 @@ public class PaymentsService extends AService<Payment, IDBPayment>
       throw new IllegalSignatureException("На складе не найденно запрашиваемых продуктов.");
     }
 
-    final Supplier<Boolean> sizesIsNotEquals = () -> productsFromBasket.size() != productsFromStore.size();
-    if (sizesIsNotEquals.get()) {
+    final Supplier<Boolean> countProductIsNotEquals = () -> productsFromBasket.size() != productsFromStore.size();
+    if (countProductIsNotEquals.get()) {
       throw new IllegalSignatureException("Запрашиваемое количество товаров не совпадает с количеством товаров на складе.");
     }
 
-    final BiFunction<Long, Long, Boolean> checkProductCountFromStore = (key, value) -> productsFromStore.get(key) <= value;
+    final BiFunction<Long, Long, Boolean> noManyProductsFromStore = (key, value) -> productsFromStore.get(key) < value;
     productsFromBasket.forEach((key, value) -> {
-      if (checkProductCountFromStore.apply(key, value)) {
+      if (noManyProductsFromStore.apply(key, value)) {
         throw new IllegalSignatureException("Количество товаров на складе меньше, чем было запрошенно.");
       }
     });
