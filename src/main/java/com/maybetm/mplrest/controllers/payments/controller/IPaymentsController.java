@@ -1,6 +1,5 @@
 package com.maybetm.mplrest.controllers.payments.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.maybetm.mplrest.entities.product.Product;
 import com.maybetm.mplrest.entities.user.User;
 import org.springframework.web.bind.annotation.RequestBody;
