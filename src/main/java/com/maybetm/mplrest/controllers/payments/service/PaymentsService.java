@@ -35,6 +35,7 @@ public class PaymentsService extends AService<Payment, IDBPayment>
   {
     super(repository);
     this.idbProduct = idbProduct;
+    this.repository = repository;
   }
 
   @Transactional
@@ -57,7 +58,7 @@ public class PaymentsService extends AService<Payment, IDBPayment>
     return products;
   }
 
-  private final BiConsumer<Map<Long, Long>, Map<Long, Long>> verificationProducts = (fromBasket, fromStore) -> {
+  private BiConsumer<Map<Long, Long>, Map<Long, Long>> verificationProducts = (fromBasket, fromStore) -> {
 
     if (fromBasket.isEmpty()) {
       throw new PaymentException("Корзина пользователя пуста.");

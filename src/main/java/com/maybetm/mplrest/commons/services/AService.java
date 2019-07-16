@@ -15,7 +15,7 @@ import java.util.Optional;
 public abstract class AService<E extends AEntity, R extends ICommonRepository<E>> implements ICommonService<E>
 {
 
-  protected final R repository;
+  protected R repository;
 
   protected AService(R repository)
   {
