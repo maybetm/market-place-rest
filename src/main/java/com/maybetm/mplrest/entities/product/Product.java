@@ -123,4 +123,6 @@ public class Product extends AEntity {
 	public void setMarketId(Long marketId) {
 		this.marketId = marketId;
 	}
+
+
 }
