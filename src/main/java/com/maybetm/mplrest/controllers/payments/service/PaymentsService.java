@@ -37,7 +37,7 @@ public class PaymentsService extends AService<Payment, IDBPayment>
   }
 
   @Transactional
-  public void createPayment(Set<Product> products, User user)
+  public Set<Product> createPayment(Set<Product> products, User user)
   {
     final Map<Long, Long> productsFromBasket = products
         .stream().collect(Collectors.toMap(Product::getId, Product::getCount));
@@ -70,6 +70,8 @@ public class PaymentsService extends AService<Payment, IDBPayment>
       idbProduct.save(new Product(product.getId(), updateCountInStore.apply(product)));
       repository.save(new Payment(user, product, product.getCost(), ZonedDateTime.now()));
     }
+    
+    return products;
   }
 
 
