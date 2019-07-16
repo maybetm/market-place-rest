@@ -7,9 +7,9 @@ package com.maybetm.mplrest.commons.exeptions.payments;
  * @author zebzeev-sv
  * @version 15.09.2019 22:52
  */
-public class PaymentExeption extends RuntimeException {
+public class PaymentException extends RuntimeException {
 
-	public PaymentExeption(String message) {
+	public PaymentException(String message) {
 		super(message);
 	}
 }
