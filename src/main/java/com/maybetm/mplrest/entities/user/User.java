@@ -7,7 +7,6 @@ import com.maybetm.mplrest.entities.payments.Payment;
 import com.maybetm.mplrest.entities.roles.Role;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Set;
 
@@ -29,6 +28,7 @@ public class User extends AEntity
 
   private String email;
 
+  @Column(columnDefinition= "TIMESTAMP WITH TIME ZONE")
   private ZonedDateTime dateRegistration;
 
   private Role role;

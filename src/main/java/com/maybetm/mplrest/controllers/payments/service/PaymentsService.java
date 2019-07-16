@@ -70,7 +70,7 @@ public class PaymentsService extends AService<Payment, IDBPayment>
       idbProduct.save(new Product(product.getId(), updateCountInStore.apply(product)));
       repository.save(new Payment(user, product, product.getCost(), ZonedDateTime.now()));
     }
-    
+
     return products;
   }
 

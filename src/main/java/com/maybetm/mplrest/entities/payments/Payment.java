@@ -4,10 +4,10 @@ import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.entities.product.Product;
 import com.maybetm.mplrest.entities.user.User;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 /**
@@ -26,6 +26,7 @@ public class Payment extends AEntity
 
   private Long costTimeOfPayment;
 
+  @Column (columnDefinition= "TIMESTAMP WITH TIME ZONE")
   private ZonedDateTime paymentTime;
 
   public Payment() {
@@ -52,6 +53,11 @@ public class Payment extends AEntity
     return product;
   }
 
+  public ZonedDateTime getPaymentTime()
+  {
+    return paymentTime;
+  }
+
   public void setProduct(Product product)
   {
     this.product = product;
@@ -70,11 +76,6 @@ public class Payment extends AEntity
   public void setCostTimeOfPayment(Long costTimeOfPayment)
   {
     this.costTimeOfPayment = costTimeOfPayment;
-  }
-
-  public ZonedDateTime getPaymentTime()
-  {
-    return paymentTime;
   }
 
   public void setPaymentTime(ZonedDateTime paymentTime)
