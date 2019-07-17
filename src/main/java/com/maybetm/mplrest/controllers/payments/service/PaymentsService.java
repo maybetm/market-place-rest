@@ -7,9 +7,9 @@ import com.maybetm.mplrest.entities.payments.Payment;
 import com.maybetm.mplrest.entities.product.IDBProduct;
 import com.maybetm.mplrest.entities.product.Product;
 import com.maybetm.mplrest.entities.user.User;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
 import java.util.Map;
@@ -41,16 +41,18 @@ public class PaymentsService extends AService<Payment, IDBPayment>
   @Transactional
   public Set<Product> createPayment(Set<Product> products, User user)
   {
-    final Map<Long, Long> productsFromBasket = products
+    final Map<Long, Long> productsFromBasketMap = products
         .stream().collect(Collectors.toMap(Product::getId, Product::getCount));
 
-    final Map<Long, Long> productsFromStoreMap = idbProduct.findByIdIn(productsFromBasket.keySet())
+    final Set<Product> productsFromStore = idbProduct.findByIdIn(productsFromBasketMap.keySet());
+
+    final Map<Long, Long> productsFromStoreMap = productsFromStore
         .stream().collect(Collectors.toMap(Product::getId, Product::getCount));
 
-    verificationProducts.accept(productsFromBasket, productsFromStoreMap);
+    verificationProducts.accept(productsFromBasketMap, productsFromStoreMap);
 
     final Function<Product, Long> updateCountInStore = (p) -> p.getCount() - productsFromStoreMap.get(p.getId());
-    for (Product product : products) {
+    for (Product product : productsFromStore) {
       idbProduct.save(new Product(product.getId(), updateCountInStore.apply(product)));
       repository.save(new Payment(user, product, product.getCost(), ZonedDateTime.now()));
     }
