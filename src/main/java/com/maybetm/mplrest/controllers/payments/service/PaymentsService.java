@@ -35,7 +35,6 @@ public class PaymentsService extends AService<Payment, IDBPayment>
   {
     super(repository);
     this.idbProduct = idbProduct;
-    this.repository = repository;
   }
 
   @Transactional
@@ -49,7 +48,7 @@ public class PaymentsService extends AService<Payment, IDBPayment>
     final Map<Long, Long> productsFromStoreMap = productsFromStore
         .stream().collect(Collectors.toMap(Product::getId, Product::getCount));
 
-    verificationProducts.accept(productsFromBasketMap, productsFromStoreMap);
+    verificationCountProducts.accept(productsFromBasketMap, productsFromStoreMap);
 
     final Function<Product, Long> updateCountInStore = (p) -> p.getCount() - productsFromStoreMap.get(p.getId());
     for (Product product : productsFromStore) {
@@ -60,7 +59,7 @@ public class PaymentsService extends AService<Payment, IDBPayment>
     return products;
   }
 
-  private BiConsumer<Map<Long, Long>, Map<Long, Long>> verificationProducts = (fromBasket, fromStore) -> {
+  private BiConsumer<Map<Long, Long>, Map<Long, Long>> verificationCountProducts = (fromBasket, fromStore) -> {
 
     if (fromBasket.isEmpty()) {
       throw new PaymentException("Корзина пользователя пуста.");

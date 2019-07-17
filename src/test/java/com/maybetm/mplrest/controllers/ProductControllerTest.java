@@ -14,11 +14,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ProductControllerTest extends ATest
 {
   @Test
-  public void badCredentials() throws Exception {
-    MvcResult response = mockMvc.perform(get("/product/getProducts"))
+  public void getProductsIsSuccessful() throws Exception {
+    MvcResult mvcResult = mockMvc.perform(get("/product/getProducts"))
         .andExpect(status().is2xxSuccessful())
         .andReturn();
-    System.out.println(response.getResponse().getContentAsString());
+    System.out.println(mvcResult.getResponse().getContentAsString());
 
   }
 
