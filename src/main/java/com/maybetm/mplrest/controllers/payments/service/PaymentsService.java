@@ -6,7 +6,7 @@ import com.maybetm.mplrest.entities.payments.IDBPayment;
 import com.maybetm.mplrest.entities.payments.Payment;
 import com.maybetm.mplrest.entities.product.IDBProduct;
 import com.maybetm.mplrest.entities.product.Product;
-import com.maybetm.mplrest.entities.user.User;
+import com.maybetm.mplrest.entities.account.Account;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +38,7 @@ public class PaymentsService extends AService<Payment, IDBPayment>
   }
 
   @Transactional
-  public Set<Product> createPayment(Set<Product> products, User user)
+  public Set<Product> createPayment(Set<Product> products, Account account)
   {
     final Map<Long, Long> productsFromBasketMap = products
         .stream().collect(Collectors.toMap(Product::getId, Product::getCount));
@@ -53,7 +53,7 @@ public class PaymentsService extends AService<Payment, IDBPayment>
     final Function<Product, Long> updateCountInStore = (p) -> p.getCount() - productsFromStoreMap.get(p.getId());
     for (Product product : productsFromStore) {
       idbProduct.save(new Product(product.getId(), updateCountInStore.apply(product)));
-      repository.save(new Payment(user, product, product.getCost(), ZonedDateTime.now()));
+      repository.save(new Payment(account, product, product.getCost(), ZonedDateTime.now()));
     }
 
     return products;

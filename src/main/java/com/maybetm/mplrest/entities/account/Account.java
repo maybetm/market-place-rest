@@ -1,4 +1,4 @@
-package com.maybetm.mplrest.entities.user;
+package com.maybetm.mplrest.entities.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.maybetm.mplrest.commons.AEntity;
@@ -11,16 +11,14 @@ import java.time.ZonedDateTime;
 import java.util.Set;
 
 /**
- * jpa сущность пользователей
- * fixme переименовать бы в account,
- * fixme так-как тут хранится информация для аутитентификации
+ * jpa сущность для любого типа пользователя
  *
  * @author zebzeev-sv
  * @version 02.07.2019 14:13
  */
-@Entity(name = "users")
+@Entity(name = "accounts")
 @JsonIgnoreProperties ({"basket", "payments"})
-public class User extends AEntity
+public class Account extends AEntity
 {
   private String login;
 
@@ -43,12 +41,12 @@ public class User extends AEntity
     return role;
   }
 
-  @OneToMany (mappedBy = "user", fetch = FetchType.LAZY)
+  @OneToMany (mappedBy = "account", fetch = FetchType.LAZY)
   public Set<Basket> getBasket() {
     return basket;
   }
 
-  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
   public Set<Payment> getPayments()
   {
     return payments;

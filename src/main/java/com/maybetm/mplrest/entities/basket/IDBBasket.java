@@ -18,6 +18,6 @@ public interface IDBBasket extends ICommonRepository<Basket>
    * @param pageable пагинация коллекции
    * @return возвращает контект с учётом пагинации
    */
-  Page<Basket> findByUserId(Long userId, Pageable pageable);
+  Page<Basket> findByAccountId(Long userId, Pageable pageable);
 
 }

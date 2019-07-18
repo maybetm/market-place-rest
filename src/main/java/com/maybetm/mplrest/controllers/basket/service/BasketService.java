@@ -26,7 +26,7 @@ public class BasketService extends AService<Basket, IDBBasket>
 
   public Page<Basket> getBasketByClient(Long id, Pageable pageable) {
 
-    return repository.findByUserId(id, pageable);
+    return repository.findByAccountId(id, pageable);
   }
 
   public Page<Basket> getBaskets(Pageable pageable) {

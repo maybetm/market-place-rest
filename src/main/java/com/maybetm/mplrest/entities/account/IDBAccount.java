@@ -1,4 +1,4 @@
-package com.maybetm.mplrest.entities.user;
+package com.maybetm.mplrest.entities.account;
 
 import com.maybetm.mplrest.commons.repositories.ICommonRepository;
 
@@ -6,7 +6,7 @@ import com.maybetm.mplrest.commons.repositories.ICommonRepository;
  * @author zebzeev-sv
  * @version 02.07.2019 14:14
  */
-public interface IDBUser extends ICommonRepository<User>
+public interface IDBAccount extends ICommonRepository<Account>
 {
 
 }

@@ -1,7 +1,7 @@
 package com.maybetm.mplrest.controllers.account.controller;
 
 import com.maybetm.mplrest.controllers.account.service.AccountService;
-import com.maybetm.mplrest.entities.user.User;
+import com.maybetm.mplrest.entities.account.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -20,7 +20,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping (value = "account")
-public class AccountController implements IAccountController<User>
+public class AccountController implements IAccountController<Account>
 {
 
   private AccountService accountService;
@@ -33,9 +33,9 @@ public class AccountController implements IAccountController<User>
 
   @Override
   @PostMapping(value = "createAccount")
-  public ResponseEntity<User> createAccount(@RequestBody User user)
+  public ResponseEntity<Account> createAccount(@RequestBody Account account)
   {
-    return ResponseEntity.of(accountService.save(user));
+    return ResponseEntity.of(accountService.save(account));
   }
 
   @Override
@@ -47,14 +47,14 @@ public class AccountController implements IAccountController<User>
 
   @Override
   @PatchMapping(value = "updateAccount")
-  public ResponseEntity<User> updateAccount(@RequestParam ("id") User fromDB, @RequestBody User toEdit)
+  public ResponseEntity<Account> updateAccount(@RequestParam ("id") Account fromDB, @RequestBody Account toEdit)
   {
     return ResponseEntity.of(accountService.updateEntity(fromDB, toEdit));
   }
 
   @Override
   @GetMapping(value = "getAccounts")
-  public List<User> getAccounts(@RequestParam (required = false, defaultValue = "") String search,
+  public List<Account> getAccounts(@RequestParam (required = false, defaultValue = "") String search,
                                 @PageableDefault (sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable)
   {
     return accountService.getEntityOnPage(pageable).getContent();

@@ -2,28 +2,28 @@ package com.maybetm.mplrest.entities.basket;
 
 import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.entities.product.Product;
-import com.maybetm.mplrest.entities.user.User;
+import com.maybetm.mplrest.entities.account.Account;
 
 import javax.persistence.*;
 
 /**
  * jpa сущность корзины
  *
- * fixme сущность корзины можно модифицировать, изменив поле user на userId типа Long.
- * fixme так-как предполагается, что у нас не будет необходимости в в полноценной сущности user
+ * fixme сущность корзины можно модифицировать, изменив поле account на userId типа Long.
+ * fixme так-как предполагается, что у нас не будет необходимости в в полноценной сущности account
  * fixme в контексте корзины
  *
  * @author zebzeev-sv
  * @version 02.07.2019 13:24
  */
 @Entity(name = "basket")
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"userId", "productId"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"accountId", "productId"}))
 public class Basket extends AEntity {
 
 	private Product product;
 
   // fixme возможно стоит переделать в <<Long userId>>
-	private User user;
+	private Account account;
 
 	private Long count;
 
@@ -34,9 +34,9 @@ public class Basket extends AEntity {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "userId", nullable = false, updatable = false)
-	public User getUser() {
-		return user;
+	@JoinColumn(name = "accountId", nullable = false, updatable = false)
+	public Account getAccount() {
+		return account;
 	}
 
 	public Long getCount() {
@@ -47,8 +47,8 @@ public class Basket extends AEntity {
 		this.count = count;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	public void setProduct(Product product) {

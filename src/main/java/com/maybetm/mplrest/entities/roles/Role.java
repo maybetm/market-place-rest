@@ -2,7 +2,7 @@ package com.maybetm.mplrest.entities.roles;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.maybetm.mplrest.commons.AEntity;
-import com.maybetm.mplrest.entities.user.User;
+import com.maybetm.mplrest.entities.account.Account;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,20 +14,20 @@ import java.util.Set;
  * @version 02.07.2019 23:29
  */
 @Entity(name = "roles")
-@JsonIgnoreProperties ({"users"})
+@JsonIgnoreProperties ({"accounts"})
 public class Role extends AEntity {
 
 	private String name;
 
-	private Set<User> users;
+	private Set<Account> accounts;
 
 	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
-	public Set<User> getUsers() {
-		return users;
+	public Set<Account> getAccounts() {
+		return accounts;
 	}
 
-	public void setUsers(Set<User> users) {
-		this.users = users;
+	public void setAccounts(Set<Account> accounts) {
+		this.accounts = accounts;
 	}
 
 	public String getName() {

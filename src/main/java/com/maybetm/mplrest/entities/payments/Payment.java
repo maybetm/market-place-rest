@@ -2,7 +2,7 @@ package com.maybetm.mplrest.entities.payments;
 
 import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.entities.product.Product;
-import com.maybetm.mplrest.entities.user.User;
+import com.maybetm.mplrest.entities.account.Account;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +20,7 @@ import java.time.ZonedDateTime;
 public class Payment extends AEntity
 {
 
-  private User user;
+  private Account account;
 
   private Product product;
 
@@ -32,18 +32,18 @@ public class Payment extends AEntity
   public Payment() {
   }
 
-  public Payment(User user, Product product, Long costTimeOfPayment, ZonedDateTime paymentTime) {
-    this.user = user;
+  public Payment(Account account, Product product, Long costTimeOfPayment, ZonedDateTime paymentTime) {
+    this.account = account;
     this.product = product;
     this.costTimeOfPayment = costTimeOfPayment;
     this.paymentTime = paymentTime;
   }
 
   @ManyToOne
-  @JoinColumn(name = "userId", nullable = false, updatable = false)
-  public User getUser()
+  @JoinColumn(name = "accountId", nullable = false, updatable = false)
+  public Account getAccount()
   {
-    return user;
+    return account;
   }
 
   @ManyToOne
@@ -63,9 +63,9 @@ public class Payment extends AEntity
     this.product = product;
   }
 
-  public void setUser(User user)
+  public void setAccount(Account account)
   {
-    this.user = user;
+    this.account = account;
   }
 
   public Long getCostTimeOfPayment()
