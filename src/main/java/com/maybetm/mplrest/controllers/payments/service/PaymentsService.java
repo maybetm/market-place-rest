@@ -50,16 +50,16 @@ public class PaymentsService extends AService<Payment, IDBPayment>
 
     verificationCountProducts.accept(productsFromBasketMap, productsFromStoreMap);
 
-    final Function<Product, Long> updateCountInStore = (p) -> p.getCount() - productsFromStoreMap.get(p.getId());
+    final Function<Product, Long> getUpdatedCountInStore = (p) -> p.getCount() - productsFromStoreMap.get(p.getId());
     for (Product product : productsFromStore) {
-      idbProduct.save(new Product(product.getId(), updateCountInStore.apply(product)));
+      idbProduct.save(new Product(product.getId(), getUpdatedCountInStore.apply(product)));
       repository.save(new Payment(account, product, product.getCost(), ZonedDateTime.now()));
     }
 
     return products;
   }
 
-  private BiConsumer<Map<Long, Long>, Map<Long, Long>> verificationCountProducts = (fromBasket, fromStore) -> {
+  private final BiConsumer<Map<Long, Long>, Map<Long, Long>> verificationCountProducts = (fromBasket, fromStore) -> {
 
     if (fromBasket.isEmpty()) {
       throw new PaymentException("Корзина пользователя пуста.");
