@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * Исключение информирует пользователя о сбое
- * в механизме создания платежа
+ * в механизме создания платежа.
  *
  * @author zebzeev-sv
  * @version 15.09.2019 22:52

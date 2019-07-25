@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * Перехватчик используется для управления доступом
+ * к конечным точкам рест контроллеров.
+ *
  * @author zebzeev-sv
  * @version 24.07.2019 16:07
  */
@@ -28,7 +31,6 @@ public class SecurityHandlerInterceptor extends HandlerInterceptorAdapter
         }
       }
     }
-
     return true;
   }
 
