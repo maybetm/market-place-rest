@@ -6,12 +6,14 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import javax.persistence.MappedSuperclass;
 import java.util.Optional;
 
 /**
  * @author zebzeev-sv
  * @version 29.06.2019 18:51
  */
+@MappedSuperclass
 public abstract class AService<E extends AEntity, R extends ICommonRepository<E>> implements ICommonService<E>
 {
 
@@ -41,6 +43,7 @@ public abstract class AService<E extends AEntity, R extends ICommonRepository<E>
     return repository.findById(id);
   }
 
+  // fixme тут думаю можно сделать пакетное удаление
   @Override
   public void deleteById(Long id)
   {
