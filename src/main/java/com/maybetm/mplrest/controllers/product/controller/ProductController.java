@@ -2,6 +2,7 @@ package com.maybetm.mplrest.controllers.product.controller;
 
 import com.maybetm.mplrest.controllers.product.service.ProductService;
 import com.maybetm.mplrest.entities.product.Product;
+import com.maybetm.mplrest.security.annotations.RolesMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -10,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.maybetm.mplrest.security.Roles.admin;
+import static com.maybetm.mplrest.security.Roles.client;
 
 /**
  * @author zebzeev-sv
@@ -33,6 +37,7 @@ public class ProductController implements IProductController<Product> {
 	}
 
   @GetMapping(value = "getProduct")
+  @RolesMapper (roles = {admin , client}) // fixme выбрали этот метод в качестве теста для разработки
 	public ResponseEntity<Product> getProduct(@RequestParam Long id) {
 		return ResponseEntity.of(productService.findById(id));
 	}

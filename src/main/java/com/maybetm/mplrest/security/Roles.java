@@ -1,11 +1,11 @@
 package com.maybetm.mplrest.security;
 
 
-import com.maybetm.mplrest.security.annotations.RolesListMapper;
+import com.maybetm.mplrest.security.annotations.RolesMapper;
 
 /**
  * Это перечисление должно полностью дублировать роли из бд.
- * Используется для более удобного использованя аннотаций {@link RoleMapper) и {@link RolesListMapper).
+ * Используется для более удобного использованя аннотации {@link RolesMapper}.
  *
  * fixme Можно сделать валидацию id ролей перед запуском,
  * fixme если они не совпадают, то можно крашить приложение
