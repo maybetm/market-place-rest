@@ -8,7 +8,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.function.BiFunction;
 
@@ -29,7 +28,7 @@ public class SecurityHandlerInterceptor extends HandlerInterceptorAdapter
       RolesMapper roleMapper = AnnotationUtils.findAnnotation(((HandlerMethod)handler).getMethod(), RolesMapper.class);
       try {
         // Проверяем доступ к запрашиваемым ресурсам у пользователя
-        boolean isAllowed = accessIsAllowed.apply(roleMapper, null);
+        boolean isAllowed = accessIsAllowed.apply(roleMapper, "null");
 
         // есть id роли совпадает с id роли, который мы получили из токена, то возвращаем истину.
         // Иначе возвращаем исключение
@@ -44,10 +43,10 @@ public class SecurityHandlerInterceptor extends HandlerInterceptorAdapter
     return true;
   }
 
-  private final BiFunction<RolesMapper, String, Boolean> accessIsAllowed = (roles,@NotNull jwt)-> {
+  private final BiFunction<RolesMapper, String, Boolean> accessIsAllowed = (roles, jwt)-> {
     Arrays.asList(roles.roles()).stream().forEach(r -> {
       // fixme сюда надо вернуться
-      System.out.printf("role id: %s; name: %s; nameObj: %s \n", r.getId(), r.getName(), r.name());
+      System.out.printf("role id: %s; name: %s; nameObj: %s \n", r.id, r.name, r.name());
     });
     return true;
   };

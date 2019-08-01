@@ -5,6 +5,7 @@ import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.entities.basket.Basket;
 import com.maybetm.mplrest.entities.payments.Payment;
 import com.maybetm.mplrest.entities.roles.Role;
+import com.maybetm.mplrest.entities.security.Token;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
@@ -35,13 +36,15 @@ public class Account extends AEntity
 
   private Set<Payment> payments;
 
+  private Set<Token> tokens;
+
   @ManyToOne
   @JoinColumn(name = "roleId", nullable = false, updatable = false)
   public Role getRole() {
     return role;
   }
 
-  @OneToMany (mappedBy = "account", fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
   public Set<Basket> getBasket() {
     return basket;
   }
@@ -50,6 +53,17 @@ public class Account extends AEntity
   public Set<Payment> getPayments()
   {
     return payments;
+  }
+
+  @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+  public Set<Token> getTokens()
+  {
+    return tokens;
+  }
+
+  public void setTokens(Set<Token> tokens)
+  {
+    this.tokens = tokens;
   }
 
   public void setPayments(Set<Payment> payments)
