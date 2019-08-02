@@ -1,8 +1,14 @@
 package com.maybetm.mplrest.controllers.security.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.maybetm.mplrest.controllers.security.service.ServiceSecurity;
 import com.maybetm.mplrest.entities.account.Account;
 import com.maybetm.mplrest.security.Roles;
 import com.maybetm.mplrest.security.annotations.RolesMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,31 +21,33 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping (value = "auth")
-public class SecurityController
+public class SecurityController implements ISecurityController
 {
+  private ServiceSecurity serviceSecurity;
 
-  // метод для аутентификации и идентификации
-  // должен выполнить проверку подлинности пользователя в бд,
-  // если пользователь прошёл проверку. То ему выдаётся jwt токен доступа, иначе вызываем пользовательское исключение.
-  public String login(Account account)
+  @Autowired
+  public SecurityController(ServiceSecurity serviceSecurity)
   {
-    return "JWT";
+    this.serviceSecurity = serviceSecurity;
   }
 
-  // стоит допустить механизм выхода из системы
-  // Он подразумевает возможность отозвать пользовательский токен, который запросил ранее.
-  // должен быть доступен только авторизированному пользователю (необходим ключ jwt).
+  @PostMapping(value = "login")
+  public String login(@RequestBody(required = true) Account account) throws JsonProcessingException
+  {
+    return new ObjectMapper().writeValueAsString(serviceSecurity.getAccessToken(account));
+  }
+
+  @PostMapping(value = "logout")
+  @RolesMapper (roles = {Roles.client, Roles.market})
   public void logout(String jwt)
   {
 
   }
 
-  // так-же стоит предусмотреть
-  // удаление токена администратором
+  @PostMapping(value = "destroy")
   @RolesMapper(roles = Roles.admin)
   public void destroy()
   {
 
   }
-
 }

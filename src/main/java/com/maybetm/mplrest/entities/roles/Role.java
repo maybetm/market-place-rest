@@ -21,7 +21,16 @@ public class Role extends AEntity {
 
 	private Set<Account> accounts;
 
-	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+  public Role()
+  {
+  }
+
+  public Role(Long id)
+  {
+    this.id = id;
+  }
+
+  @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
 	public Set<Account> getAccounts() {
 		return accounts;
 	}

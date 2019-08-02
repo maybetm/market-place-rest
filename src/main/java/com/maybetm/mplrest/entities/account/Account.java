@@ -19,15 +19,15 @@ import java.util.Set;
  */
 @Entity(name = "accounts")
 @JsonIgnoreProperties ({"basket", "payments"})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"login", "email"})})
 public class Account extends AEntity
 {
   private String login;
 
-  private String password;
-
   private String email;
 
-  @Column(columnDefinition= "TIMESTAMP WITH TIME ZONE")
+  private String password;
+
   private ZonedDateTime dateRegistration;
 
   private Role role;
@@ -37,6 +37,19 @@ public class Account extends AEntity
   private Set<Payment> payments;
 
   private Set<Token> tokens;
+
+  public Account()
+  {
+  }
+
+  public Account(String login, String email, String password, ZonedDateTime dateRegistration, Role role)
+  {
+    this.login = login;
+    this.password = password;
+    this.email = email;
+    this.dateRegistration = dateRegistration;
+    this.role = role;
+  }
 
   @ManyToOne
   @JoinColumn(name = "roleId", nullable = false, updatable = false)

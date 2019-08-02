@@ -1,5 +1,6 @@
 package com.maybetm.mplrest.entities.security;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.entities.account.Account;
 
@@ -15,6 +16,7 @@ import java.time.ZonedDateTime;
  * @version 01.08.2019 12:29
  */
 @Entity(name = "tokens")
+@JsonIgnoreProperties ({"password"})
 public class Token extends AEntity
 {
 
@@ -23,6 +25,17 @@ public class Token extends AEntity
   private String token;
 
   private ZonedDateTime timeRegistration;
+
+  public Token()
+  {
+  }
+
+  public Token(Account account, String token, ZonedDateTime timeRegistration)
+  {
+    this.account = account;
+    this.token = token;
+    this.timeRegistration = timeRegistration;
+  }
 
   @ManyToOne
   @JoinColumn (name = "accountId", nullable = false, updatable = false)
