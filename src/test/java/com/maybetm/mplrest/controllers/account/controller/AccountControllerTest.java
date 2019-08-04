@@ -22,7 +22,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 public class AccountControllerTest extends ATest
 {
-  Account accountClient = new Account("login", "email", "password", any(ZonedDateTime.class), new Role(Roles.client.id));
+  private Account accountClient = new Account("login", "email",
+      "password", any(ZonedDateTime.class), new Role(Roles.client.id));
 
   @Test
   public void testCreateAccount() throws Exception

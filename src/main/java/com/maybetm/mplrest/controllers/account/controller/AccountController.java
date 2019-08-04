@@ -59,7 +59,7 @@ public class AccountController implements IAccountController<Account>
   @Override
   @GetMapping(value = "getAccounts")
   public List<Account> getAccounts(@RequestParam (required = false, defaultValue = "") String search,
-                                @PageableDefault (sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable)
+                                   @PageableDefault (sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable)
   {
     return accountService.getEntityOnPage(pageable).getContent();
   }

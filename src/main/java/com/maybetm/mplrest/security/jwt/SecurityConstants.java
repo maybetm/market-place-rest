@@ -4,7 +4,7 @@ package com.maybetm.mplrest.security.jwt;
  * @author zebzeev-sv
  * @version 02.08.2019 18:15
  */
-public class SecurityConstants
+public abstract class SecurityConstants
 {
   // время жизни ключа доступа
   public final static long tokenLiveTime = 108_000;
