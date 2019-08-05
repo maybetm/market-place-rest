@@ -34,5 +34,4 @@ public abstract class ATest
 
   public MvcResult mvcResult;
 
-
 }

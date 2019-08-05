@@ -1,10 +1,11 @@
 package com.maybetm.mplrest.entities.payments;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.maybetm.mplrest.commons.AEntity;
-import com.maybetm.mplrest.entities.product.Product;
+import com.maybetm.mplrest.commons.DateTime.ZonedDateTimeSerialization;
 import com.maybetm.mplrest.entities.account.Account;
+import com.maybetm.mplrest.entities.product.Product;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,7 +27,7 @@ public class Payment extends AEntity
 
   private Long costTimeOfPayment;
 
-  @Column (columnDefinition= "TIMESTAMP WITH TIME ZONE")
+  @JsonSerialize (using = ZonedDateTimeSerialization.class)
   private ZonedDateTime paymentTime;
 
   public Payment() {

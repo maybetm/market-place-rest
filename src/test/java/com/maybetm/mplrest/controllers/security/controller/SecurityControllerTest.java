@@ -13,7 +13,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 /**
- * Юнит тест для ендпойнта аутентификации
+ * Модульный тест для ендпойнта аутентификации
  * и идентификации пользователя {@link SecurityController}
  *
  * @author zebzeev-sv
@@ -32,7 +32,7 @@ public class SecurityControllerTest extends ATest
                                     .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                                     .content(objectMapper.writeValueAsString(accountClient)))
         .andReturn();
-    logger.info("response: " + mvcResult.getResponse().getContentAsString());
+    logger.info("response: {}", mvcResult.getResponse().getContentAsString());
   }
 
   @Test

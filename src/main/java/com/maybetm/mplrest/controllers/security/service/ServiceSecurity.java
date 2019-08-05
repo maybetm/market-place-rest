@@ -56,7 +56,7 @@ public class ServiceSecurity
     // функция для создания сущности токена с мета информацией
     // используется для сохранения и ответа идентифицированному пользователю
     final BiFunction<Account, String, Token> getTokenEntity = (a, token) ->
-        new Token(a.getId(), token, ZonedDateTime.now());
+        new Token(new Account(a.getId()), token, ZonedDateTime.now());
 
     // генирируем ключ доступа
     String jwt = JwtService.createJwt(getJwtParams.apply(account));

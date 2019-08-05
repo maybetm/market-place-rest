@@ -37,13 +37,6 @@ public class Token extends AEntity
     this.timeRegistration = timeRegistration;
   }
 
-  public Token(Long accountId, String token, ZonedDateTime timeRegistration)
-  {
-    this.account = new Account(accountId);
-    this.token = token;
-    this.timeRegistration = timeRegistration;
-  }
-
   @ManyToOne
   @JoinColumn (name = "accountId", nullable = false, updatable = false)
   public Account getAccount()

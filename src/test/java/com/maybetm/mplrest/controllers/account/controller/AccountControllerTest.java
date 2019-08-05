@@ -33,7 +33,7 @@ public class AccountControllerTest extends ATest
                                     .content(objectMapper.writeValueAsString(accountClient)))
         .andExpect(status().is2xxSuccessful())
         .andReturn();
-    logger.info("Response: " + mvcResult.getResponse().getContentAsString());
+    logger.info("Response: {}", mvcResult.getResponse().getContentAsString());
   }
 
   @Test

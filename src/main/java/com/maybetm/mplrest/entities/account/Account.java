@@ -20,7 +20,10 @@ import java.util.Set;
  */
 @Entity(name = "accounts")
 @JsonIgnoreProperties ({"basket", "payments", "tokens"})
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"login", "email"})})
+@Table(uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"login"})
+    ,@UniqueConstraint(columnNames = {"email"})
+})
 public class Account extends AEntity
 {
   private String login;
@@ -51,8 +54,8 @@ public class Account extends AEntity
   public Account(String login, String email, String password, ZonedDateTime dateRegistration, Role role)
   {
     this.login = login;
-    this.password = password;
     this.email = email;
+    this.password = password;
     this.dateRegistration = dateRegistration;
     this.role = role;
   }

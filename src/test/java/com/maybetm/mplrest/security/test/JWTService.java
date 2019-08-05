@@ -20,7 +20,6 @@ import java.util.function.Function;
  */
 public class JWTService extends ATest
 {
-
   @Test
   public void testGenerateTocken (){
     String token = Jwts.builder()
