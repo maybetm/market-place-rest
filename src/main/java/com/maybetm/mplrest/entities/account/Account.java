@@ -1,5 +1,6 @@
 package com.maybetm.mplrest.entities.account;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.entities.basket.Basket;
@@ -18,7 +19,7 @@ import java.util.Set;
  * @version 02.07.2019 14:13
  */
 @Entity(name = "accounts")
-@JsonIgnoreProperties ({"basket", "payments"})
+@JsonIgnoreProperties ({"basket", "payments", "tokens"})
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"login", "email"})})
 public class Account extends AEntity
 {
@@ -40,6 +41,11 @@ public class Account extends AEntity
 
   public Account()
   {
+  }
+
+  public Account(Long id)
+  {
+    this.setId(id);
   }
 
   public Account(String login, String email, String password, ZonedDateTime dateRegistration, Role role)
@@ -74,6 +80,11 @@ public class Account extends AEntity
     return tokens;
   }
 
+  @JsonIgnore
+  public String getPassword() {
+    return password;
+  }
+
   public void setTokens(Set<Token> tokens)
   {
     this.tokens = tokens;
@@ -98,10 +109,6 @@ public class Account extends AEntity
 
   public void setLogin(String login) {
     this.login = login;
-  }
-
-  public String getPassword() {
-    return password;
   }
 
   public void setPassword(String password) {

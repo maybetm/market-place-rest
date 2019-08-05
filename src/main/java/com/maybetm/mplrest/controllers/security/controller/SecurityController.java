@@ -1,12 +1,13 @@
 package com.maybetm.mplrest.controllers.security.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maybetm.mplrest.controllers.security.service.ServiceSecurity;
 import com.maybetm.mplrest.entities.account.Account;
+import com.maybetm.mplrest.entities.security.Token;
 import com.maybetm.mplrest.security.Roles;
 import com.maybetm.mplrest.security.annotations.RolesMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,9 +33,9 @@ public class SecurityController implements ISecurityController
   }
 
   @PostMapping(value = "login")
-  public String login(@RequestBody(required = true) Account account) throws JsonProcessingException
+  public ResponseEntity<Token> login(@RequestBody(required = true) Account account) throws JsonProcessingException
   {
-    return new ObjectMapper().writeValueAsString(serviceSecurity.getAccessToken(account));
+    return ResponseEntity.ok(serviceSecurity.getAccessToken(account));
   }
 
   @PostMapping(value = "logout")

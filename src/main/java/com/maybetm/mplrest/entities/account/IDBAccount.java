@@ -12,5 +12,5 @@ public interface IDBAccount extends ICommonRepository<Account>
 {
 
   // поиск аккаунта по полям email/login и password
-  Optional<Account> findByEmailOrLoginAndPassword(String email, String login, String password);
+  Optional<Account> findByEmailOrLoginAndPasswordIgnoreCase(String email, String login, String password);
 }

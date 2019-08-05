@@ -1,20 +1,21 @@
 package com.maybetm.mplrest.controllers.security.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.maybetm.mplrest.commons.exeptions.security.AuthException;
 import com.maybetm.mplrest.entities.account.Account;
 import com.maybetm.mplrest.entities.account.IDBAccount;
+import com.maybetm.mplrest.entities.security.IDBToken;
 import com.maybetm.mplrest.entities.security.Token;
-import com.maybetm.mplrest.security.jwt.SecurityConstants;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.maybetm.mplrest.security.jwt.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
@@ -26,41 +27,51 @@ public class ServiceSecurity
 {
 
   private IDBAccount idbAccount;
+  private IDBToken idbToken;
 
   @Autowired
-  public ServiceSecurity(IDBAccount idbAccount)
+  public ServiceSecurity(IDBAccount idbAccount, IDBToken idbToken)
   {
     this.idbAccount = idbAccount;
+    this.idbToken = idbToken;
   }
 
-  public Token getAccessToken(Account account)
+  public Token getAccessToken(Account identificationData) throws JsonProcessingException
   {
-    if (searchAccount.apply(account).isPresent()) {
-      return createAccessToken(account);
+    Optional<Account> account = searchAccount.apply(identificationData);
+
+    if (account.isPresent()) {
+      return createAccessToken(account.get());
     } else {
       throw new AuthException("Ошибка идентификации. " +
-                              "Не удалось найти пользователя или не верные параметры идентификации пользователя.");
+                              "Не удалось найти пользователя или не верные параметры идентификации.");
     }
   }
 
-  private Token createAccessToken(Account account)
-  {
-    String token = Jwts.builder()
-        .setHeaderParams(getJwtParams.apply(account))
-        .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.tokenLiveTime))
-        .signWith(SignatureAlgorithm.HS512, SecurityConstants.secretToken).compact();
-    return new Token(account, token, ZonedDateTime.now());
-  }
-
   private final Function<Account, Optional<Account>> searchAccount = (a) -> idbAccount
-      .findByEmailOrLoginAndPassword(a.getEmail(), a.getLogin(), a.getPassword());
+      .findByEmailOrLoginAndPasswordIgnoreCase(a.getEmail(), a.getLogin(), a.getPassword());
+
+  private Token createAccessToken(Account account) throws JsonProcessingException
+  {
+    // функция для создания сущности токена с мета информацией
+    // используется для сохранения и ответа идентифицированному пользователю
+    final BiFunction<Account, String, Token> getTokenEntity = (a, token) ->
+        new Token(a.getId(), token, ZonedDateTime.now());
+
+    // генирируем ключ доступа
+    String jwt = JwtService.createJwt(getJwtParams.apply(account));
+    // сохраняем ключ и привязываем его к конкретному пользователю
+    idbToken.saveAndFlush(getTokenEntity.apply(account, jwt));
+
+    return getTokenEntity.apply(account, jwt);
+  }
 
   private final Function<Account, Map<String, Object>> getJwtParams = (account) -> {
 
     Map<String, Object> result = new HashMap<>(3);
     result.put("id", account.getId());
-    result.put("role", account.getRole());
-    result.put("creationTime", ZonedDateTime.now());
+    result.put("roleId", account.getRole().getId());
+    result.put("creationTime", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(ZonedDateTime.now()));
 
     return result;
   };

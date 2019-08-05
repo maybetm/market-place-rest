@@ -16,7 +16,7 @@ import javax.persistence.*;
 @MappedSuperclass
 public abstract class AEntity {
 
-	protected Long id;
+	private Long id;
 
 	@Id
 	@Column(name = "id")
@@ -27,5 +27,5 @@ public abstract class AEntity {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
+  }
 }

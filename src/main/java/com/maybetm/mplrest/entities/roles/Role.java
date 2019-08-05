@@ -27,7 +27,7 @@ public class Role extends AEntity {
 
   public Role(Long id)
   {
-    this.id = id;
+    this.setId(id);
   }
 
   @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
