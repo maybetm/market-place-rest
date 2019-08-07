@@ -7,6 +7,7 @@ import com.maybetm.mplrest.entities.account.Account;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.Optional;
 
 /**
  * Сущность используется для хранения токенов
@@ -67,5 +68,13 @@ public class Token extends AEntity
   public void setTimeRegistration(ZonedDateTime timeRegistration)
   {
     this.timeRegistration = timeRegistration;
+  }
+
+  // используется для сверки параметров входящего токена с токеном из бд
+  public boolean equalsTokenFromJwt(Optional<Token> token)
+  {
+    return token.isPresent() && this.account != null && this.account.getRole() != null &&
+           this.account.getId().equals(token.get().getAccount().getId()) &&
+           this.account.getRole().getId().equals(token.get().account.getRole().getId());
   }
 }

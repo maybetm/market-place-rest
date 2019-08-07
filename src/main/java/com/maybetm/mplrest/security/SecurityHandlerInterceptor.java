@@ -1,9 +1,11 @@
 package com.maybetm.mplrest.security;
 
+import com.maybetm.mplrest.commons.exeptions.security.AccessException;
 import com.maybetm.mplrest.security.annotations.RolesMapper;
 import com.maybetm.mplrest.security.jwt.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -11,7 +13,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
-import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -23,40 +25,42 @@ import java.util.function.Function;
  */
 public class SecurityHandlerInterceptor extends HandlerInterceptorAdapter
 {
+  @Autowired
+  private JwtService jwtService;
+
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception
   {
     if (handler instanceof HandlerMethod) {
+      // определяем наличие маркера RolesMapper над методом рест контроллера
+      Optional<RolesMapper> methodRolesMapper = getRolesMapper.apply(handler);
+      Optional<String> jwt = Optional.ofNullable(request.getHeader(SecurityConstants.headerAuth));
 
-      Optional<RolesMapper> roleMapper = getRolesMapper.apply(handler);
-      String jwt = request.getHeader(SecurityConstants.headerAuth);
+      // логгируем входящие параметры запроса
+      jwt.ifPresent(loggerJwtParamsInterceptor::accept);
 
-      logger.info("jwt: {}", jwt);
-
-      if (roleMapper.isPresent()) {
-        return accessIsAllowed.apply(roleMapper.get(), jwt);
+      // если ендпойнт рест контроллера содержит маркер RolesMapper и пришёл jwt токен
+      if (methodRolesMapper.isPresent() && jwt.isPresent()) {
+        if (!jwtService.isValid(methodRolesMapper.get(), jwt.get())){
+          throw new AccessException("Отказано в доступе!");
+        }
       }
     }
     return true;
   }
 
+  // ищем RolesMapper над методм и оборачиваем результат в Optional
   private Function<Object, Optional<RolesMapper>> getRolesMapper = (handler) ->
       Optional.ofNullable(AnnotationUtils.findAnnotation(((HandlerMethod)handler).getMethod(), RolesMapper.class));
 
-  private final BiFunction<RolesMapper, String, Boolean> accessIsAllowed = (rolesMapper, jwt)-> {
-
-    final boolean isValidInApplication = new JwtService().isValid(jwt);
-
-    logger.info("isValidInApplication: {}", isValidInApplication);
-
-    return true;
+  // консумер нужен для более удобного логгирования входных обезличенных параметров
+  private final Consumer<String> loggerJwtParamsInterceptor = (jwt) -> {
+    logger.info("request token: {}", jwt);
+    JwtService.parse(jwt).ifPresent(token -> {
+      logger.info("Processing of token content: Account id: {}; Role id: {}; Access token: {};",
+                  token.getAccount().getId(), token.getAccount().getRole().getId(), token.getToken());
+    });
   };
-
-  private static final Function<Long, Boolean> validates  = (roleId) -> {
-
-  return true;
-  };
-
 }

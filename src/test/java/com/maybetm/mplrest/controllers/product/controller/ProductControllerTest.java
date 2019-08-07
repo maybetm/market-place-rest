@@ -26,7 +26,7 @@ public class ProductControllerTest extends ATest
     mvcResult = mockMvc.perform(get(product + "getProduct?id=11").header(SecurityConstants.headerAuth, token))
     .andExpect(status().is2xxSuccessful())
     .andReturn();
-    logger.info("response: {}", mvcResult.getResponse().getContentAsString());
+    logger.info("response: {}", mvcResult.getResponse());
   }
 
   @Test
@@ -35,7 +35,6 @@ public class ProductControllerTest extends ATest
         .andExpect(status().is2xxSuccessful())
         .andReturn();
     logger.info(mvcResult.getResponse().getContentAsString());
-
   }
 
 }

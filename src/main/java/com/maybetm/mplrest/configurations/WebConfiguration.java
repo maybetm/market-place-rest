@@ -1,6 +1,7 @@
 package com.maybetm.mplrest.configurations;
 
 import com.maybetm.mplrest.security.SecurityHandlerInterceptor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -13,14 +14,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfiguration implements WebMvcConfigurer
 {
 
-/*  @Bean
-  public SecurityHandlerInterceptor securityHandlerInterceptor(){
+  // Такой подход нужен, чтобы можно было хорошо автовайрить объекты
+  @Bean public SecurityHandlerInterceptor securityHandlerInterceptor(){
     return new SecurityHandlerInterceptor();
-  }*/
+  }
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
-    registry.addInterceptor(new SecurityHandlerInterceptor());
+    registry.addInterceptor(securityHandlerInterceptor());
   }
 
 }

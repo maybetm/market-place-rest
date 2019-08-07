@@ -57,7 +57,7 @@ public class JWTService extends ATest
   public void testJwtParse() throws JsonProcessingException
   {
     testGenerateTocken();
-    Token authInfo = JwtService.parse(token);
+    Token authInfo = JwtService.parse(token).get();
     System.out.println("parse result: " + new ObjectMapper().writeValueAsString(authInfo));
   }
 

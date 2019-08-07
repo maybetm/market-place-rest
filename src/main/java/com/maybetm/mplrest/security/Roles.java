@@ -39,4 +39,15 @@ public enum Roles
     }
     return false;
   }
+
+  public static boolean checkByRolesMapper(RolesMapper rolesMapper, Long roleId)
+  {
+    for (Roles role : rolesMapper.roles()) {
+      if (role.id.equals(roleId)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
 }
