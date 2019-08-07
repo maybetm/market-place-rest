@@ -7,9 +7,6 @@ import com.maybetm.mplrest.security.annotations.RolesMapper;
  * Это перечисление должно полностью дублировать роли из бд.
  * Используется для более удобного использованя аннотации {@link RolesMapper}.
  *
- * fixme Можно сделать валидацию id ролей перед запуском,
- * fixme если они не совпадают, то можно крашить приложение
- *
  * @author zebzeev-sv
  * @version 25.07.2019 10:44
  */

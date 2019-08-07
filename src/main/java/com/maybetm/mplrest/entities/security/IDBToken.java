@@ -3,7 +3,6 @@ package com.maybetm.mplrest.entities.security;
 import com.maybetm.mplrest.commons.repositories.ICommonRepository;
 
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * @author zebzeev-sv
@@ -11,9 +10,6 @@ import java.util.Set;
  */
 public interface IDBToken extends ICommonRepository<Token>
 {
-  // поиск токенов по id пользователя
-  Set<Token> findByAccountId(Long id);
-
   // поиск конкретного токена по его хешу
   Optional<Token> findByTokenAndAccountId(String token, Long accountId);
 }

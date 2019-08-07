@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfiguration implements WebMvcConfigurer
 {
 
-  // Такой подход нужен, чтобы можно было хорошо автовайрить объекты
+  // Такой подход нужен, чтобы можно было хорошо автовайрить объекты в интерсепторе.
   @Bean public SecurityHandlerInterceptor securityHandlerInterceptor(){
     return new SecurityHandlerInterceptor();
   }
