@@ -1,11 +1,6 @@
 package com.maybetm.mplrest.controllers;
 
 import com.maybetm.mplrest.ATest;
-import org.junit.Test;
-import org.springframework.test.web.servlet.MvcResult;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * @author zebzeev-sv
@@ -13,13 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 public class ProductControllerTest extends ATest
 {
-  @Test
-  public void getProductsIsSuccessful() throws Exception {
-    MvcResult mvcResult = mockMvc.perform(get("/product/getProducts"))
-        .andExpect(status().is2xxSuccessful())
-        .andReturn();
-    System.out.println(mvcResult.getResponse().getContentAsString());
 
-  }
 
 }

@@ -29,4 +29,14 @@ public enum Roles
     this.name = name;
     this.info = info;
   }
+
+  public static boolean checkById(Long id)
+  {
+    for (Roles role : Roles.values()) {
+      if (role.id.equals(id)) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

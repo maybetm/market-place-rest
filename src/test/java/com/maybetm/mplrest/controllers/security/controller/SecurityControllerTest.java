@@ -23,7 +23,7 @@ public class SecurityControllerTest extends ATest
 {
 
   private static final String endpoint = "/auth/";
-  private Account accountClient = new Account("", "email", "password", any(ZonedDateTime.class), new Role(Roles.client.id));
+  private Account accountClient = new Account("", "email", null, any(ZonedDateTime.class), new Role(Roles.client.id));
 
   @Test
   public void testLogin() throws Exception

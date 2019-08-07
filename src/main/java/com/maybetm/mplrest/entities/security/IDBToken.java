@@ -13,4 +13,6 @@ public interface IDBToken extends ICommonRepository<Token>
   // поиск ранее созданного токена.
   Optional<Token> findByToken(String token);
 
+  // поиск токена по id пользователя
+  Optional<Token> findByAccountId(Long id);
 }

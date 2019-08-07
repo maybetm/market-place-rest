@@ -60,6 +60,16 @@ public class Account extends AEntity
     this.role = role;
   }
 
+  public Account(Long id, String login, String email, String password, ZonedDateTime dateRegistration, Role role)
+  {
+    this.setId(id);
+    this.login = login;
+    this.email = email;
+    this.password = password;
+    this.dateRegistration = dateRegistration;
+    this.role = role;
+  }
+
   @ManyToOne
   @JoinColumn(name = "roleId", nullable = false, updatable = false)
   public Role getRole() {

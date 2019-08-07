@@ -13,6 +13,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfiguration implements WebMvcConfigurer
 {
 
+/*  @Bean
+  public SecurityHandlerInterceptor securityHandlerInterceptor(){
+    return new SecurityHandlerInterceptor();
+  }*/
+
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(new SecurityHandlerInterceptor());
