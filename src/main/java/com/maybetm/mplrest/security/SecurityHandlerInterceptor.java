@@ -2,6 +2,7 @@ package com.maybetm.mplrest.security;
 
 import com.maybetm.mplrest.commons.exeptions.security.AccessException;
 import com.maybetm.mplrest.security.annotations.RolesMapper;
+import com.maybetm.mplrest.security.constants.SecurityConstants;
 import com.maybetm.mplrest.security.jwt.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

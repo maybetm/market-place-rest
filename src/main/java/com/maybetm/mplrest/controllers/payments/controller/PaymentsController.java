@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Set;
 
-import static com.maybetm.mplrest.security.Roles.client;
+import static com.maybetm.mplrest.security.constants.Roles.client;
 
 /**
  * @author zebzeev-sv

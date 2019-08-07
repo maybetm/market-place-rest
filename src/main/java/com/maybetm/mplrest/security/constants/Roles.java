@@ -1,4 +1,4 @@
-package com.maybetm.mplrest.security;
+package com.maybetm.mplrest.security.constants;
 
 
 import com.maybetm.mplrest.security.annotations.RolesMapper;

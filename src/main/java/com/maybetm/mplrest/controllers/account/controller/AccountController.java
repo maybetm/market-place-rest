@@ -2,7 +2,7 @@ package com.maybetm.mplrest.controllers.account.controller;
 
 import com.maybetm.mplrest.controllers.account.service.AccountService;
 import com.maybetm.mplrest.entities.account.Account;
-import com.maybetm.mplrest.security.Roles;
+import com.maybetm.mplrest.security.constants.Roles;
 import com.maybetm.mplrest.security.annotations.RolesMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.maybetm.mplrest.security.Roles.admin;
+import static com.maybetm.mplrest.security.constants.Roles.admin;
 
 /**
  * Контроллер для управления

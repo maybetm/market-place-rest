@@ -3,7 +3,7 @@ package com.maybetm.mplrest.controllers.security.controller;
 import com.maybetm.mplrest.ATest;
 import com.maybetm.mplrest.entities.account.Account;
 import com.maybetm.mplrest.entities.roles.Role;
-import com.maybetm.mplrest.security.Roles;
+import com.maybetm.mplrest.security.constants.Roles;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 

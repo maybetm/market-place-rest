@@ -5,7 +5,7 @@ import com.maybetm.mplrest.entities.account.Account;
 import com.maybetm.mplrest.entities.roles.Role;
 import com.maybetm.mplrest.entities.security.IDBToken;
 import com.maybetm.mplrest.entities.security.Token;
-import com.maybetm.mplrest.security.Roles;
+import com.maybetm.mplrest.security.constants.Roles;
 import com.maybetm.mplrest.security.annotations.RolesMapper;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwsHeader;
@@ -19,9 +19,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiFunction;
 
-import static com.maybetm.mplrest.security.SecurityConstants.TokenParams.*;
-import static com.maybetm.mplrest.security.SecurityConstants.secretToken;
-import static com.maybetm.mplrest.security.SecurityConstants.tokenLiveTime;
+import static com.maybetm.mplrest.security.constants.SecurityConstants.TokenParams.*;
+import static com.maybetm.mplrest.security.constants.SecurityConstants.secretToken;
+import static com.maybetm.mplrest.security.constants.SecurityConstants.tokenLiveTime;
 import static io.jsonwebtoken.SignatureAlgorithm.HS256;
 
 /**

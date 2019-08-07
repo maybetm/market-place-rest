@@ -1,4 +1,4 @@
-package com.maybetm.mplrest.security;
+package com.maybetm.mplrest.security.constants;
 
 /**
  * @author zebzeev-sv

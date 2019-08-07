@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.maybetm.mplrest.security.Roles.admin;
-import static com.maybetm.mplrest.security.Roles.client;
+import static com.maybetm.mplrest.security.constants.Roles.admin;
+import static com.maybetm.mplrest.security.constants.Roles.client;
 
 /**
  * @author zebzeev-sv

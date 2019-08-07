@@ -1,6 +1,6 @@
 package com.maybetm.mplrest.security.annotations;
 
-import com.maybetm.mplrest.security.Roles;
+import com.maybetm.mplrest.security.constants.Roles;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

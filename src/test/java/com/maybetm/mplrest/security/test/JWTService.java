@@ -6,7 +6,7 @@ import com.maybetm.mplrest.ATest;
 import com.maybetm.mplrest.entities.account.Account;
 import com.maybetm.mplrest.entities.security.Token;
 import com.maybetm.mplrest.security.jwt.JwtService;
-import com.maybetm.mplrest.security.SecurityConstants;
+import com.maybetm.mplrest.security.constants.SecurityConstants;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.junit.Test;
@@ -18,9 +18,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import static com.maybetm.mplrest.security.SecurityConstants.TokenParams.creationTime;
-import static com.maybetm.mplrest.security.SecurityConstants.TokenParams.id;
-import static com.maybetm.mplrest.security.SecurityConstants.TokenParams.roleId;
+import static com.maybetm.mplrest.security.constants.SecurityConstants.TokenParams.creationTime;
+import static com.maybetm.mplrest.security.constants.SecurityConstants.TokenParams.id;
+import static com.maybetm.mplrest.security.constants.SecurityConstants.TokenParams.roleId;
 
 /**
  * Тестирование механизма создания и разбора токена.

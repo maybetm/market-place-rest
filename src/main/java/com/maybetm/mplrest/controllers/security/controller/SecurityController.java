@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.maybetm.mplrest.controllers.security.service.ServiceSecurity;
 import com.maybetm.mplrest.entities.account.Account;
 import com.maybetm.mplrest.entities.security.Token;
-import com.maybetm.mplrest.security.Roles;
+import com.maybetm.mplrest.security.constants.Roles;
 import com.maybetm.mplrest.security.annotations.RolesMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
