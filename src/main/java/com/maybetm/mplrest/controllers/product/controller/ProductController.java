@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static com.maybetm.mplrest.security.Roles.admin;
-import static com.maybetm.mplrest.security.Roles.client;
+import static com.maybetm.mplrest.security.Roles.market;
 
 /**
  * @author zebzeev-sv
@@ -37,22 +37,24 @@ public class ProductController implements IProductController<Product> {
 	}
 
   @GetMapping(value = "getProduct")
-  @RolesMapper (roles = {admin , client}) // fixme выбрали этот метод в качестве теста для разработки
 	public ResponseEntity<Product> getProduct(@RequestParam Long id) {
 		return ResponseEntity.of(productService.findById(id));
 	}
 
 	@DeleteMapping(value = "deleteProduct")
+  @RolesMapper (roles = {admin , market})
 	public void deleteProduct(@RequestParam Long id) {
     productService.deleteById(id);
 	}
 
 	@PostMapping(value = "createProduct")
+  @RolesMapper (roles = {admin , market})
 	public ResponseEntity<Product> createProduct(@RequestBody Product product) {
 		return ResponseEntity.of(productService.save(product));
 	}
 
   @PatchMapping (value = "editProduct")
+  @RolesMapper (roles = {admin , market})
   public ResponseEntity<Product> editProduct(@RequestParam("id") Product productfromDb,
                                              @RequestBody Product productEdit)
   {

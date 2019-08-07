@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.maybetm.mplrest.security.Roles.admin;
+
 /**
  * Контроллер для управления
  * учетными записями пользователей
@@ -58,6 +60,7 @@ public class AccountController implements IAccountController<Account>
 
   @Override
   @GetMapping(value = "getAccounts")
+  @RolesMapper (roles = {admin})
   public List<Account> getAccounts(@RequestParam (required = false, defaultValue = "") String search,
                                    @PageableDefault (sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable)
   {
