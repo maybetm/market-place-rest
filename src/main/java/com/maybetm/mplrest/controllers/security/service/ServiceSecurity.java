@@ -1,7 +1,7 @@
 package com.maybetm.mplrest.controllers.security.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.maybetm.mplrest.commons.exeptions.security.AuthException;
+import com.maybetm.mplrest.exceptions.security.AuthException;
 import com.maybetm.mplrest.entities.account.Account;
 import com.maybetm.mplrest.entities.account.IDBAccount;
 import com.maybetm.mplrest.entities.security.IDBToken;

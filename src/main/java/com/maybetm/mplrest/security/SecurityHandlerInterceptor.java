@@ -1,6 +1,6 @@
 package com.maybetm.mplrest.security;
 
-import com.maybetm.mplrest.commons.exeptions.security.AccessException;
+import com.maybetm.mplrest.exceptions.test.TextEx;
 import com.maybetm.mplrest.security.annotations.RolesMapper;
 import com.maybetm.mplrest.security.constants.SecurityConstants;
 import com.maybetm.mplrest.security.jwt.JwtService;
@@ -40,14 +40,14 @@ public class SecurityHandlerInterceptor extends HandlerInterceptorAdapter
       Optional<String> jwt = Optional.ofNullable(request.getHeader(SecurityConstants.headerAuth));
 
       // логгируем входящие параметры запроса
-      jwt.ifPresent(loggerJwtParamsInterceptor::accept);
-
-      // если ендпойнт рест контроллера содержит маркер RolesMapper и пришёл jwt токен
-      if (methodRolesMapper.isPresent() && jwt.isPresent()) {
+     // jwt.ifPresent(loggerJwtParamsInterceptor::accept);
+       throw  new TextEx("Отказано в доступе!");
+      // если метод рест контроллера содержит маркер RolesMapper и пришёл jwt токен
+/*      if (methodRolesMapper.isPresent() && jwt.isPresent()) {
         if (!jwtService.isValid(methodRolesMapper.get(), jwt.get())){
           throw new AccessException("Отказано в доступе!");
         }
-      }
+      }*/
     }
     return true;
   }

@@ -1,4 +1,4 @@
-package com.maybetm.mplrest.commons.exeptions.security;
+package com.maybetm.mplrest.exceptions.security;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

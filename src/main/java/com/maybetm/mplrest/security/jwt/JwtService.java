@@ -1,6 +1,6 @@
 package com.maybetm.mplrest.security.jwt;
 
-import com.maybetm.mplrest.commons.exeptions.security.AccessException;
+import com.maybetm.mplrest.exceptions.security.AccessException;
 import com.maybetm.mplrest.entities.account.Account;
 import com.maybetm.mplrest.entities.roles.Role;
 import com.maybetm.mplrest.entities.security.IDBToken;

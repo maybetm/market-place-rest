@@ -1,6 +1,6 @@
 package com.maybetm.mplrest.controllers.payments.service;
 
-import com.maybetm.mplrest.commons.exeptions.payments.PaymentException;
+import com.maybetm.mplrest.exceptions.payments.PaymentException;
 import com.maybetm.mplrest.commons.services.AService;
 import com.maybetm.mplrest.entities.payments.IDBPayment;
 import com.maybetm.mplrest.entities.payments.Payment;

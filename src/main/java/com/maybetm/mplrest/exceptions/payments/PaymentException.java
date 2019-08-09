@@ -1,4 +1,4 @@
-package com.maybetm.mplrest.commons.exeptions.payments;
+package com.maybetm.mplrest.exceptions.payments;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author zebzeev-sv
  * @version 15.09.2019 22:52
  */
-@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+@ResponseStatus (HttpStatus.INTERNAL_SERVER_ERROR)
 public class PaymentException extends RuntimeException {
 
 	public PaymentException(String message) {

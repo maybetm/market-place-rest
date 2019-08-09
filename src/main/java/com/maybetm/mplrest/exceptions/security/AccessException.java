@@ -1,4 +1,4 @@
-package com.maybetm.mplrest.commons.exeptions.security;
+package com.maybetm.mplrest.exceptions.security;
 
 import com.maybetm.mplrest.security.SecurityHandlerInterceptor;
 import org.springframework.http.HttpStatus;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author zebzeev-sv
  * @version 25.07.2019 16:30
  */
-@ResponseStatus(HttpStatus.FORBIDDEN)
+@ResponseStatus (HttpStatus.FORBIDDEN)
 public class AccessException extends RuntimeException
 {
   public AccessException(String message)
