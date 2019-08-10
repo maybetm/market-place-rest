@@ -21,8 +21,8 @@ import java.util.Set;
 @Entity(name = "accounts")
 @JsonIgnoreProperties ({"basket", "payments", "tokens"})
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"login"})
-    ,@UniqueConstraint(columnNames = {"email"})
+    @UniqueConstraint(columnNames = {"login"}),
+    @UniqueConstraint(columnNames = {"email"})
 })
 public class Account extends AEntity
 {
