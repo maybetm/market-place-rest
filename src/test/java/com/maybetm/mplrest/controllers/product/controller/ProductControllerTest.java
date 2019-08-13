@@ -18,15 +18,15 @@ public class ProductControllerTest extends ATest
 {
 
   private final static String product = "/product/";
-  private final static String token = "eyJjcmVhdGlvblRpbWUiOiIyMDE5LTA4LTA2VDE1OjQxOjEwLjkzOSswNTowMCIsInJvbGVJZCI6NCwiaWQiOjEsImFsZyI6IkhTMjU2In0.eyJleHAiOjE1NjUxNzQ0NzB9.AhVVDE9jdg25Dj8xSK7j59xlZobHoy5ow2m8apEnRZw";
+  private final static String token = "eyJjcmVhdGlvblRpbWUiOiIyMDE5LTA4LTExVDE1OjQxOjE3Ljk3MiswNTowMCIsInJvbGVJZCI6MywiaWQiOjYsImFsZyI6IkhTMjU2In0.eyJleHAiOjE1NjU2MDY0Nzd9.H7P4WmnBJxDWJ03yJBKYE9aWfXmANI_d0VDlaJQ6mxA";
 
   @Test
   public void testGetProduct() throws Exception
   {
-    mvcResult = mockMvc.perform(get(product + "getProduct?id=11").header(SecurityConstants.headerAuth, token))
+    mvcResult = mockMvc.perform(get(product + "getProduct?id=11"))
     .andExpect(status().is2xxSuccessful())
     .andReturn();
-    logger.info("response: {}", mvcResult.getResponse());
+    logger.info("response: {}", mvcResult.getResponse().getContentAsString());
   }
 
   @Test

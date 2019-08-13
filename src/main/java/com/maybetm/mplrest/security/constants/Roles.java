@@ -12,9 +12,9 @@ import com.maybetm.mplrest.security.annotations.RolesMapper;
  */
 public enum Roles
 {
-  market(2L, "Магазин", "Магазин"),
-  admin(3L, "Администратор", "администратор"),
-  client(4L, "Клиент", "Клиент");
+  market(1L, "Магазин", "Магазин"),
+  admin(2L, "Администратор", "администратор"),
+  client(3L, "Клиент", "Клиент");
 
   public final Long id;
   public final String name;

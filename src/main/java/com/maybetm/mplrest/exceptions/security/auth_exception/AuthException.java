@@ -1,4 +1,4 @@
-package com.maybetm.mplrest.exceptions.security;
+package com.maybetm.mplrest.exceptions.security.auth_exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

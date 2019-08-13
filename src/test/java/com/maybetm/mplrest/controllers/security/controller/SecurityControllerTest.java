@@ -23,7 +23,7 @@ public class SecurityControllerTest extends ATest
 {
 
   private static final String endpoint = "/auth/";
-  private Account accountClient = new Account("", "email", null, any(ZonedDateTime.class), new Role(Roles.client.id));
+  private Account accountClient = new Account("login4", "email4", "password4", any(ZonedDateTime.class), new Role(Roles.client.id));
 
   @Test
   public void testLogin() throws Exception
@@ -32,6 +32,7 @@ public class SecurityControllerTest extends ATest
                                     .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                                     .content(objectMapper.writeValueAsString(accountClient)))
         .andReturn();
+    logger.info("status: {}", mvcResult.getResponse().getStatus());
     logger.info("response: {}", mvcResult.getResponse().getContentAsString());
   }
 

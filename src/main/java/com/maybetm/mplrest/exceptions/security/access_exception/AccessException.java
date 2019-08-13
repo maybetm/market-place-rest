@@ -1,4 +1,4 @@
-package com.maybetm.mplrest.exceptions.security;
+package com.maybetm.mplrest.exceptions.security.access_exception;
 
 import com.maybetm.mplrest.security.SecurityHandlerInterceptor;
 import org.springframework.http.HttpStatus;
