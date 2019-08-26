@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class MatketPlaceRestApplicationTests {
 
 	@Test
-	void contextLoads() {
+	public void contextLoads() {
 	}
 
 }

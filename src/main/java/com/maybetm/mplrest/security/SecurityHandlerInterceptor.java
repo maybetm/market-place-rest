@@ -61,21 +61,6 @@ public class SecurityHandlerInterceptor extends HandlerInterceptorAdapter
     return false;
   }
 
-  // записываем содержимое входящего запроса в логи
-  private void writeRequestToLogs (HttpServletRequest request) throws IOException {
-
-    final String address = request.getRemoteAddr() + ":" + request.getLocalPort();
-    final String url = request.getRequestURL().toString();
-    final String headers = getHeaders.apply(request);
-    final String params = new ObjectMapper().writeValueAsString(request.getParameterMap());
-    final String body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-
-    // логируем входящий запрос
-    logger.info("Request from: {}; Request url: {} Request params: {}; Request body: {}; Headers: {};",
-        address, url, params, body, headers);
-
-  }
-
   // ищем RolesMapper над методм и оборачиваем результат в Optional
   private Function<Object, Optional<RolesMapper>> getRolesMapper = (handler) ->
       Optional.ofNullable(AnnotationUtils.findAnnotation(((HandlerMethod)handler).getMethod(), RolesMapper.class));
@@ -102,8 +87,7 @@ public class SecurityHandlerInterceptor extends HandlerInterceptorAdapter
   private final BiConsumer<Optional<RolesMapper>, Optional<String>> validateSecurity = ((rolesMapper, jwt) -> {
     // если метод рест контроллера содержит маркер RolesMapper и пришёл jwt токен
     if (rolesMapper.isPresent() && jwt.isPresent()) {
-      logger.info("rolesMapper: {}; jwt: ", rolesMapper.isPresent(), jwt.isPresent());
-      // логгируем входящий запрос, если пришёл jwt токен
+      // логгируем данные токена
       jwt.ifPresent(loggerJwtParamsInterceptor);
       // выполяем проверку токена на валидность
       if (!jwtService.isValid(rolesMapper.get(), jwt.get())){

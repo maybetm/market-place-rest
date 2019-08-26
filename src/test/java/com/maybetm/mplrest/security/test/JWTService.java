@@ -31,7 +31,7 @@ import static com.maybetm.mplrest.security.constants.SecurityConstants.TokenPara
 public class JWTService extends ATest
 {
 
-  public String token = "eyJjcmVhdGlvblRpbWUiOiIyMDE5LTA4LTA1VDE4OjIwOjIwLjIyMyswNTowMFtBc2lhL1lla2F0ZXJpbmJ1cmddIiwicm9sZUlkIjoyLCJpZCI6MSwiYWxnIjoiSFMyNTYifQ.eyJleHAiOjE1NjUwOTc2MjB9.isKxe1P-2ItyUy28PWusPKJtkklJqd3NnxLNa9nwosg";
+  private String token = "eyJjcmVhdGlvblRpbWUiOiIyMDE5LTA4LTA1VDE4OjIwOjIwLjIyMyswNTowMFtBc2lhL1lla2F0ZXJpbmJ1cmddIiwicm9sZUlkIjoyLCJpZCI6MSwiYWxnIjoiSFMyNTYifQ.eyJleHAiOjE1NjUwOTc2MjB9.isKxe1P-2ItyUy28PWusPKJtkklJqd3NnxLNa9nwosg";
 
   @Test
   public void testGenerateTocken (){
