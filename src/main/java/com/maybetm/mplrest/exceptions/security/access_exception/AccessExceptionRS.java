@@ -8,7 +8,7 @@ import com.maybetm.mplrest.commons.exeptions.AExceptionResponse;
  */
 public class AccessExceptionRS extends AExceptionResponse {
 
-	public AccessExceptionRS(String message, int code) {
-		super(message, code);
+	public AccessExceptionRS(String message, int code, String handlerExceptionType, String exceptionType) {
+		super(message, code, handlerExceptionType, exceptionType);
 	}
 }

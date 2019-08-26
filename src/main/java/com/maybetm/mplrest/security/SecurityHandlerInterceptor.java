@@ -5,8 +5,6 @@ import com.maybetm.mplrest.exceptions.security.access_exception.AccessException;
 import com.maybetm.mplrest.security.annotations.RolesMapper;
 import com.maybetm.mplrest.security.constants.SecurityConstants;
 import com.maybetm.mplrest.security.jwt.JwtService;
-
-import org.hibernate.mapping.Collection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,8 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -42,13 +41,15 @@ public class SecurityHandlerInterceptor extends HandlerInterceptorAdapter
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
 
     if (handler instanceof HandlerMethod) {
+
       // определяем наличие маркера RolesMapper над методом рест контроллера
-      Optional<RolesMapper> methodRolesMapper = getRolesMapper.apply(handler);
-      Optional<String> jwt = Optional.ofNullable(request.getHeader(SecurityConstants.headerAuth));
-      // логгируем входящий запрос
-      writeRequestToLogs(request);
+      final Optional<RolesMapper> methodRolesMapper = getRolesMapper.apply(handler);
+      // определяем наличие jwt ключа в заголовке
+      final Optional<String> jwt = Optional.ofNullable(request.getHeader(SecurityConstants.headerAuth));
+
       // выполяем валидацию входящего запроса
       validateSecurity.accept(methodRolesMapper, jwt);
+
       // если метод промаркирован и токен прошёл проверку валидности
       if (methodRolesMapper.isPresent() && jwt.isPresent() && jwtService.isValid(methodRolesMapper.get(), jwt.get())) {
         return true;
@@ -72,6 +73,7 @@ public class SecurityHandlerInterceptor extends HandlerInterceptorAdapter
     // логируем входящий запрос
     logger.info("Request from: {}; Request url: {} Request params: {}; Request body: {}; Headers: {};",
         address, url, params, body, headers);
+
   }
 
   // ищем RolesMapper над методм и оборачиваем результат в Optional
@@ -100,6 +102,7 @@ public class SecurityHandlerInterceptor extends HandlerInterceptorAdapter
   private final BiConsumer<Optional<RolesMapper>, Optional<String>> validateSecurity = ((rolesMapper, jwt) -> {
     // если метод рест контроллера содержит маркер RolesMapper и пришёл jwt токен
     if (rolesMapper.isPresent() && jwt.isPresent()) {
+      logger.info("rolesMapper: {}; jwt: ", rolesMapper.isPresent(), jwt.isPresent());
       // логгируем входящий запрос, если пришёл jwt токен
       jwt.ifPresent(loggerJwtParamsInterceptor);
       // выполяем проверку токена на валидность

@@ -1,5 +1,6 @@
 package com.maybetm.mplrest.controllers.account.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -17,7 +18,7 @@ public interface IAccountController<E>
 {
 
   // создание учётной записи
-  ResponseEntity<E> createAccount(@RequestBody E user);
+  ResponseEntity<E> createAccount(@RequestBody E user) throws JsonProcessingException;
   // удаление учетной записи
   void deleteAccount(@RequestParam Long id);
   // редактирование учетной записи

@@ -15,6 +15,7 @@ public class HandlerPaymentException extends AHandlerException <PaymentException
 	@ExceptionHandler(PaymentException.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public PaymentExceptionRS handle(PaymentException paymentException) {
-		return new PaymentExceptionRS(paymentException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+		return new PaymentExceptionRS(paymentException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                                  handlerExceptionType, "PaymentException");
 	}
 }

@@ -11,7 +11,6 @@ import java.time.ZonedDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Модульный тест для
@@ -22,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 public class AccountControllerTest extends ATest
 {
-  private Account accountClient = new Account("login4", "email4",
+  private static Account accountClient = new Account("login4", "email4",
       "password4", any(ZonedDateTime.class), new Role(Roles.client.id));
 
   @Test
@@ -31,7 +30,6 @@ public class AccountControllerTest extends ATest
     mvcResult = mockMvc.perform(post("/account/createAccount")
                                     .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                                     .content(objectMapper.writeValueAsString(accountClient)))
-        .andExpect(status().is2xxSuccessful())
         .andReturn();
     logger.info("Response: {}", mvcResult.getResponse().getContentAsString());
   }

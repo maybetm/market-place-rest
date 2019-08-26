@@ -23,9 +23,35 @@ public abstract class AExceptionResponse
 
   private String message;
 
-  public AExceptionResponse(String message, int code) {
+  private String handlerExceptionType;
+
+  private String exceptionType;
+
+  public AExceptionResponse(String message, int code, String handlerExceptionType, String exceptionType) {
     this.message = message;
     this.code = code;
+    this.handlerExceptionType = handlerExceptionType;
+    this.exceptionType = exceptionType;
+  }
+
+  public String getExceptionType()
+  {
+    return exceptionType;
+  }
+
+  public void setExceptionType(String exceptionType)
+  {
+    this.exceptionType = exceptionType;
+  }
+
+  public String getHandlerExceptionType()
+  {
+    return handlerExceptionType;
+  }
+
+  public void setHandlerExceptionType(String handlerExceptionType)
+  {
+    this.handlerExceptionType = handlerExceptionType;
   }
 
   public int getCode() {

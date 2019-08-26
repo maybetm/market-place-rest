@@ -8,7 +8,7 @@ import com.maybetm.mplrest.commons.exeptions.AExceptionResponse;
  */
 public class PaymentExceptionRS extends AExceptionResponse {
 
-	public PaymentExceptionRS(String message, int code) {
-		super(message, code);
+	public PaymentExceptionRS(String message, int code, String handlerExceptionType, String exceptionType) {
+		super(message, code, handlerExceptionType, exceptionType);
 	}
 }

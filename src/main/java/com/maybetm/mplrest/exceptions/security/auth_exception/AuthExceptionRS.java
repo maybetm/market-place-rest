@@ -8,7 +8,7 @@ import com.maybetm.mplrest.commons.exeptions.AExceptionResponse;
  */
 public class AuthExceptionRS extends AExceptionResponse {
 
-	public AuthExceptionRS(String message, int code) {
-		super(message, code);
+	public AuthExceptionRS(String message, int code, String handlerExceptionType, String exceptionType) {
+		super(message, code, handlerExceptionType, exceptionType);
 	}
 }

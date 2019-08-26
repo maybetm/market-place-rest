@@ -1,9 +1,10 @@
 package com.maybetm.mplrest.controllers.account.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.maybetm.mplrest.controllers.account.service.AccountService;
 import com.maybetm.mplrest.entities.account.Account;
-import com.maybetm.mplrest.security.constants.Roles;
 import com.maybetm.mplrest.security.annotations.RolesMapper;
+import com.maybetm.mplrest.security.constants.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -37,7 +38,7 @@ public class AccountController implements IAccountController<Account>
 
   @Override
   @PostMapping(value = "createAccount")
-  public ResponseEntity<Account> createAccount(@RequestBody(required = true) Account account)
+  public ResponseEntity<Account> createAccount(@RequestBody(required = true) Account account) throws JsonProcessingException
   {
     return ResponseEntity.of(accountService.save(account));
   }

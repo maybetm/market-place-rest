@@ -1,7 +1,6 @@
 package com.maybetm.mplrest.exceptions.security.auth_exception;
 
 import com.maybetm.mplrest.commons.exeptions.AHandlerException;
-import com.maybetm.mplrest.exceptions.security.access_exception.AccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,6 +19,7 @@ public class HandleAuthException extends AHandlerException<AuthExceptionRS, Auth
 	@ExceptionHandler(AuthException.class)
 	@ResponseStatus(HttpStatus.FORBIDDEN)
 	public AuthExceptionRS handle(AuthException exception) {
-		return new AuthExceptionRS(exception.getMessage(), HttpStatus.FORBIDDEN.value());
+		return new AuthExceptionRS(exception.getMessage(), HttpStatus.FORBIDDEN.value(),
+                               handlerExceptionType, "AuthException");
 	}
 }

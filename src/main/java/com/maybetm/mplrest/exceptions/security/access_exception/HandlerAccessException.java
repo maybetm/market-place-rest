@@ -1,7 +1,6 @@
 package com.maybetm.mplrest.exceptions.security.access_exception;
 
 import com.maybetm.mplrest.commons.exeptions.AHandlerException;
-import com.maybetm.mplrest.exceptions.payments.PaymentException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,6 +19,7 @@ public class HandlerAccessException extends AHandlerException<AccessExceptionRS,
 	@ExceptionHandler(AccessException.class)
 	@ResponseStatus (HttpStatus.FORBIDDEN)
 	public AccessExceptionRS handle(AccessException exception) {
-		return new AccessExceptionRS(exception.getMessage(), HttpStatus.FORBIDDEN.value());
+		return new AccessExceptionRS(exception.getMessage(), HttpStatus.FORBIDDEN.value(),
+                                 handlerExceptionType, "AccessException");
 	}
 }
