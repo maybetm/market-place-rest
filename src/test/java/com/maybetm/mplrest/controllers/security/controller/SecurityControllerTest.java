@@ -9,7 +9,6 @@ import org.springframework.http.MediaType;
 
 import java.time.ZonedDateTime;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 /**
@@ -23,7 +22,8 @@ public class SecurityControllerTest extends ATest
 {
 
   private static final String endpoint = "/auth/";
-  private Account accountClient = new Account("login4", "email4", "password4", any(ZonedDateTime.class), new Role(Roles.client.id));
+  private Account accountClient = new Account("login4", "email4", "password4",
+                                              ZonedDateTime.now(), new Role(Roles.client.id));
 
   @Test
   public void testLogin() throws Exception

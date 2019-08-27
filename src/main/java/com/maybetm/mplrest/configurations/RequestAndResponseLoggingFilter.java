@@ -1,6 +1,5 @@
 package com.maybetm.mplrest.configurations;
 
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -17,14 +16,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
  * Фильтр для логгирования входящих и исходящих запросов
+ * <p>
+ * Подход стырен отсюда:
+ * https://www.javadevjournal.com/spring/log-incoming-requests-spring/
  *
  * @author zebzeev-sv
  * @version 26.08.2019 18:35
@@ -33,14 +33,6 @@ import java.util.stream.Collectors;
 public class RequestAndResponseLoggingFilter extends OncePerRequestFilter {
 
 	private final Logger logger = LoggerFactory.getLogger(RequestAndResponseLoggingFilter.class);
-
-	private static final List<MediaType> VISIBLE_TYPES = Arrays.asList(
-			MediaType.valueOf("text/*"),
-			MediaType.APPLICATION_FORM_URLENCODED,
-			MediaType.APPLICATION_JSON,
-			MediaType.valueOf("application/*+json"),
-			MediaType.MULTIPART_FORM_DATA
-	);
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
@@ -100,13 +92,11 @@ public class RequestAndResponseLoggingFilter extends OncePerRequestFilter {
 	}
 
 	// преобразуем входящие хидеры в строку для логгирования
-	private final Function<ContentCachingRequestWrapper, String> getHeaders = (request) -> {
-		HttpHeaders httpHeaders = Collections.list(request.getHeaderNames()).stream()
+	private final Function<ContentCachingRequestWrapper, HttpHeaders> getHeaders = (request) ->
+		Collections.list(request.getHeaderNames()).stream()
 				.collect(Collectors.toMap(Function.identity(),
 						(header) -> Collections.list(request.getHeaders(header)),
 						(oldValue, newValue) -> newValue, HttpHeaders::new));
-		return httpHeaders.toString();
-	};
 
 	private void logResponse(ContentCachingResponseWrapper response, String prefix) {
 		final int status = response.getStatus();
@@ -124,7 +114,7 @@ public class RequestAndResponseLoggingFilter extends OncePerRequestFilter {
 	private void loggingResponseBody(byte[] content, String contentType, String contentEncoding, String prefix) {
 
 		final MediaType mediaType = MediaType.valueOf(contentType);
-		final boolean visible = VISIBLE_TYPES.stream().anyMatch(visibleType -> visibleType.includes(mediaType));
+		final boolean visible = MediaType.APPLICATION_JSON.equals(mediaType);
 
 		if (visible) {
 			try {

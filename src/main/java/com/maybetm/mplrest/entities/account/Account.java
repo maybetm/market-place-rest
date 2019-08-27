@@ -2,7 +2,9 @@ package com.maybetm.mplrest.entities.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.maybetm.mplrest.commons.AEntity;
+import com.maybetm.mplrest.commons.datetime.ZonedDateTimeSerialization;
 import com.maybetm.mplrest.entities.basket.Basket;
 import com.maybetm.mplrest.entities.payments.Payment;
 import com.maybetm.mplrest.entities.roles.Role;
@@ -32,6 +34,7 @@ public class Account extends AEntity
 
   private String password;
 
+  @JsonSerialize (using = ZonedDateTimeSerialization.class)
   private ZonedDateTime dateRegistration;
 
   private Role role;
