@@ -1,6 +1,5 @@
 package com.maybetm.mplrest.controllers.account.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -17,13 +16,32 @@ import java.util.List;
 public interface IAccountController<E>
 {
 
-  // создание учётной записи
-  ResponseEntity<E> createAccount(@RequestBody E user) throws JsonProcessingException;
-  // удаление учетной записи
+  /**
+   * Создание учетной записи пользователя
+   *
+   * @param account - модель учетной записи
+   * @return возвращает учетную запись пользователя
+   */
+  ResponseEntity<E> createAccount(@RequestBody E account);
+  /**
+   * Удаление учетной записи из системы
+   *
+   * @param id - уникальный идентификатор учетной записи
+   */
   void deleteAccount(@RequestParam Long id);
-  // редактирование учетной записи
+
+  /**
+   * Обновление учётной записи в системе
+   *
+   * @return возвращает учетную запись с обновленными данными
+   */
   ResponseEntity<E> updateAccount(@RequestParam ("id") E fromDB, @RequestBody E toEdit);
-  // список пользователей с учётом пагинации
-  List<E> getAccounts(@RequestParam (required = false, defaultValue = "") String search,
-                                @PageableDefault (sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable);
+
+  /**
+   * Метод для получения постраничного получения учетных записей
+   *
+   * @param pageable - объект для пагинации списка
+   * @return возвращает список учетных записей в записимости от свойств объекта pageable
+   */
+  List<E> getAccounts(@PageableDefault (sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable);
 }

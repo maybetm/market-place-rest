@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import java.time.ZonedDateTime;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Модульный тест для ендпойнта аутентификации
@@ -22,7 +23,7 @@ public class SecurityControllerTest extends ATest
 {
 
   private static final String endpoint = "/auth/";
-  private Account accountClient = new Account("login4", "email4", "password4",
+  private Account accountClient = new Account("login478", "email444", "password4",
                                               ZonedDateTime.now(), new Role(Roles.client.id));
 
   @Test
@@ -31,6 +32,7 @@ public class SecurityControllerTest extends ATest
     mvcResult = mockMvc.perform(post(endpoint + "login")
                                     .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                                     .content(objectMapper.writeValueAsString(accountClient)))
+        .andExpect(status().is2xxSuccessful())
         .andReturn();
     logger.info("status: {}", mvcResult.getResponse().getStatus());
     logger.info("response: {}", mvcResult.getResponse().getContentAsString());
