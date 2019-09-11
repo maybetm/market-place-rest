@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -87,7 +88,7 @@ public class RequestAndResponseLoggingFilter extends OncePerRequestFilter {
 	private void logRequestBody(ContentCachingRequestWrapper request, String prefix) {
 		final byte[] content = request.getContentAsByteArray();
 		if (content.length > 0) {
-			loggingResponseBody(content, request.getContentType(), request.getCharacterEncoding(), prefix);
+			loggingBody(content, request.getContentType(), StandardCharsets.UTF_8.displayName(), prefix);
 		}
 	}
 
@@ -107,14 +108,14 @@ public class RequestAndResponseLoggingFilter extends OncePerRequestFilter {
 
 		final byte[] content = response.getContentAsByteArray();
 		if (content.length > 0) {
-			loggingResponseBody(content, response.getContentType(), response.getCharacterEncoding(), prefix);
+			loggingBody(content, response.getContentType(), StandardCharsets.UTF_8.displayName(), prefix);
 		}
 	}
 
-	private void loggingResponseBody(byte[] content, String contentType, String contentEncoding, String prefix) {
+	private void loggingBody(byte[] content, String contentType, String contentEncoding, String prefix) {
 
 		final MediaType mediaType = MediaType.valueOf(contentType);
-		final boolean visible = MediaType.APPLICATION_JSON.equals(mediaType);
+		final boolean visible = MediaType.APPLICATION_JSON_UTF8.equals(mediaType);
 
 		if (visible) {
 			try {
