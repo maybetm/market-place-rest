@@ -15,6 +15,10 @@ import org.springframework.test.web.servlet.MvcResult;
 import javax.persistence.MappedSuperclass;
 
 /**
+ * По умолчанию модульные тесты используются в проекте
+ * для тестирования отдельных фич, поэтому они исключены
+ * из жизненного цикла сборки проекта.
+ *
  * @author zebzeev-sv
  * @version 16.07.2019 15:45
  */

@@ -11,11 +11,11 @@
   </parent>
 
   <groupId>com.maybetm</groupId>
-  <artifactId>matket-place-rest</artifactId>
+  <artifactId>market-place-rest</artifactId>
   <version>0.0.1</version>
   <packaging>jar</packaging>
-  <name>matket-place-rest</name>
-  <description>matket-place-rest</description>
+  <name>market-place-rest</name>
+  <description>Рест едро для интернет магазина</description>
 
   <properties>
     <java.version>8</java.version>
@@ -23,6 +23,10 @@
     <lombok.version>1.18.8</lombok.version>
     <postgresql.version>42.2.5</postgresql.version>
     <hibernate.types.version>2.5.0</hibernate.types.version>
+    <maven.surefire.plugin>2.22.2</maven.surefire.plugin>
+
+    <!--Директория с модульными тестами. По умолчанию исключаем их из жизненного цикла сборки-->
+    <mplerst.unit.tests>com/maybetm/mplrest/**</mplerst.unit.tests>
   </properties>
 
   <dependencies>
@@ -76,6 +80,16 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven.surefire.plugin}</version>
+        <configuration>
+          <excludes>
+            <exclude>${mplerst.unit.tests}</exclude>
+          </excludes>
+        </configuration>
       </plugin>
     </plugins>
   </build>

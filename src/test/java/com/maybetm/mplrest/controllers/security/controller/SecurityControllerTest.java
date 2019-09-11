@@ -6,6 +6,7 @@ import com.maybetm.mplrest.entities.roles.Role;
 import com.maybetm.mplrest.security.constants.Roles;
 import org.junit.Test;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.ZonedDateTime;
 
@@ -31,7 +32,7 @@ public class SecurityControllerTest extends ATest
     mvcResult = mockMvc.perform(post(endpoint + "login")
                                     .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                                     .content(objectMapper.writeValueAsString(accountClient)))
-        //.andExpect(status().is2xxSuccessful())
+        .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
         .andReturn();
     logger.info("status: {}", mvcResult.getResponse().getStatus());
     logger.info("response: {}", mvcResult.getResponse().getContentAsString());
