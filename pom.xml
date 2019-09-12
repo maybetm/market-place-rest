@@ -27,6 +27,8 @@
 
     <!--Директория с модульными тестами. По умолчанию исключаем их из жизненного цикла сборки-->
     <mplerst.unit.tests>com/maybetm/mplrest/**</mplerst.unit.tests>
+    <!--Директория с интеграционными тестами-->
+    <mplerst.integration.tests>com/maybetm/integration/**</mplerst.integration.tests>
   </properties>
 
   <dependencies>
@@ -89,6 +91,9 @@
           <excludes>
             <exclude>${mplerst.unit.tests}</exclude>
           </excludes>
+          <includes>
+            <include>${mplerst.integration.tests}</include>
+          </includes>
         </configuration>
       </plugin>
     </plugins>
