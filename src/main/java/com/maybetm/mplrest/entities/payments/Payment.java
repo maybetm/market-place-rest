@@ -25,7 +25,7 @@ public class Payment extends AEntity
 
   private Product product;
 
-  private Long costTimeOfPayment;
+  private Long cost;
 
   @JsonSerialize (using = ZonedDateTimeSerialization.class)
   private ZonedDateTime paymentTime;
@@ -33,10 +33,10 @@ public class Payment extends AEntity
   public Payment() {
   }
 
-  public Payment(Account account, Product product, Long costTimeOfPayment, ZonedDateTime paymentTime) {
+  public Payment(Account account, Product product, Long cost, ZonedDateTime paymentTime) {
     this.account = account;
     this.product = product;
-    this.costTimeOfPayment = costTimeOfPayment;
+    this.cost = cost;
     this.paymentTime = paymentTime;
   }
 
@@ -69,14 +69,14 @@ public class Payment extends AEntity
     this.account = account;
   }
 
-  public Long getCostTimeOfPayment()
+  public Long getCost()
   {
-    return costTimeOfPayment;
+    return cost;
   }
 
-  public void setCostTimeOfPayment(Long costTimeOfPayment)
+  public void setCost(Long cost)
   {
-    this.costTimeOfPayment = costTimeOfPayment;
+    this.cost = cost;
   }
 
   public void setPaymentTime(ZonedDateTime paymentTime)
