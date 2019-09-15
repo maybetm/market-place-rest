@@ -2,7 +2,7 @@ package com.maybetm.mplrest.security.test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.maybetm.mplrest.ATest;
+import com.maybetm.ATest;
 import com.maybetm.mplrest.entities.account.Account;
 import com.maybetm.mplrest.entities.security.Token;
 import com.maybetm.mplrest.security.jwt.JwtService;

@@ -1,5 +1,6 @@
 package com.maybetm.integration;
 
+import com.maybetm.ATest;
 import org.junit.Test;
 
 /**
@@ -8,7 +9,7 @@ import org.junit.Test;
  * @author zebzeev-sv
  * @version 26.07.2019 19:27
  */
-public class JWTService extends AITest
+public class JWTService extends ATest
 {
 
   @Test

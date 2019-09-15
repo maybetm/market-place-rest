@@ -1,7 +1,6 @@
 package com.maybetm.mplrest.controllers.product.controller;
 
-import com.maybetm.mplrest.ATest;
-import com.maybetm.mplrest.security.constants.SecurityConstants;
+import com.maybetm.ATest;
 import org.junit.Test;
 import org.springframework.test.web.servlet.MvcResult;
 

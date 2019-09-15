@@ -1,6 +1,7 @@
-package com.maybetm.mplrest;
+package com.maybetm;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.maybetm.mplrest.Application;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,7 @@ import javax.persistence.MappedSuperclass;
  * @version 16.07.2019 15:45
  */
 @RunWith (SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
 @TestPropertySource ("/application.properties")
 @MappedSuperclass
