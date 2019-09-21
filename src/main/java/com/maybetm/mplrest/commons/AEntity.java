@@ -16,7 +16,7 @@ import javax.persistence.*;
 @MappedSuperclass
 public abstract class AEntity {
 
-	private Long id;
+	protected Long id;
 
 	@Id
 	@Column(name = "id")

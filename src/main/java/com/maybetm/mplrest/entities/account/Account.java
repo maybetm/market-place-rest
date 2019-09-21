@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.maybetm.mplrest.commons.AEntity;
-import com.maybetm.mplrest.commons.datetime.ZonedDateTimeSerialization;
+import com.maybetm.mplrest.commons.DateTime.ZonedDateTimeSerialization;
 import com.maybetm.mplrest.entities.basket.Basket;
 import com.maybetm.mplrest.entities.payments.Payment;
 import com.maybetm.mplrest.entities.roles.Role;
@@ -22,10 +22,7 @@ import java.util.Set;
  */
 @Entity(name = "accounts")
 @JsonIgnoreProperties ({"basket", "payments", "tokens"})
-@Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"login"}),
-    @UniqueConstraint(columnNames = {"email"})
-})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"login"}),@UniqueConstraint(columnNames = {"email"})})
 public class Account extends AEntity
 {
   private String login;

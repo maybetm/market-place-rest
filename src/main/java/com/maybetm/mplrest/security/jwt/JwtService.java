@@ -64,7 +64,7 @@ public class JwtService
       // сравниваем accountId, roleId, jwt с найдеными полями в таблице tokens
       final boolean dbIsAllowed = dbTokenAllowed.apply(tokenFromJwt.get(), accountId);
 
-      // если токен на всех этапах прошёл проверку валидности, вернём истину.
+      // если токен на всех этапах прошёл проверку валидации, вернём истину.
       return appValidationIsAllowed && methodIsAllowed && dbIsAllowed;
     }
 

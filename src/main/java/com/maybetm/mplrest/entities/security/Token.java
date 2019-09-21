@@ -2,7 +2,7 @@ package com.maybetm.mplrest.entities.security;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.maybetm.mplrest.commons.AEntity;
-import com.maybetm.mplrest.commons.datetime.ZonedDateTimeSerialization;
+import com.maybetm.mplrest.commons.DateTime.ZonedDateTimeSerialization;
 import com.maybetm.mplrest.entities.account.Account;
 
 import javax.persistence.*;

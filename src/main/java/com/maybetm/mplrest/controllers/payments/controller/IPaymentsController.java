@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public interface IPaymentsController
 {
-  // оплатить выбранные элементы в корзине
+  // создание платежа с выбранными элементами в корзине корзине
   void createPayment(@RequestBody Set<Product> products, @RequestBody Account account);
 
 }

@@ -42,8 +42,8 @@ public class Product extends AEntity {
   }
 
   public Product (Long id, Long count) {
-    this.setId(id);
-    this.setCount(count);
+    this.id = id;
+    this.count = count;
   }
 
   @ManyToOne

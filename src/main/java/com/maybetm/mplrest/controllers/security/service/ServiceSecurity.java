@@ -36,7 +36,7 @@ public class ServiceSecurity
     this.idbToken = idbToken;
   }
 
-  public Token getAccessToken(Account identificationData) throws JsonProcessingException
+  public Token getAccessToken(Account identificationData)
   {
     Optional<Account> account = searchAccount.apply(identificationData);
 
@@ -51,7 +51,7 @@ public class ServiceSecurity
   private final Function<Account, Optional<Account>> searchAccount = (a) -> idbAccount
       .findByEmailOrLoginAndPasswordIgnoreCase(a.getEmail(), a.getLogin(), a.getPassword());
 
-  private Token createAccessToken(Account account) throws JsonProcessingException
+  private Token createAccessToken(Account account)
   {
     // функция для создания сущности токена с мета информацией
     // используется для сохранения и ответа идентифицированному пользователю

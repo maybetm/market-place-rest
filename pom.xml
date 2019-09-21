@@ -15,7 +15,7 @@
   <version>0.0.1</version>
   <packaging>jar</packaging>
   <name>market-place-rest</name>
-  <description>Рест едро для интернет магазина</description>
+  <description>Рест едро интернет-магазина</description>
 
   <properties>
     <java.version>8</java.version>

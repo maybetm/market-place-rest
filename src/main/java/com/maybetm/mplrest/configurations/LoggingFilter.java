@@ -31,9 +31,9 @@ import java.util.stream.Collectors;
  * @version 26.08.2019 18:35
  */
 @Component
-public class RequestAndResponseLoggingFilter extends OncePerRequestFilter {
+public class LoggingFilter extends OncePerRequestFilter {
 
-	private final Logger logger = LoggerFactory.getLogger(RequestAndResponseLoggingFilter.class);
+	private final Logger logger = LoggerFactory.getLogger(LoggingFilter.class);
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,

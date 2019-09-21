@@ -1,7 +1,7 @@
 package com.maybetm.mplrest.commons.exeptions;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.maybetm.mplrest.commons.datetime.ZonedDateTimeSerialization;
+import com.maybetm.mplrest.commons.DateTime.ZonedDateTimeSerialization;
 
 import java.time.ZonedDateTime;
 

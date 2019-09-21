@@ -1,4 +1,4 @@
-package com.maybetm.mplrest.commons.datetime;
+package com.maybetm.mplrest.commons.DateTime;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -9,6 +9,9 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
+ * The ISO date-time formatter that formats or parses a date-time with an
+ * offset, such as '2011-12-03T10:15:30+01:00'.
+ *
  * @author zebzeev-sv
  * @version 05.08.2019 10:53
  */
