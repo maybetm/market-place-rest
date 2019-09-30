@@ -1,6 +1,7 @@
 package com.maybetm.integration;
 
-import com.maybetm.ATest;
+import com.maybetm.integration.configuration.AITest;
+import com.maybetm.integration.configuration.EmbeddedPostgresTest;
 import com.maybetm.mplrest.entities.account.Account;
 import com.maybetm.mplrest.entities.roles.Role;
 import com.maybetm.mplrest.security.constants.Roles;
@@ -9,16 +10,17 @@ import org.springframework.http.MediaType;
 
 import java.time.ZonedDateTime;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * @author zebzeev-sv
  * @version 15.09.2019 21:18
  */
-
-public class Testtt extends ATest {
-	private static Account accountClient = new Account("login4", "email4",
-			"password4", ZonedDateTime.now(), new Role(Roles.client.id));
+public class Testtt extends AITest {
+	private static Account accountClient = new Account("login1", "email1",
+			"password1", ZonedDateTime.now(), new Role(Roles.client.id));
 
 	@Test
 	public void testCreateAccount() throws Exception
@@ -29,6 +31,23 @@ public class Testtt extends ATest {
 				.content(objectMapper.writeValueAsString(accountClient)))
 				.andReturn();
 		logger.info("Response: {}", mvcResult.getResponse().getContentAsString());
+
+		logger.info("Response: ----------------------------------------");
+		mvcResult = mockMvc.perform(get("/account/getAccounts")
+				.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+				.andReturn();
+		logger.info("Response: {}", mvcResult.getResponse().getContentAsString());
+
+	}
+
+	@Test
+	public void testGetProduct() throws Exception
+	{
+		final String product = "/product/";
+
+		mvcResult = mockMvc.perform(get(product + "getProduct?id=11"))
+				.andReturn();
+		logger.info("response: {}", mvcResult.getResponse().getContentAsString());
 	}
 
 }

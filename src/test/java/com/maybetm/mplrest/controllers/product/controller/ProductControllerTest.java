@@ -1,6 +1,6 @@
 package com.maybetm.mplrest.controllers.product.controller;
 
-import com.maybetm.ATest;
+import com.maybetm.AUnitTest;
 import org.junit.Test;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author zebzeev-sv
  * @version 05.08.2019 18:43
  */
-public class ProductControllerTest extends ATest
+public class ProductControllerTest extends AUnitTest
 {
 
   private final static String product = "/product/";

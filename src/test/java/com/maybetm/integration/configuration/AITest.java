@@ -1,4 +1,4 @@
-package com.maybetm;
+package com.maybetm.integration.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maybetm.mplrest.Application;
@@ -6,8 +6,10 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -28,7 +30,8 @@ import javax.persistence.MappedSuperclass;
 @AutoConfigureMockMvc
 @TestPropertySource ("/application.properties")
 @MappedSuperclass
-public abstract class ATest
+@EmbeddedPostgresTest
+public abstract class AITest
 {
   @Autowired
   protected MockMvc mockMvc;

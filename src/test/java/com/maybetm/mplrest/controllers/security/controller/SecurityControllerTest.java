@@ -1,6 +1,6 @@
 package com.maybetm.mplrest.controllers.security.controller;
 
-import com.maybetm.ATest;
+import com.maybetm.AUnitTest;
 import com.maybetm.mplrest.entities.account.Account;
 import com.maybetm.mplrest.entities.roles.Role;
 import com.maybetm.mplrest.security.constants.Roles;
@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
  * @author zebzeev-sv
  * @version 02.08.2019 15:32
  */
-public class SecurityControllerTest extends ATest
+public class SecurityControllerTest extends AUnitTest
 {
 
   private static final String endpoint = "/auth/";

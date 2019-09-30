@@ -2,7 +2,7 @@ package com.maybetm.mplrest.security.test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.maybetm.ATest;
+import com.maybetm.AUnitTest;
 import com.maybetm.mplrest.entities.account.Account;
 import com.maybetm.mplrest.entities.security.Token;
 import com.maybetm.mplrest.security.jwt.JwtService;
@@ -28,7 +28,7 @@ import static com.maybetm.mplrest.security.constants.SecurityConstants.TokenPara
  * @author zebzeev-sv
  * @version 26.07.2019 19:27
  */
-public class JWTService extends ATest
+public class JWTService extends AUnitTest
 {
 
   private String token = "eyJjcmVhdGlvblRpbWUiOiIyMDE5LTA4LTA1VDE4OjIwOjIwLjIyMyswNTowMFtBc2lhL1lla2F0ZXJpbmJ1cmddIiwicm9sZUlkIjoyLCJpZCI6MSwiYWxnIjoiSFMyNTYifQ.eyJleHAiOjE1NjUwOTc2MjB9.isKxe1P-2ItyUy28PWusPKJtkklJqd3NnxLNa9nwosg";
