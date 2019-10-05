@@ -1,4 +1,4 @@
-package com.maybetm;
+package com.maybetm.commons;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maybetm.mplrest.Application;

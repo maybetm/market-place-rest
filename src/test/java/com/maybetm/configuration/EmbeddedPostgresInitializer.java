@@ -1,10 +1,8 @@
-package com.maybetm.integration.configuration;
+package com.maybetm.configuration;
 
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.GenericApplicationContext;
-import org.springframework.stereotype.Component;
 import ru.yandex.qatools.embed.postgresql.EmbeddedPostgres;
 
 import java.io.IOException;
@@ -20,14 +18,15 @@ public class EmbeddedPostgresInitializer implements ApplicationContextInitialize
 		final EmbeddedPostgres postgres = new EmbeddedPostgres();
 
 		try {
-			String url = postgres.start();
+			final String url = postgres.start();
 			TestPropertyValues values = TestPropertyValues.of(
 					"spring.test.database.replace=none",
 					"spring.datasource.url=" + url,
+					"spring.datasource.username=" + EmbeddedPostgres.DEFAULT_USER,
+					"spring.datasource.password=" + EmbeddedPostgres.DEFAULT_PASSWORD,
 					"spring.datasource.driver-class-name=org.postgresql.Driver",
 					"spring.jpa.hibernate.ddl-auto=update",
-					"spring.jpa.open-in-view=true",
-					"spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true"
+					"spring.jpa.open-in-view=true"
 					);
 
 			values.applyTo(applicationContext);

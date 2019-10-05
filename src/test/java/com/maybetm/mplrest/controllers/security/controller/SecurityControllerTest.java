@@ -1,6 +1,6 @@
 package com.maybetm.mplrest.controllers.security.controller;
 
-import com.maybetm.AUnitTest;
+import com.maybetm.commons.AUnitTest;
 import com.maybetm.mplrest.entities.account.Account;
 import com.maybetm.mplrest.entities.roles.Role;
 import com.maybetm.mplrest.security.constants.Roles;

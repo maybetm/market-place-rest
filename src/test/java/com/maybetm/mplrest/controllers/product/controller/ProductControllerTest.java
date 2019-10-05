@@ -1,6 +1,6 @@
 package com.maybetm.mplrest.controllers.product.controller;
 
-import com.maybetm.AUnitTest;
+import com.maybetm.commons.AUnitTest;
 import org.junit.Test;
 import org.springframework.test.web.servlet.MvcResult;
 
