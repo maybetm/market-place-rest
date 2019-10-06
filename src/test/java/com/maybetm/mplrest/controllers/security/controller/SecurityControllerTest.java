@@ -4,12 +4,16 @@ import com.maybetm.commons.AUnitTest;
 import com.maybetm.mplrest.entities.account.Account;
 import com.maybetm.mplrest.entities.roles.Role;
 import com.maybetm.mplrest.security.constants.Roles;
+import com.maybetm.mplrest.security.constants.SecurityConstants;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 /**
@@ -24,7 +28,7 @@ public class SecurityControllerTest extends AUnitTest
 
   private static final String endpoint = "/auth/";
   private Account accountClient = new Account("login478", "email444", "password4",
-                                              ZonedDateTime.now(), new Role(Roles.client.id));
+      LocalDateTime.now(), new Role(Roles.client.id));
 
   @Test
   public void testLogin() throws Exception
@@ -41,12 +45,12 @@ public class SecurityControllerTest extends AUnitTest
   @Test
   public void testLogout() throws Exception
   {
-
+    final String token = "eyJjcmVhdGlvblRpbWUiOiIyMDE5LTEwLTA2VDIyOjU2OjM1LjQyOCIsInJvbGVJZCI6MiwiaWQiOjQsImFsZyI6IkhTMjU2In0.eyJleHAiOjE1NzA0NzA5OTV9.juKn4FSxtkDapZIBEHoELkZTmly9GznYq3QRK5zB_Ww";
+    mvcResult = mockMvc.perform(delete("/auth/logout")
+        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+        .param("token", token)
+        .header(SecurityConstants.headerAuth, token))
+        .andReturn();
   }
 
-  @Test
-  public void testDestroy() throws Exception
-  {
-
-  }
 }

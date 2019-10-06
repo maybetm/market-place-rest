@@ -10,9 +10,11 @@ import com.maybetm.mplrest.security.annotations.RolesMapper;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwsHeader;
 import io.jsonwebtoken.Jwts;
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Map;
@@ -42,9 +44,11 @@ public class JwtService
 
   public static String createJwt(Map<String, Object> params)
   {
+    final Date expiration = new Date(System.currentTimeMillis() + tokenLiveTime);
+
     return Jwts.builder()
         .setHeaderParams(params)
-        .setExpiration(new Date(System.currentTimeMillis() + tokenLiveTime))
+        .setExpiration(expiration)
         .signWith(HS256, secretToken)
         .compact();
   }
@@ -73,7 +77,7 @@ public class JwtService
 
   private final BiFunction<Token, Long, Boolean> dbTokenAllowed = (tokenFromJwt, accountId) -> {
     final Optional<Token> tokenFromDb = idbToken.findByTokenAndAccountId(tokenFromJwt.getToken(), accountId);
-    return tokenFromDb.isPresent() && tokenFromDb.get().equalsTokenFromJwt(tokenFromDb);
+    return tokenFromDb.isPresent() && tokenFromDb.get().equalsTokenFromJwt(tokenFromDb.get());
   };
 
   public static Optional<Token> parse(String jwt) {
@@ -83,6 +87,7 @@ public class JwtService
     } catch (ExpiredJwtException ex) {
       throw new AccessException("Ошибка обработки токена. Истёк срок действия ключа доступа.");
     } catch (Exception ex) {
+      Logger.getLogger(JwtService.class).error("Не удалось распарсить токен. Exception: " + ex);
       return Optional.empty();
     }
   }
@@ -92,6 +97,6 @@ public class JwtService
     Role role = new Role(Long.valueOf(jws.get(roleId).toString()));
     Account account = new Account(Long.valueOf(jws.get(id).toString()), null, null, null, null, role);
 
-    return new Token(account, token, ZonedDateTime.parse(jws.get(creationTime).toString()));
+    return new Token(account, token, LocalDateTime.parse(jws.get(creationTime).toString()));
   };
 }

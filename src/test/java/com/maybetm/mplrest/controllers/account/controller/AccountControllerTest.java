@@ -7,6 +7,8 @@ import com.maybetm.mplrest.security.constants.Roles;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -22,7 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 public class AccountControllerTest extends AUnitTest
 {
   private static Account accountClient = new Account("login24", "email24",
-      "password24", ZonedDateTime.now(), new Role(Roles.client.id));
+      "password24", LocalDateTime.now(), new Role(Roles.client.id));
 
   @Test
   public void testCreateAccount() throws Exception

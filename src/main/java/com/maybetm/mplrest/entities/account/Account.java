@@ -2,9 +2,11 @@ package com.maybetm.mplrest.entities.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.maybetm.mplrest.commons.AEntity;
-import com.maybetm.mplrest.commons.DateTime.ZonedDateTimeSerialization;
+import com.maybetm.mplrest.commons.DateTime.LocalDateTimeDeserializer;
+import com.maybetm.mplrest.commons.DateTime.LocalDateTimeSerializer;
 import com.maybetm.mplrest.entities.basket.Basket;
 import com.maybetm.mplrest.entities.payments.Payment;
 import com.maybetm.mplrest.entities.roles.Role;
@@ -17,7 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
@@ -27,126 +29,119 @@ import java.util.Set;
  * @version 02.07.2019 14:13
  */
 @Entity(name = "accounts")
-@JsonIgnoreProperties ({"basket", "payments", "tokens"})
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"login"}),@UniqueConstraint(columnNames = {"email"})})
-public class Account extends AEntity
-{
-  private String login;
+@JsonIgnoreProperties({"basket", "payments", "tokens"})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"login"}), @UniqueConstraint(columnNames = {"email"})})
+public class Account extends AEntity {
 
-  private String email;
+	private String login;
 
-  private String password;
+	private String email;
 
-  @JsonSerialize (using = ZonedDateTimeSerialization.class)
-  private ZonedDateTime dateRegistration;
+	private String password;
 
-  private Role role;
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+	private LocalDateTime dateTimeReg;
 
-  private Set<Basket> basket;
+	private Role role;
 
-  private Set<Payment> payments;
+	private Set<Basket> basket;
 
-  private Set<Token> tokens;
+	private Set<Payment> payments;
 
-  public Account()
-  {
-  }
+	private Set<Token> tokens;
 
-  public Account(Long id)
-  {
-    this.setId(id);
-  }
+	public Account() {
+	}
 
-  public Account(String login, String email, String password, ZonedDateTime dateRegistration, Role role)
-  {
-    this.login = login;
-    this.email = email;
-    this.password = password;
-    this.dateRegistration = dateRegistration;
-    this.role = role;
-  }
+	public Account(Long id) {
+		this.setId(id);
+	}
 
-  public Account(Long id, String login, String email, String password, ZonedDateTime dateRegistration, Role role)
-  {
-    this.setId(id);
-    this.login = login;
-    this.email = email;
-    this.password = password;
-    this.dateRegistration = dateRegistration;
-    this.role = role;
-  }
+	public Account(String login, String email, String password, LocalDateTime dateRegistration, Role role) {
+		this.login = login;
+		this.email = email;
+		this.password = password;
+		this.dateTimeReg = dateRegistration;
+		this.role = role;
+	}
 
-  @ManyToOne
-  @JoinColumn(name = "roleId", nullable = false, updatable = false)
-  public Role getRole() {
-    return role;
-  }
+	public Account(Long id, String login, String email, String password, LocalDateTime dateRegistration, Role role) {
+		this.setId(id);
+		this.login = login;
+		this.email = email;
+		this.password = password;
+		this.dateTimeReg = dateRegistration;
+		this.role = role;
+	}
 
-  @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
-  public Set<Basket> getBasket() {
-    return basket;
-  }
+	@ManyToOne
+	@JoinColumn(name = "roleId", nullable = false, updatable = false)
+	public Role getRole() {
+		return role;
+	}
 
-  @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
-  public Set<Payment> getPayments()
-  {
-    return payments;
-  }
+	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+	public Set<Basket> getBasket() {
+		return basket;
+	}
 
-  @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
-  public Set<Token> getTokens()
-  {
-    return tokens;
-  }
+	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+	public Set<Payment> getPayments() {
+		return payments;
+	}
 
-  @JsonIgnore
-  public String getPassword() {
-    return password;
-  }
+	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+	public Set<Token> getTokens() {
+		return tokens;
+	}
 
-  public void setTokens(Set<Token> tokens)
-  {
-    this.tokens = tokens;
-  }
+	@JsonIgnore
+	public String getPassword() {
+		return password;
+	}
 
-  public void setPayments(Set<Payment> payments)
-  {
-    this.payments = payments;
-  }
+	public void setTokens(Set<Token> tokens) {
+		this.tokens = tokens;
+	}
 
-  public void setBasket(Set<Basket> baskets) {
-    this.basket = baskets;
-  }
+	public void setPayments(Set<Payment> payments) {
+		this.payments = payments;
+	}
 
-  public void setRole(Role role) {
-    this.role = role;
-  }
+	public void setBasket(Set<Basket> baskets) {
+		this.basket = baskets;
+	}
 
-  public String getLogin() {
-    return login;
-  }
+	public void setRole(Role role) {
+		this.role = role;
+	}
 
-  public void setLogin(String login) {
-    this.login = login;
-  }
+	public String getLogin() {
+		return login;
+	}
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
+	public void setLogin(String login) {
+		this.login = login;
+	}
 
-  public String getEmail() {
-    return email;
-  }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-  public void setEmail(String email) {
-    this.email = email;
-  }
+	public String getEmail() {
+		return email;
+	}
 
-  public ZonedDateTime getDateRegistration() {
-    return dateRegistration;
-  }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-  public void setDateRegistration(ZonedDateTime dateRegistration) {
-    this.dateRegistration = dateRegistration;
-  }
+	public LocalDateTime getDateTimeReg() {
+		return dateTimeReg;
+	}
+
+	public void setDateTimeReg(LocalDateTime dateTimeReg) {
+		this.dateTimeReg = dateTimeReg;
+	}
 }

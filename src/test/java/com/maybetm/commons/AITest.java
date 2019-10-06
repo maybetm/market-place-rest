@@ -24,22 +24,23 @@ import javax.persistence.MappedSuperclass;
  * @author zebzeev-sv
  * @version 16.07.2019 15:45
  */
-@RunWith (SpringRunner.class)
+@RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
-@TestPropertySource ("/application.properties")
+@TestPropertySource("/application.properties")
 @MappedSuperclass
 @EmbeddedPostgresTest
-@Sql(value = {"classpath:sql/roles-mapper.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-public abstract class AITest
-{
-  @Autowired
-  protected MockMvc mockMvc;
+@Sql(value = {"classpath:sql/roles-mapper.sql",
+							"classpath:sql/category-mapper.sql",
+							"classpath:sql/accounts-mapper.sql"})
+public abstract class AITest {
+	@Autowired
+	protected MockMvc mockMvc;
 
-  protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-  protected final static ObjectMapper objectMapper = new ObjectMapper();
+	protected final static ObjectMapper om = new ObjectMapper();
 
-  public MvcResult mvcResult;
+	public MvcResult mvcResult;
 
 }

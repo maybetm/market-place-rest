@@ -11,6 +11,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -46,9 +47,9 @@ public class JWTService extends AUnitTest
   private final Function<Account, Map<String, Object>> getJwtParams = (account) -> {
 
     Map<String, Object> result = new HashMap<>(3);
-    result.put(id, 1L);
+    result.put(id, 4L);
     result.put(roleId, 2l);
-    result.put(creationTime, ZonedDateTime.now().format(DateTimeFormatter.ISO_ZONED_DATE_TIME));
+    result.put(creationTime, LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
 
     return result;
   };

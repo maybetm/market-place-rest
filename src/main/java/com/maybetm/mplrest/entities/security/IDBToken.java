@@ -12,4 +12,7 @@ public interface IDBToken extends ICommonRepository<Token>
 {
   // поиск конкретного токена по его хешу
   Optional<Token> findByTokenAndAccountId(String token, Long accountId);
+
+  // удаление пользовательского токена из бд
+  void deleteByTokenAndAccountId(String token, Long accountId);
 }

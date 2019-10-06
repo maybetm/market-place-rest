@@ -38,7 +38,7 @@ public class SecurityHandlerInterceptor extends HandlerInterceptorAdapter
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   @Override
-  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
+  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
     if (handler instanceof HandlerMethod) {
 

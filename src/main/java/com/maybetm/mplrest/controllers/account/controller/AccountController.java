@@ -59,6 +59,7 @@ public class AccountController implements IAccountController<Account>
   }
 
   @GetMapping(value = "getAccounts")
+  @RolesMapper(roles = {Roles.admin})
   public List<Account> getAccounts(@PageableDefault (sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable)
   {
     return accountService.getEntityOnPage(pageable).getContent();
