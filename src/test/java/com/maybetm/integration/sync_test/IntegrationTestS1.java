@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * @author zebzeev-sv
  * @version 05.10.2019 20:52
  */
-public class IntegrationTestLevelOne extends AITest {
+public class IntegrationTestS1 extends AITest {
 
 	private static Account admin = new Account("login-admin-test", "mail-admin-test",
 			"password-admin-test", LocalDateTime.now(), new Role(Roles.admin.id));
