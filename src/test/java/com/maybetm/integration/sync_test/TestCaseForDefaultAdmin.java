@@ -46,7 +46,7 @@ class TestCaseForDefaultAdmin {
 		Assert.assertEquals("Ожидается HTTP статус 403 FORBIDDEN",
 				this.getAccounts(), HttpStatus.FORBIDDEN.value());
 		// Пытамся создать учётную запись стандартного админа
-		Assert.assertEquals("Учётная запись уже существует",
+		Assert.assertEquals("Учётная запись не должна была быть создана.",
 				this.createUserAdmin(), HttpStatus.INTERNAL_SERVER_ERROR.value());
 		// Получаем jwt ключ для дефолтного администратора
 		String admJwt = authLoginAdm();
