@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
@@ -66,7 +65,7 @@ public class JwtService
       // теперь можно сверить id роли в токене, с ролями в аннотации над методом
       final boolean methodIsAllowed = Roles.checkByRolesMapper(rolesMapper, roleId);
       // сравниваем accountId, roleId, jwt с найдеными полями в таблице tokens
-      final boolean dbIsAllowed = dbTokenAllowed.apply(tokenFromJwt.get(), accountId);
+      final boolean dbIsAllowed = getDBTokenAllowed.apply(tokenFromJwt.get(), accountId);
 
       // если токен на всех этапах прошёл проверку валидации, вернём истину.
       return appValidationIsAllowed && methodIsAllowed && dbIsAllowed;
@@ -75,14 +74,14 @@ public class JwtService
     return false;
   }
 
-  private final BiFunction<Token, Long, Boolean> dbTokenAllowed = (tokenFromJwt, accountId) -> {
+  private final BiFunction<Token, Long, Boolean> getDBTokenAllowed = (tokenFromJwt, accountId) -> {
     final Optional<Token> tokenFromDb = idbToken.findByTokenAndAccountId(tokenFromJwt.getToken(), accountId);
     return tokenFromDb.isPresent() && tokenFromDb.get().equalsTokenFromJwt(tokenFromDb.get());
   };
 
   public static Optional<Token> parse(String jwt) {
     try {
-      JwsHeader jwsHeader = Jwts.parser().setSigningKey(secretToken).parseClaimsJws(jwt).getHeader();
+      JwsHeader<?> jwsHeader = Jwts.parser().setSigningKey(secretToken).parseClaimsJws(jwt).getHeader();
       return Optional.of(getTokenInfo.apply(jwsHeader, jwt));
     } catch (ExpiredJwtException ex) {
       throw new AccessException("Ошибка обработки токена. Истёк срок действия ключа доступа.");
@@ -92,7 +91,7 @@ public class JwtService
     }
   }
 
-  private static final BiFunction<JwsHeader, String, Token> getTokenInfo = (jws, token) -> {
+  private static final BiFunction<JwsHeader<?>, String, Token> getTokenInfo = (jws, token) -> {
 
     Role role = new Role(Long.valueOf(jws.get(roleId).toString()));
     Account account = new Account(Long.valueOf(jws.get(id).toString()), null, null, null, null, role);

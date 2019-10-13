@@ -3,9 +3,13 @@ package com.maybetm.configuration;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.test.context.jdbc.Sql;
 import ru.yandex.qatools.embed.postgresql.EmbeddedPostgres;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
  * @author zebzeev-sv
@@ -37,6 +41,10 @@ public class EmbeddedPostgresInitializer implements ApplicationContextInitialize
 			postgres.stop();
 			throw new RuntimeException(e);
 		}
+	}
+
+	private void initialize (String url) throws SQLException {
+
 	}
 
 }
