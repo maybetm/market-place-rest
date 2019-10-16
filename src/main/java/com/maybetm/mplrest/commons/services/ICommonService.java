@@ -1,5 +1,6 @@
 package com.maybetm.mplrest.commons.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.maybetm.mplrest.commons.AEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -51,5 +52,5 @@ public interface ICommonService<E extends AEntity>
    * @param updatable - входная информация для обновления сущности.
    * @return возвращает обнавлённых объект в случае успеха
    */
-  Optional<E> updateEntity (E fromDB, E updatable);
+  Optional<E> updateEntity (E fromDB, E updatable) throws JsonProcessingException, IllegalAccessException, InstantiationException;
 }

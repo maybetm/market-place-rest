@@ -1,15 +1,15 @@
 package com.maybetm.mplrest.controllers.payments.service;
 
-import com.maybetm.mplrest.exceptions.payments.PaymentException;
 import com.maybetm.mplrest.commons.services.AService;
+import com.maybetm.mplrest.entities.account.Account;
 import com.maybetm.mplrest.entities.payments.IDBPayment;
 import com.maybetm.mplrest.entities.payments.Payment;
 import com.maybetm.mplrest.entities.product.IDBProduct;
 import com.maybetm.mplrest.entities.product.Product;
-import com.maybetm.mplrest.entities.account.Account;
-import org.springframework.transaction.annotation.Transactional;
+import com.maybetm.mplrest.exceptions.payments.PaymentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
 import java.util.Map;
@@ -17,7 +17,6 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -64,8 +63,8 @@ public class PaymentsService extends AService<Payment, IDBPayment> {
 			throw new PaymentException("На складе не найденно запрашиваемых продуктов.");
 		}
 
-		final Supplier<Boolean> countProductIsNotEquals = () -> fromBasket.size() != fromStore.size();
-		if (countProductIsNotEquals.get()) {
+		final boolean countProductIsNotEquals = fromBasket.size() != fromStore.size();
+		if (countProductIsNotEquals) {
 			throw new PaymentException("Запрашиваемое количество товаров не совпадает с количеством товаров на складе.");
 		}
 
@@ -76,6 +75,4 @@ public class PaymentsService extends AService<Payment, IDBPayment> {
 			}
 		});
 	};
-
-
 }

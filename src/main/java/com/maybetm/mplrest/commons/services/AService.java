@@ -3,11 +3,15 @@ package com.maybetm.mplrest.commons.services;
 import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.commons.repositories.ICommonRepository;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import javax.persistence.MappedSuperclass;
+import java.beans.FeatureDescriptor;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * @author zebzeev-sv
@@ -50,9 +54,19 @@ public abstract class AService<E extends AEntity, R extends ICommonRepository<E>
     repository.deleteById(id);
   }
 
-  public Optional<E> updateEntity (E fromDB, E updatable) {
-    BeanUtils.copyProperties(updatable, fromDB, "id");
+  @Override
+  public Optional<E> updateEntity (E fromDB, E updatable)
+  {
+    BeanUtils.copyProperties(updatable, fromDB, getNullPropertyNames(updatable));
     return save(fromDB);
+  }
+
+  private static String[] getNullPropertyNames (Object source) {
+    final BeanWrapper src = new BeanWrapperImpl(source);
+    return Stream.of(src.getPropertyDescriptors())
+        .map(FeatureDescriptor::getName)
+        .filter(propertyName -> src.getPropertyValue(propertyName) == null)
+        .toArray(String[]::new);
   }
 
 }

@@ -17,7 +17,6 @@ public abstract class SecurityConstants
   // поля которые должен содержать JWT токен
   public final static class TokenParams
   {
-
     public static final String id = "id";
     public static final String roleId = "roleId";
     public static final String creationTime = "creationTime";

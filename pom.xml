@@ -19,6 +19,7 @@
 
   <properties>
     <java.version>8</java.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <lombok.version>1.18.8</lombok.version>
     <postgresql.version>42.2.5</postgresql.version>
     <postgresql.embedded.version>2.10</postgresql.embedded.version>

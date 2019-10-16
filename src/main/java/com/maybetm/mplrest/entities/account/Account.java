@@ -55,7 +55,7 @@ public class Account extends AEntity {
 	}
 
 	public Account(Long id) {
-		this.setId(id);
+		this.id = id;
 	}
 
 	public Account(String login, String email, String password, LocalDateTime dateRegistration, Role role) {

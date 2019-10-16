@@ -27,7 +27,7 @@ class TestCaseForDefaultAdmin {
 	private final MockMvc mockMvc;
 	private MvcResult mvcResult;
 
-	private final ObjectMapper om = new ObjectMapper();
+	private static final ObjectMapper om = new ObjectMapper();
 
 	TestCaseForDefaultAdmin(Account admin, MockMvc mockMvc) {
 		this.admin = admin;

@@ -7,6 +7,10 @@ import org.springframework.context.support.GenericApplicationContext;
 import ru.yandex.qatools.embed.postgresql.EmbeddedPostgres;
 
 import java.io.IOException;
+import java.util.List;
+
+import static java.util.Arrays.asList;
+import static ru.yandex.qatools.embed.postgresql.util.SocketUtil.findFreePort;
 
 /**
  * fixme тут надо что-то придумать с конфигурацией
@@ -16,29 +20,44 @@ import java.io.IOException;
  */
 public class EmbeddedPostgresInitializer implements ApplicationContextInitializer<GenericApplicationContext> {
 
-	@Override
-	public void initialize(GenericApplicationContext applicationContext) {
-		final EmbeddedPostgres postgres = new EmbeddedPostgres();
-		try {
-			final String url = postgres.start();
-			TestPropertyValues values = TestPropertyValues.of(
-					"spring.test.database.replace=none",
-					"spring.datasource.url=" + url,
-					"spring.datasource.username=" + EmbeddedPostgres.DEFAULT_USER,
-					"spring.datasource.password=" + EmbeddedPostgres.DEFAULT_PASSWORD,
-					"spring.datasource.driver-class-name=org.postgresql.Driver",
-					"spring.jpa.hibernate.ddl-auto=update",
-					"spring.jpa.open-in-view=true",
-					"spring.datasource.initialization-mode=always",
-					"spring.datasource.data=classpath*:sql/import_roles.sql, classpath*:sql/import_accounts.sql,classpath*:sql/import_category.sql"
-					);
-			values.applyTo(applicationContext);
+  @Override
+  public void initialize(GenericApplicationContext applicationContext) {
+    final EmbeddedPostgres postgres = new EmbeddedPostgres(() -> "9.6.2-2");
+    try {
+      final String url = start(postgres);
+      TestPropertyValues values = TestPropertyValues.of(
+          "spring.test.database.replace=none",
+          "spring.datasource.url=" + url,
+          "spring.datasource.username=" + EmbeddedPostgres.DEFAULT_USER,
+          "spring.datasource.password=" + EmbeddedPostgres.DEFAULT_PASSWORD,
+          "spring.datasource.driver-class-name=org.postgresql.Driver",
+          "spring.jpa.hibernate.ddl-auto=update",
+          "spring.jpa.open-in-view=true",
+          "spring.datasource.initialization-mode=always",
+          "spring.datasource.data=" +
+          "classpath*:sql/import_roles.sql," +
+          "classpath*:sql/import_accounts.sql," +
+          "classpath*:sql/import_category.sql"
+      );
+      values.applyTo(applicationContext);
 
-			final BeanDefinitionCustomizer postgresStop = (beanDefinition) -> beanDefinition.setDestroyMethodName("stop");
-			applicationContext.registerBean(EmbeddedPostgres.class, () -> postgres, postgresStop);
-		} catch (IOException e) {
-			postgres.stop();
-			throw new RuntimeException(e);
-		}
-	}
+     final BeanDefinitionCustomizer postgresStop = (beanDefinition) -> beanDefinition.setDestroyMethodName("stop");
+      applicationContext.registerBean(EmbeddedPostgres.class, () -> postgres, postgresStop);
+    } catch (IOException e) {
+      postgres.stop();
+      throw new RuntimeException(e);
+    }
+  }
+
+  private String start (EmbeddedPostgres postgres) throws IOException
+  {
+    List<String> additionalParams = asList(
+        "-E", "UTF-8",
+        "--locale=ru_RU",
+        "--lc-collate=C",
+        "--lc-ctype=C");
+    return postgres.start(EmbeddedPostgres.DEFAULT_HOST,
+                          findFreePort(), EmbeddedPostgres.DEFAULT_DB_NAME,
+                          EmbeddedPostgres.DEFAULT_USER, EmbeddedPostgres.DEFAULT_PASSWORD, additionalParams);
+  }
 }

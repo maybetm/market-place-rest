@@ -46,6 +46,16 @@ public class Product extends AEntity {
     this.count = count;
   }
 
+  public Product(String name, String info, Long cost, Long count, Long marketId, Category category)
+  {
+    this.name = name;
+    this.info = info;
+    this.cost = cost;
+    this.count = count;
+    this.marketId = marketId;
+    this.category = category;
+  }
+
   @ManyToOne
   @JoinColumn(name = "categoryId", nullable = false, updatable = false)
   public Category getCategory() {
