@@ -7,10 +7,6 @@ import org.springframework.context.support.GenericApplicationContext;
 import ru.yandex.qatools.embed.postgresql.EmbeddedPostgres;
 
 import java.io.IOException;
-import java.util.List;
-
-import static java.util.Arrays.asList;
-import static ru.yandex.qatools.embed.postgresql.util.SocketUtil.findFreePort;
 
 /**
  * fixme тут надо что-то придумать с конфигурацией
@@ -22,9 +18,9 @@ public class EmbeddedPostgresInitializer implements ApplicationContextInitialize
 
   @Override
   public void initialize(GenericApplicationContext applicationContext) {
-    final EmbeddedPostgres postgres = new EmbeddedPostgres(() -> "9.6.2-2");
+    final EmbeddedPostgres postgres = new EmbeddedPostgres();
     try {
-      final String url = start(postgres);
+      final String url = postgres.start();
       TestPropertyValues values = TestPropertyValues.of(
           "spring.test.database.replace=none",
           "spring.datasource.url=" + url,
@@ -49,7 +45,7 @@ public class EmbeddedPostgresInitializer implements ApplicationContextInitialize
     }
   }
 
-  private String start (EmbeddedPostgres postgres) throws IOException
+/*  private String start (EmbeddedPostgres postgres) throws IOException
   {
     List<String> additionalParams = asList(
         "-E", "UTF-8",
@@ -59,5 +55,5 @@ public class EmbeddedPostgresInitializer implements ApplicationContextInitialize
     return postgres.start(EmbeddedPostgres.DEFAULT_HOST,
                           findFreePort(), EmbeddedPostgres.DEFAULT_DB_NAME,
                           EmbeddedPostgres.DEFAULT_USER, EmbeddedPostgres.DEFAULT_PASSWORD, additionalParams);
-  }
+  }*/
 }

@@ -1,11 +1,9 @@
 package com.maybetm.integration.sync_test;
 
 import com.maybetm.commons.AITest;
-import com.maybetm.configuration.TestHelper;
 import com.maybetm.mplrest.entities.account.Account;
 import com.maybetm.mplrest.entities.roles.Role;
 import com.maybetm.mplrest.security.constants.Roles;
-import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -28,11 +26,11 @@ public class IntegrationTestS1 extends AITest {
 	private static Account market = new Account("login-market-test", "mail-market-test",
       "password-market-test", LocalDateTime.now(), new Role(Roles.market.id));
 
-  @BeforeClass
+/*  @BeforeClass
   public static void beforeClass()
   {
     TestHelper.configProxy();
-  }
+  }*/
 
 	@Test
 	public void testCaseForDefaultAdminS01() throws Exception {

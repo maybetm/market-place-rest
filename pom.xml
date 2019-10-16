@@ -98,6 +98,8 @@
           <includes>
             <include>${mplerst.integration.tests}</include>
           </includes>
+          <!--иначе плывёт кодировка в фильтрах логгирования-->
+          <argLine>-Dfile.encoding=UTF-8</argLine>
         </configuration>
       </plugin>
     </plugins>

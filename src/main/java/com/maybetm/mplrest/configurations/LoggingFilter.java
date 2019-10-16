@@ -94,7 +94,7 @@ public class LoggingFilter extends OncePerRequestFilter {
   private void logRequestParams(ContentCachingRequestWrapper request, String prefix) throws JsonProcessingException
   {
     final Map<String, String[]> reqParamsMap = request.getParameterMap();
-    if (reqParamsMap != null && reqParamsMap.size() > 0) {
+    if (reqParamsMap.size() > 0) {
       final String reqParams = new ObjectMapper().writeValueAsString(reqParamsMap);
       logger.info("{} request params: {};", prefix, reqParams);
     }
