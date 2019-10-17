@@ -1,4 +1,4 @@
-package com.maybetm.integration.sync_test;
+package com.maybetm.integration.sync_test.cases;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
  * @author zebzeev-sv
  * @version 05.10.2019 21:21
  */
-class TestCaseForDefaultAdmin {
+public class TestCaseForDefaultAdmin {
 
 	private final Account admin;
 	private final MockMvc mockMvc;
@@ -29,7 +29,7 @@ class TestCaseForDefaultAdmin {
 
 	private static final ObjectMapper om = new ObjectMapper();
 
-	TestCaseForDefaultAdmin(Account admin, MockMvc mockMvc) {
+	public TestCaseForDefaultAdmin(Account admin, MockMvc mockMvc) {
 		this.admin = admin;
 		this.mockMvc = mockMvc;
 	}
@@ -41,7 +41,7 @@ class TestCaseForDefaultAdmin {
 	 * 5. Удаление ключа из бд.
 	 * 7. Ещё одна попытка получить список аккаунтов. Должны болучить болт.
 	 */
-	void process() throws Exception {
+	public void process() throws Exception {
 		// Чекаем список аккаунтов
 		Assert.assertEquals("Ожидается HTTP статус 403 FORBIDDEN",
 				this.getAccounts(), HttpStatus.FORBIDDEN.value());
