@@ -26,12 +26,6 @@ public class IntegrationTestS1 extends AITest {
 	private static Account market = new Account("login-market-test", "mail-market-test",
       "password-market-test", LocalDateTime.now(), new Role(Roles.market.id));
 
-/*  @BeforeClass
-  public static void beforeClass()
-  {
-    TestHelper.configProxy();
-  }*/
-
 	@Test
 	public void testCaseForDefaultAdminS01() throws Exception {
 		// выполяем первый кейс. Всякие манипуляции с администратором и безопасностью

@@ -1,6 +1,5 @@
 package com.maybetm.configuration;
 
-import org.springframework.beans.factory.config.BeanDefinitionCustomizer;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.support.GenericApplicationContext;
@@ -36,24 +35,12 @@ public class EmbeddedPostgresInitializer implements ApplicationContextInitialize
           "classpath*:sql/import_category.sql"
       );
       values.applyTo(applicationContext);
-
-     final BeanDefinitionCustomizer postgresStop = (beanDefinition) -> beanDefinition.setDestroyMethodName("stop");
-      applicationContext.registerBean(EmbeddedPostgres.class, () -> postgres, postgresStop);
+      applicationContext.registerBean(EmbeddedPostgres.class,
+                                      () -> postgres,
+                                      (beanDefinition) -> beanDefinition.setDestroyMethodName("stop"));
     } catch (IOException e) {
       postgres.stop();
       throw new RuntimeException(e);
     }
   }
-
-/*  private String start (EmbeddedPostgres postgres) throws IOException
-  {
-    List<String> additionalParams = asList(
-        "-E", "UTF-8",
-        "--locale=ru_RU",
-        "--lc-collate=C",
-        "--lc-ctype=C");
-    return postgres.start(EmbeddedPostgres.DEFAULT_HOST,
-                          findFreePort(), EmbeddedPostgres.DEFAULT_DB_NAME,
-                          EmbeddedPostgres.DEFAULT_USER, EmbeddedPostgres.DEFAULT_PASSWORD, additionalParams);
-  }*/
 }

@@ -1,4 +1,4 @@
-package com.maybetm.mplrest.commons.DateTime;
+package com.maybetm.mplrest.commons.datetime;
 
 import javax.persistence.AttributeConverter;
 import java.time.ZonedDateTime;

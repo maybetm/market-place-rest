@@ -47,7 +47,6 @@ public abstract class AService<E extends AEntity, R extends ICommonRepository<E>
     return repository.findById(id);
   }
 
-  // fixme тут думаю можно сделать пакетное удаление
   @Override
   public void deleteById(Long id)
   {
@@ -61,6 +60,13 @@ public abstract class AService<E extends AEntity, R extends ICommonRepository<E>
     return save(fromDB);
   }
 
+  /**
+   * Получаем список полей, значение которых равняется null.
+   * Используется для слияния двух сущностей и последующего сохранения
+   *
+   * @param source - Объект, значение полей которого надо смерджить с объектом из бд.
+   * @return - массив полей равных null
+   */
   private static String[] getNullPropertyNames (Object source) {
     final BeanWrapper src = new BeanWrapperImpl(source);
     return Stream.of(src.getPropertyDescriptors())

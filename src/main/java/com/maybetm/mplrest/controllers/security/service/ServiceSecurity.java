@@ -38,7 +38,7 @@ public class ServiceSecurity {
 		this.idbToken = idbToken;
 	}
 
-	@Transactional
+	@Transactional(timeout = 30)
 	public void destroyToken(String jwt) {
 		final Optional<Token> token = JwtService.parse(jwt);
 		if (token.isPresent()) {

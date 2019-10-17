@@ -3,15 +3,16 @@ package com.maybetm.mplrest.entities.security;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.maybetm.mplrest.commons.AEntity;
-import com.maybetm.mplrest.commons.DateTime.LocalDateTimeDeserializer;
-import com.maybetm.mplrest.commons.DateTime.LocalDateTimeSerializer;
-import com.maybetm.mplrest.commons.DateTime.ZonedDateTimeSerialization;
+import com.maybetm.mplrest.commons.datetime.LocalDateTimeDeserializer;
+import com.maybetm.mplrest.commons.datetime.LocalDateTimeSerializer;
 import com.maybetm.mplrest.entities.account.Account;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.util.Optional;
 
 /**
  * Сущность используется для хранения токенов

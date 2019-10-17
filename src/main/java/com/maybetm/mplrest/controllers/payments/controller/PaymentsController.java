@@ -20,7 +20,7 @@ import static com.maybetm.mplrest.security.constants.Roles.client;
  */
 @RestController
 @RequestMapping(value = "payments")
-public class PaymentsController implements IPaymentsController
+public class PaymentsController
 {
 
   private PaymentsService paymentsService;
@@ -31,10 +31,19 @@ public class PaymentsController implements IPaymentsController
     this.paymentsService = paymentsService;
   }
 
+  /**
+   * Создание платежа.
+   * Метод создания платежа редактирует данные товара
+   * и удаляет его из корзины пользователя.
+   * Последним шагом метаинформация о платеже добавляется в таблицу payments.
+   *
+   * @param products - список товаров к покупке
+   * @param accClient - учётная запись пользователя
+   */
   @PostMapping(value = "createPayment")
   @RolesMapper (roles = {client})
-  public void createPayment(@RequestBody Set<Product> products, @RequestBody Account account)
+  public void createPayment(@RequestBody Set<Product> products, @RequestBody Account accClient)
   {
-    paymentsService.createPayment(products, account);
+    paymentsService.createPayment(products, accClient);
   }
 }

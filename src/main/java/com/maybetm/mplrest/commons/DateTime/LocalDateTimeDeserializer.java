@@ -1,4 +1,4 @@
-package com.maybetm.mplrest.commons.DateTime;
+package com.maybetm.mplrest.commons.datetime;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;

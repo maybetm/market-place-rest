@@ -41,6 +41,7 @@ public class AccountController
 
   /**
    * Создание учетной записи пользователя
+   *
    * @param account - модель учетной записи
    * @return возвращает учетную запись пользователя
    */
@@ -52,6 +53,7 @@ public class AccountController
 
   /**
    * Удаление учетной записи из системы
+   *
    * @param id - уникальный идентификатор учетной записи
    */
   @DeleteMapping(value = "deleteAccount")
@@ -63,6 +65,7 @@ public class AccountController
 
   /**
    * Обновление учётной записи в системе
+   *
    * @return возвращает учетную запись с обновленными данными
    */
   @PatchMapping(value = "updateAccount")
@@ -74,6 +77,7 @@ public class AccountController
 
   /**
    * Метод для получения постраничного получения учетных записей
+   *
    * @param pageable - объект для пагинации списка
    * @return возвращает список учетных записей в записимости от свойств объекта pageable
    */

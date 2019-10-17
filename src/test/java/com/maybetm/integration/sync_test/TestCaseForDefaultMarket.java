@@ -44,48 +44,51 @@ class TestCaseForDefaultMarket
     1. Регистрируем пользователя с ролью "Магазин".
     2. Пытаемся ещё раз зарегестрироваться.
     3. Проходим процедуру идентификации
-    2. Добавляем ~5 товаров в корзину.
-    3. Удаляем один случайный товар
-    4. Проверяем количество товаров. Должно измениться, в зависимости от того сколько удалили.
-    5. Изменяем количество одного из добавленных товаров.
-    6. Сверяем поличество.
-    8. Вызываем общий метод, для поиска товаров. Товара не должно быть.
-    9. Пытаемся найти удалённый товар по его id. Должно вернуться исключение или пустота.
-    10. Ищем товар по его названию. Если находим, получаем его id и сверяем с тем id товара, корторый мы удалили.
-    11. Нужно как-то запомнить количество товаров, которое осталось в магазине, для следующего кейса.
+    4. Добавляем ~5 товаров в корзину.
+    5. Удаляем один товар.
+    6. Пытаемся найти удалённый товар по его id. Должно вернуться исключение или пустота.
+    8. Проверяем количество товаров.
+    9. Изменяем количество одного из добавленных товаров.
+    10. Сверяем поличество и его категорию.
     12. Удаляем токен.
     13. Пробуем выполнить какой-нибудь рест метод, который доступен только авторизированному пользователю,
     с ролью "Магазин".
-    14. Проверяем ответ, должна вернуться ошибка.
-    15. После успешного прохождения возвращаем для следующего кейса объект с информацией о пользователе с ролью "магазин".
   */
   void process() throws Exception
   {
     // регистрируем пользователя с ролью "магазин".
     final Account marketRS = regAccountMarket();
-    // Пытаемся выполнить повторную регистрацию. Должны словить статус 500.
     Assert.assertEquals("Повторная регистрация. Неожиданный http статус",
                         this.regMarket(), HttpStatus.INTERNAL_SERVER_ERROR.value());
     // выполняем идентификацию и получаем токен
     final Token marketTokenRS = authLogin();
-    // создаём товары нашему магазину. Ожидаем http статус ok.
     Assert.assertEquals("Создание товаров. Неожиданный http статус",
                         this.createProducts(marketRS.getId(), marketTokenRS), HttpStatus.OK.value());
-    // Сверяем количество товаров на ТП
-    Assert.assertEquals("Должно быть 5 товаров на торговой площадке", this.getProductCount(), 5L);
-    // удаляем один товар
+    Assert.assertEquals("Сверяем количество товаров на ТП. Должно быть 5 товаров на торговой площадке",
+                        this.getProductCount(), 5L);
     Assert.assertEquals("Удаление товара. Не верный HTTP статус",
                         this.deleteProduct(2L, marketTokenRS.getToken()), HttpStatus.OK.value());
-    // должно быть 4 позиции
+    Assert.assertEquals("Попытка получить информацию по удалённому товару. Не верный HTTP статус",
+                        this.getInfoNullProduct(2L), HttpStatus.NOT_FOUND.value());
     Assert.assertEquals("Не верное количество товаров на торговой площадке",
                         this.getProductCount(), 4L);
+
     final Product product = new Product(1L, 4L);
     Assert.assertEquals("Обновление количества выбранного товара. Не верный HTPP статус",
                         this.updateProductCount(product, marketTokenRS.getToken()), HttpStatus.OK.value());
+    final Product productUp = getProductById(1L);
+    Assert.assertEquals("Получение обновлённой информации по товару. Не верное наименование категории",
+                        productUp.getCategory().getName(), "Тестовая категория 1");
+    Assert.assertEquals("Получение обновлённой информации по товару. Не верное количество товара на складе.",
+                        productUp.getCount().longValue(), 4L);
 
-    // fixme наверно стоит что-то поменять с обновлением товара
-    Assert.assertEquals("Получение обновлённой информации по товару. Не верное количество",
-                        this.getProductById(1L).getCategory().getName(), "Тестовая категория 1");
+    // удаляем пользовательский токен
+    destroyToken(marketTokenRS.getToken());
+    // ещё раз пытаемся получить список аккаунтов
+    Assert.assertEquals("Ожидается HTTP статус 403 FORBIDDEN",
+                        this.deleteProduct(2L, marketTokenRS.getToken()), HttpStatus.FORBIDDEN.value());
+    Assert.assertEquals("Ожидается HTTP статус 403 FORBIDDEN",
+                        this.deleteProduct(2L, ""), HttpStatus.FORBIDDEN.value());
   }
 
   private int regMarket() throws Exception {
@@ -114,7 +117,6 @@ class TestCaseForDefaultMarket
 
   private int createProducts(long marketId, Token token) throws Exception {
     final Category category = new Category(1L);
-
     final List<Product> products = new ArrayList<Product>(){{
       add(new Product("product-test-1", "product-test-info-1", 10000L, 10L, marketId, category));
       add(new Product("product-test-2", "product-test-info-2", 20000L, 20L, marketId, category));
@@ -122,6 +124,7 @@ class TestCaseForDefaultMarket
       add(new Product("product-test-4", "product-test-info-4", 40000L, 40L, marketId, category));
       add(new Product("product-test-5", "product-test-info-5", 50000L, 50L, marketId, category));
     }};
+
     int status = 200;
     for (Product product : products) {
       status = createProductRQ(product, token);
@@ -154,6 +157,14 @@ class TestCaseForDefaultMarket
     return mvcResult.getResponse().getStatus();
   }
 
+  private int getInfoNullProduct(long productId) throws Exception {
+    mvcResult = mockMvc.perform(get("/product/getProduct")
+                                    .param("id", String.valueOf(productId))
+                                    .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andReturn();
+    return mvcResult.getResponse().getStatus();
+  };
+
   private int updateProductCount (Product product, String token) throws Exception {
     mvcResult = mockMvc.perform(patch("/product/editProduct")
                                     .param("id", String.valueOf(product.getId()))
@@ -172,4 +183,10 @@ class TestCaseForDefaultMarket
     return om.readValue(mvcResult.getResponse().getContentAsString(), Product.class);
   }
 
+  private void destroyToken(String token) throws Exception {
+    mvcResult = mockMvc.perform(delete("/auth/logout")
+                                    .param("token", token)
+                                    .header(SecurityConstants.headerAuth, token))
+        .andReturn();
+  }
 }

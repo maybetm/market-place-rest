@@ -34,7 +34,7 @@ public class PaymentsService extends AService<Payment, IDBPayment> {
 		this.idbProduct = idbProduct;
 	}
 
-	@Transactional
+	@Transactional(timeout = 30)
 	public void createPayment(Set<Product> products, Account account) {
 		final Map<Long, Long> productsFromBasketMap = products
 				.stream().collect(Collectors.toMap(Product::getId, Product::getCount));
