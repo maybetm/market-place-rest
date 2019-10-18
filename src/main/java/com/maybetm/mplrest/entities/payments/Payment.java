@@ -1,18 +1,21 @@
 package com.maybetm.mplrest.entities.payments;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.maybetm.mplrest.commons.AEntity;
-import com.maybetm.mplrest.commons.datetime.ZonedDateTimeSerialization;
+import com.maybetm.mplrest.commons.datetime.LocalDateTimeDeserializer;
+import com.maybetm.mplrest.commons.datetime.LocalDateTimeSerializer;
 import com.maybetm.mplrest.entities.account.Account;
 import com.maybetm.mplrest.entities.product.Product;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 /**
  * jpa сущность для хранения платежей
+ * fixme эту сущность ннеобходимо денормализовать
  *
  * @author zebzeev-sv
  * @version 12.07.2019 10:56
@@ -24,17 +27,17 @@ public class Payment extends AEntity
   private Account account;
 
   private Product product;
-
   private Long cost;
 
-  @JsonSerialize (using = ZonedDateTimeSerialization.class)
-  private ZonedDateTime paymentTime;
+  @JsonSerialize (using = LocalDateTimeSerializer.class)
+  @JsonDeserialize (using = LocalDateTimeDeserializer.class)
+  private LocalDateTime paymentTime;
 
   public Payment() {
   }
 
-  public Payment(Account account, Product product, Long cost, ZonedDateTime paymentTime) {
-    this.account = account;
+  public Payment(Long clientId, Product product, Long cost, LocalDateTime paymentTime) {
+    this.account = new Account(clientId);
     this.product = product;
     this.cost = cost;
     this.paymentTime = paymentTime;
@@ -54,7 +57,7 @@ public class Payment extends AEntity
     return product;
   }
 
-  public ZonedDateTime getPaymentTime()
+  public LocalDateTime getPaymentTime()
   {
     return paymentTime;
   }
@@ -79,7 +82,7 @@ public class Payment extends AEntity
     this.cost = cost;
   }
 
-  public void setPaymentTime(ZonedDateTime paymentTime)
+  public void setPaymentTime(LocalDateTime paymentTime)
   {
     this.paymentTime = paymentTime;
   }

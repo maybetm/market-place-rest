@@ -1,16 +1,24 @@
 package com.maybetm.integration.sync_test.cases;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maybetm.mplrest.entities.account.Account;
+import com.maybetm.mplrest.entities.basket.Basket;
+import com.maybetm.mplrest.entities.payments.Payment;
+import com.maybetm.mplrest.entities.product.Product;
 import com.maybetm.mplrest.entities.security.Token;
+import com.maybetm.mplrest.security.constants.SecurityConstants;
 import org.junit.Assert;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
+import java.util.Set;
 
+import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
@@ -35,36 +43,45 @@ public class TestCaseForDefaultClient {
 	 * 	1. Регистрируем пользователя с ролью "Клиент".
 	 * 	2. Получаем токен.
 	 * 	3. Смотрим количество товаров.
-	 * 	4. Добавляем товары в корзину пользователя. Скупаем все имеющиеся товары.
-	 * 	5. Получаем данные корзины. Проверяем количество продуктов лежащих в корзине.
-	 * 	6. Удаляем пользовательский токен.
-	 * 	7. Пытаемся получить ещё раз данные корзины. Должны получить ошибку доступа.
-	 * 	8. Ещё раз получаем пользовательский токен.
-	 * 	9. Получаем данные корзины. Проверяем возможна ли покупка.
-	 * 	10. Выполняем создание платежа.
+   * 	4. Получаем данные корзины. Проверяем количество продуктов лежащих в корзине.
+   * 	5. Добавляем товары в корзину пользователя. Скупаем все имеющиеся товары.
+	 * 	7. Пытаемся получить ещё раз данные корзины без токена.
+	 * 	10. Выполняем создание платежа__.
 	 * 	11. Корзина должна быть пуста.
-	 * 	12. Проверяем изменилось ли количество товаров на торговой площадке. Количество всех купленных товаров должно быть
+	 * 	12. Проверяем изменилось ли количество товаров на торговой площадке. Количество всех товаров должно быть
 	 * 	равно нулю.
 	 * 	13. Удаляем токен.
-	 * 	14. Пытаемся ещё раз авторизоваться. Должны получить ошибку доступа.
-	 * 	15. Получаем токен.
-	 * 	16. Пытаемся получить данные корзины. Корзина должна быть пустой.
-	 * 	17. Добавляем ещё какую-то позицию в корзину.
-	 * 	18. Пытаемся оплатить. Должны получить ошибку. Так-как товаров нет на складе.
-	 * 	19. Удаляем токен пользователя.
-	 * 	20. Пытаемся получить данные корзины, ловим ошибку.
-	 * 	21. Кейс должен вернуть объект пользователя после успешного прохождения.
+   * 	14. Пытаемся получить доступ к корзине.
+   * 	15. Создание платежа.
+   * 	16. Проверяем количество платежей у пользователя.
 	 */
 	public void process() throws Exception {
-		// регистрация пользователя с ролью "клиент"
 		final Account clientRS = regAccountClient();
 		Assert.assertEquals("Повторная регистрация. Неожиданный http статус",
-				this.regAccountClientStatus(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+                        this.regAccountClientStatus(), INTERNAL_SERVER_ERROR.value());
 
-		// Получаем токен
 		final Token token = authLogin();
-		Assert.assertEquals("Повторная регистрация. Неожиданный http статус",
-				this.getProductCount(), 4L);
+		Assert.assertEquals("Повторная регистрация. Неожиданный http статус", this.getProductCount(), 4L);
+    Assert.assertEquals("Корзина клиента. Неожиданное количество объектов в корзине.",
+                        this.getClientBasketCount(clientRS.getId(), token.getToken()), 0L);
+
+    final Set<Product> products = getProducts();
+    Assert.assertEquals("Наполнение корзины. Неожиданный HTTP статус",
+                        this.createBasketLines(products, clientRS, token.getToken()), OK.value());
+
+    final Set<Basket> basketLines = getBasketByClientId(clientRS.getId(), token.getToken());
+    Assert.assertEquals("Выгрузка корзины пользователя. Неизвестное количество объектов в корзине.",
+                        basketLines.size(), 4L);
+    Assert.assertEquals("Выгрузка корзины пользователя без токена. Неверный HTPP статус.",
+                        this.getBasketByClientIdWithOutToken(clientRS.getId(), ""), FORBIDDEN.value());
+    Assert.assertEquals("Создание платежа. Неверный HTTP статус",
+                        this.createPayment(basketLines, clientRS.getId(), token.getToken()), OK.value());
+
+    final Set<Payment> payments = getPaymentsStatistic(clientRS.getId(), token.getToken());
+    Assert.assertEquals("Количество купленных товаров. Не верное количество", payments.size(), 4L);
+    // чекаем корзину
+    Assert.assertEquals("Сверка позиции в корзине пользователя. Не верное количество позиций",
+                        this.getClientBasketCount(clientRS.getId(), token.getToken()), 0L);
 	}
 
 	private Account regAccountClient() throws Exception {
@@ -98,4 +115,74 @@ public class TestCaseForDefaultClient {
 		return om.readValue(mvcResult.getResponse().getContentAsString(), List.class).size();
 	}
 
+  private long getClientBasketCount(long clientId, String token) throws Exception {
+    mvcResult = mockMvc.perform(get("/basket/getBasketByClientId")
+                                    .header(SecurityConstants.headerAuth, token)
+                                    .param("id", String.valueOf(clientId))
+                                    .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andReturn();
+    return om.readValue(mvcResult.getResponse().getContentAsString(), List.class).size();
+  }
+
+  private Set<Product> getProducts() throws Exception {
+    mvcResult = mockMvc.perform(get("/product/getProducts")
+                                    .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andReturn();
+    return om.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<Set<Product>>(){});
+  }
+
+  private int createBasketLines (Set<Product> products, Account client, String token) throws Exception {
+	  int status = 200;
+	  for(Product product : products) {
+	     status = createBasketLine(new Basket(product, client, product.getCount()), token);
+    }
+	  return status;
+  }
+
+  private int createBasketLine (Basket basket, String token) throws Exception {
+    mvcResult = mockMvc.perform(post("/basket/createBasketLine")
+                                    .header(SecurityConstants.headerAuth, token)
+                                    .content(om.writeValueAsBytes(basket))
+                                    .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andReturn();
+    return mvcResult.getResponse().getStatus();
+  }
+
+  private Set<Basket> getBasketByClientId (long clientId, String token) throws Exception {
+    mvcResult = mockMvc.perform(get("/basket/getBasketByClientId")
+                                    .param("id", String.valueOf(clientId))
+                                    .header(SecurityConstants.headerAuth, token)
+                                    .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andReturn();
+	  return om.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<Set<Basket>>(){});
+  }
+
+  private long getBasketByClientIdWithOutToken (long clientId, String token) throws Exception {
+    mvcResult = mockMvc.perform(get("/basket/getBasketByClientId")
+                                    .param("id", String.valueOf(clientId))
+                                    .header(SecurityConstants.headerAuth, token)
+                                    .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andReturn();
+    return mvcResult.getResponse().getStatus();
+  }
+
+  private int createPayment (Set<Basket> baskets, long clientId, String token) throws Exception
+  {
+    mvcResult = mockMvc.perform(post("/payments/createPayment")
+                                    .param("clientId", String.valueOf(clientId))
+                                    .content(om.writeValueAsBytes(baskets))
+                                    .header(SecurityConstants.headerAuth, token)
+                                    .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andReturn();
+	  return mvcResult.getResponse().getStatus();
+  }
+
+  private Set<Payment> getPaymentsStatistic(long clientId, String token) throws Exception {
+    mvcResult = mockMvc.perform(get("/payments/getPaymentsStatistic")
+                                    .param("clientId", String.valueOf(clientId))
+                                    .header(SecurityConstants.headerAuth, token)
+                                    .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andReturn();
+    return om.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<Set<Payment>>(){});
+  }
 }

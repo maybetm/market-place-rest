@@ -35,10 +35,10 @@ public class BasketController
   /**
    * Добавление новой позиции в корзину
    *
-   * @param basket fixme - корзину?
+   * @param basket - информация о объекте, который поступает в корзину
    * @return возвращает сохранённый объект
    */
-  @PostMapping(value = "addProductToBasket")
+  @PostMapping(value = "createBasketLine")
   @RolesMapper (roles = {client})
   public ResponseEntity<Basket> addProductToBasket(@RequestBody Basket basket)
   {
@@ -53,7 +53,7 @@ public class BasketController
    * @return - получаем список позиций в корзине
    */
   @GetMapping (value = "getBasketByClientId")
-  @RolesMapper (roles = {admin , client})
+  @RolesMapper (roles = {admin, client})
   public List<Basket> getBasketByClientId(@RequestParam Long id,
                                           @PageableDefault (sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable)
   {
@@ -88,15 +88,15 @@ public class BasketController
   /**
    * Обновление данных позиции в корзине
    *
-   * @param basketFromDb - сущность корзины выгружаемая из бд
-   * @param updatableBasket - изменённые поля позиции в корзине
+   * @param fromDB - сущность корзины выгружаемая из бд
+   * @param toUpdate - изменённые поля позиции в корзине
    * @return - возвращает обновлённую сущность
    */
   @PostMapping (value = "updateBasketLine")
   @RolesMapper (roles = {admin , client})
-  public ResponseEntity<Basket> updateBasketLine(@RequestParam ("id") Basket basketFromDb,
-                                                 @RequestBody Basket updatableBasket)
+  public ResponseEntity<Basket> updateBasketLine(@RequestParam ("id") Basket fromDB,
+                                                 @RequestBody Basket toUpdate)
   {
-    return ResponseEntity.of(basketService.updateEntity(basketFromDb, updatableBasket));
+    return ResponseEntity.of(basketService.updateEntity(fromDB, toUpdate));
   }
 }

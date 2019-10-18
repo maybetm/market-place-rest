@@ -11,7 +11,7 @@ public abstract class TestHelper {
     configProxy("192.168.54.10", "3128");
   }
 
-  public static void configProxy(String host, String port) {
+  private static void configProxy(String host, String port) {
     System.setProperty("http.proxyHost", host);
     System.setProperty("http.proxyPort", port);
     System.setProperty("https.proxyHost", host);

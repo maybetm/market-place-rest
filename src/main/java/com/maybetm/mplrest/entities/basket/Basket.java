@@ -1,17 +1,17 @@
 package com.maybetm.mplrest.entities.basket;
 
 import com.maybetm.mplrest.commons.AEntity;
-import com.maybetm.mplrest.entities.product.Product;
 import com.maybetm.mplrest.entities.account.Account;
+import com.maybetm.mplrest.entities.product.Product;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  * jpa сущность корзины
- *
- * fixme сущность корзины можно модифицировать, изменив поле account на userId типа Long.
- * fixme так-как предполагается, что у нас не будет необходимости в в полноценной сущности account
- * fixme в контексте корзины
  *
  * @author zebzeev-sv
  * @version 02.07.2019 13:24
@@ -22,12 +22,22 @@ public class Basket extends AEntity {
 
 	private Product product;
 
-  // fixme возможно стоит переделать в <<Long userId>>
 	private Account account;
 
 	private Long count;
 
-	@ManyToOne
+  public Basket()
+  {
+  }
+
+  public Basket(Product product, Account account, Long count)
+  {
+    this.product = product;
+    this.account = account;
+    this.count = count;
+  }
+
+  @ManyToOne
 	@JoinColumn(name = "productId", nullable = false, updatable = false)
 	public Product getProduct() {
 		return product;

@@ -33,20 +33,20 @@ public class IntegrationTestS1 extends AITest {
 			"password-client-test", LocalDateTime.now(), new Role(Roles.client.id));
 
 	@Test
-	public void testS01() throws Exception {
-		// выполяем первый кейс. Всякие манипуляции с администратором и безопасностью
+	public void stepS01() throws Exception {
+		// Всякие манипуляции с администратором и безопасностью
 		new TestCaseForDefaultAdmin(admin, mockMvc).process();
 	}
 
 	@Test
-	public void testS02() throws Exception {
-    //  выполняем второй кейс. Всякие манипуляции с магазинов и продуктами.
+	public void stepS02() throws Exception {
+    // Всякие манипуляции с магазинов и продуктами.
     new TestCaseForDefaultMarket(market, mockMvc).process();
 	}
 
 	@Test
-	public void testS03() throws Exception {
-		// выполняем третий кейс. Всякие манипуляции с товарами и покупателем.
+	public void stepS03() throws Exception {
+		// Всякие манипуляции с товарами и покупателем.
 		new TestCaseForDefaultClient(client, mockMvc).process();
   }
 }
