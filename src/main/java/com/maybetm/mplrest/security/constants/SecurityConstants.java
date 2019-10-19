@@ -9,10 +9,8 @@ public abstract class SecurityConstants
 
   // время жизни ключа доступа ~ 1 день.
   public final static long tokenLiveTime = 864_000_00;
-
   // дополнительный ключ безопасности. Можно использовать вместо хардкода какой-нибудь сертификат.
   public final static String secretToken = "SDXS66W2K8Y5Q62Y6L2570HLWQAZOC8D89E5YYUKG9O6DOCA8";
-
   // приватные ендпойнты будут смотреть на этот заголовок в запросе.
   public final static String headerAuth = "Authorization";
 

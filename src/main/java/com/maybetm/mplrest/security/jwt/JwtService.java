@@ -10,10 +10,11 @@ import com.maybetm.mplrest.security.annotations.RolesMapper;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwsHeader;
 import io.jsonwebtoken.Jwts;
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
@@ -42,9 +43,11 @@ public class JwtService
 
   public static String createJwt(Map<String, Object> params)
   {
+    final Date expiration = new Date(System.currentTimeMillis() + tokenLiveTime);
+
     return Jwts.builder()
         .setHeaderParams(params)
-        .setExpiration(new Date(System.currentTimeMillis() + tokenLiveTime))
+        .setExpiration(expiration)
         .signWith(HS256, secretToken)
         .compact();
   }
@@ -62,36 +65,37 @@ public class JwtService
       // теперь можно сверить id роли в токене, с ролями в аннотации над методом
       final boolean methodIsAllowed = Roles.checkByRolesMapper(rolesMapper, roleId);
       // сравниваем accountId, roleId, jwt с найдеными полями в таблице tokens
-      final boolean dbIsAllowed = dbTokenAllowed.apply(tokenFromJwt.get(), accountId);
+      final boolean dbIsAllowed = getDBTokenAllowed.apply(tokenFromJwt.get(), accountId);
 
-      // если токен на всех этапах прошёл проверку валидности, вернём истину.
+      // если токен на всех этапах прошёл проверку валидации, вернём истину.
       return appValidationIsAllowed && methodIsAllowed && dbIsAllowed;
     }
 
     return false;
   }
 
-  private final BiFunction<Token, Long, Boolean> dbTokenAllowed = (tokenFromJwt, accountId) -> {
+  private final BiFunction<Token, Long, Boolean> getDBTokenAllowed = (tokenFromJwt, accountId) -> {
     final Optional<Token> tokenFromDb = idbToken.findByTokenAndAccountId(tokenFromJwt.getToken(), accountId);
-    return tokenFromDb.isPresent() && tokenFromDb.get().equalsTokenFromJwt(tokenFromDb);
+    return tokenFromDb.isPresent() && tokenFromDb.get().equalsTokenFromJwt(tokenFromDb.get());
   };
 
   public static Optional<Token> parse(String jwt) {
     try {
-      JwsHeader jwsHeader = Jwts.parser().setSigningKey(secretToken).parseClaimsJws(jwt).getHeader();
+      JwsHeader<?> jwsHeader = Jwts.parser().setSigningKey(secretToken).parseClaimsJws(jwt).getHeader();
       return Optional.of(getTokenInfo.apply(jwsHeader, jwt));
     } catch (ExpiredJwtException ex) {
       throw new AccessException("Ошибка обработки токена. Истёк срок действия ключа доступа.");
     } catch (Exception ex) {
+      Logger.getLogger(JwtService.class).error("Не удалось распарсить токен. Exception: " + ex);
       return Optional.empty();
     }
   }
 
-  private static final BiFunction<JwsHeader, String, Token> getTokenInfo = (jws, token) -> {
+  private static final BiFunction<JwsHeader<?>, String, Token> getTokenInfo = (jws, token) -> {
 
     Role role = new Role(Long.valueOf(jws.get(roleId).toString()));
     Account account = new Account(Long.valueOf(jws.get(id).toString()), null, null, null, null, role);
 
-    return new Token(account, token, ZonedDateTime.parse(jws.get(creationTime).toString()));
+    return new Token(account, token, LocalDateTime.parse(jws.get(creationTime).toString()));
   };
 }

@@ -2,7 +2,7 @@ package com.maybetm.mplrest.security.test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.maybetm.mplrest.ATest;
+import com.maybetm.commons.AUnitTest;
 import com.maybetm.mplrest.entities.account.Account;
 import com.maybetm.mplrest.entities.security.Token;
 import com.maybetm.mplrest.security.jwt.JwtService;
@@ -11,6 +11,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -28,7 +29,7 @@ import static com.maybetm.mplrest.security.constants.SecurityConstants.TokenPara
  * @author zebzeev-sv
  * @version 26.07.2019 19:27
  */
-public class JWTService extends ATest
+public class JWTService extends AUnitTest
 {
 
   private String token = "eyJjcmVhdGlvblRpbWUiOiIyMDE5LTA4LTA1VDE4OjIwOjIwLjIyMyswNTowMFtBc2lhL1lla2F0ZXJpbmJ1cmddIiwicm9sZUlkIjoyLCJpZCI6MSwiYWxnIjoiSFMyNTYifQ.eyJleHAiOjE1NjUwOTc2MjB9.isKxe1P-2ItyUy28PWusPKJtkklJqd3NnxLNa9nwosg";
@@ -46,9 +47,9 @@ public class JWTService extends ATest
   private final Function<Account, Map<String, Object>> getJwtParams = (account) -> {
 
     Map<String, Object> result = new HashMap<>(3);
-    result.put(id, 1L);
+    result.put(id, 4L);
     result.put(roleId, 2l);
-    result.put(creationTime, ZonedDateTime.now().format(DateTimeFormatter.ISO_ZONED_DATE_TIME));
+    result.put(creationTime, LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
 
     return result;
   };

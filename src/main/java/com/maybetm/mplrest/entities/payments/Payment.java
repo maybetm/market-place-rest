@@ -1,15 +1,12 @@
 package com.maybetm.mplrest.entities.payments;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.maybetm.mplrest.commons.AEntity;
-import com.maybetm.mplrest.commons.datetime.ZonedDateTimeSerialization;
 import com.maybetm.mplrest.entities.account.Account;
-import com.maybetm.mplrest.entities.product.Product;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 /**
  * jpa сущность для хранения платежей
@@ -21,66 +18,88 @@ import java.time.ZonedDateTime;
 public class Payment extends AEntity
 {
 
-  private Account account;
+  private Long accountId;
 
-  private Product product;
+  private String login;
 
-  private Long costTimeOfPayment;
+  private String email;
 
-  @JsonSerialize (using = ZonedDateTimeSerialization.class)
-  private ZonedDateTime paymentTime;
+  @JsonSerialize(using = com.maybetm.mplrest.commons.datetime.LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = com.maybetm.mplrest.commons.datetime.LocalDateTimeDeserializer.class)
+  private LocalDateTime dateTimeReg;
+
+  private Long roleId;
+
+  private String roleName;
+
+  private String token;
 
   public Payment() {
   }
 
-  public Payment(Account account, Product product, Long costTimeOfPayment, ZonedDateTime paymentTime) {
-    this.account = account;
-    this.product = product;
-    this.costTimeOfPayment = costTimeOfPayment;
-    this.paymentTime = paymentTime;
+  public Payment(Account account, String token) {
+    this.accountId = account.getId();
+    this.login = account.getLogin();
+    this.email = account.getEmail();
+    this.dateTimeReg = account.getDateTimeReg();
+    this.roleId = account.getRole().getId();
+    this.roleName = account.getRole().getName();
+    this.token = token;
   }
 
-  @ManyToOne
-  @JoinColumn(name = "accountId", nullable = false, updatable = false)
-  public Account getAccount()
-  {
-    return account;
+  public Long getAccountId() {
+    return accountId;
   }
 
-  @ManyToOne
-  @JoinColumn(name = "productId", nullable = false, updatable = false)
-  public Product getProduct()
-  {
-    return product;
+  public void setAccountId(Long accountId) {
+    this.accountId = accountId;
   }
 
-  public ZonedDateTime getPaymentTime()
-  {
-    return paymentTime;
+  public String getLogin() {
+    return login;
   }
 
-  public void setProduct(Product product)
-  {
-    this.product = product;
+  public void setLogin(String login) {
+    this.login = login;
   }
 
-  public void setAccount(Account account)
-  {
-    this.account = account;
+  public String getEmail() {
+    return email;
   }
 
-  public Long getCostTimeOfPayment()
-  {
-    return costTimeOfPayment;
+  public void setEmail(String email) {
+    this.email = email;
   }
 
-  public void setCostTimeOfPayment(Long costTimeOfPayment)
-  {
-    this.costTimeOfPayment = costTimeOfPayment;
+  public LocalDateTime getDateTimeReg() {
+    return dateTimeReg;
   }
 
-  public void setPaymentTime(ZonedDateTime paymentTime)
-  {
-    this.paymentTime = paymentTime;
+  public void setDateTimeReg(LocalDateTime dateTimeReg) {
+    this.dateTimeReg = dateTimeReg;
+  }
+
+  public Long getRoleId() {
+    return roleId;
+  }
+
+  public void setRoleId(Long roleId) {
+    this.roleId = roleId;
+  }
+
+  public String getRoleName() {
+    return roleName;
+  }
+
+  public void setRoleName(String roleName) {
+    this.roleName = roleName;
+  }
+
+  public String getToken() {
+    return token;
+  }
+
+  public void setToken(String token) {
+    this.token = token;
   }
 }

@@ -21,7 +21,7 @@ import static com.maybetm.mplrest.security.constants.Roles.client;
  */
 @RestController
 @RequestMapping (value = "basket")
-public class BasketController implements IBasketController<Basket>
+public class BasketController
 {
 
   private final BasketService basketService;
@@ -32,24 +32,40 @@ public class BasketController implements IBasketController<Basket>
     this.basketService = basketService;
   }
 
-  @Override
-  @PostMapping(value = "addProductToBasket")
+  /**
+   * Добавление новой позиции в корзину
+   *
+   * @param basket - информация о объекте, который поступает в корзину
+   * @return возвращает сохранённый объект
+   */
+  @PostMapping(value = "createBasketLine")
   @RolesMapper (roles = {client})
   public ResponseEntity<Basket> addProductToBasket(@RequestBody Basket basket)
   {
     return ResponseEntity.of(basketService.save(basket));
   }
 
-  @Override
+  /**
+   * Получение корзины покупателя
+   *
+   * @param id - идентификатор покупателя
+   * @param pageable - метод использует api пагинации
+   * @return - получаем список позиций в корзине
+   */
   @GetMapping (value = "getBasketByClientId")
-  @RolesMapper (roles = {admin , client})
+  @RolesMapper (roles = {admin, client})
   public List<Basket> getBasketByClientId(@RequestParam Long id,
                                           @PageableDefault (sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable)
   {
     return basketService.getBasketByClient(id, pageable).getContent();
   }
 
-  @Override
+  /**
+   * Выгрузка всех корзин с учётом пагинации
+   *
+   * @param pageable - api пагинации
+   * @return - список позиций по всем пользователям, по умолчанию выдаёт 20 записей
+   */
   @GetMapping (value = "getBaskets")
   @RolesMapper (roles = {admin})
   public List<Basket> getBaskets(@PageableDefault (sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable)
@@ -57,7 +73,11 @@ public class BasketController implements IBasketController<Basket>
     return basketService.getBaskets(pageable).getContent();
   }
 
-  @Override
+  /**
+   * Удаление объекта из корзины по basketId
+   *
+   * @param id - уникальный идентификатор позиции в корзине
+   */
   @DeleteMapping(value = "deleteProductInBasket")
   @RolesMapper (roles = {admin, client})
   public void deleteProductInBasket(@RequestParam Long id)
@@ -65,13 +85,18 @@ public class BasketController implements IBasketController<Basket>
     basketService.deleteById(id);
   }
 
-  @Override
+  /**
+   * Обновление данных позиции в корзине
+   *
+   * @param fromDB - сущность корзины выгружаемая из бд
+   * @param toUpdate - изменённые поля позиции в корзине
+   * @return - возвращает обновлённую сущность
+   */
   @PostMapping (value = "updateBasketLine")
   @RolesMapper (roles = {admin , client})
-  public ResponseEntity<Basket> updateBasketLine(@RequestParam ("id") Basket basketFromDb,
-                                                 @RequestBody Basket updatableBasket)
+  public ResponseEntity<Basket> updateBasketLine(@RequestParam ("id") Basket fromDB,
+                                                 @RequestBody Basket toUpdate)
   {
-    return ResponseEntity.of(basketService.updateBasketLine(basketFromDb, updatableBasket));
+    return ResponseEntity.of(basketService.updateEntity(fromDB, toUpdate));
   }
-
 }

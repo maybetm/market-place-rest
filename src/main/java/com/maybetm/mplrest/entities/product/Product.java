@@ -4,9 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.entities.basket.Basket;
 import com.maybetm.mplrest.entities.category.Category;
-import com.maybetm.mplrest.entities.payments.Payment;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.util.Set;
 
 /**
@@ -35,15 +38,23 @@ public class Product extends AEntity {
 
 	private Set<Basket> basket;
 
-  private Set<Payment> payments;
-
   public Product()
   {
   }
 
   public Product (Long id, Long count) {
-    this.setId(id);
-    this.setCount(count);
+    this.id = id;
+    this.count = count;
+  }
+
+  public Product(String name, String info, Long cost, Long count, Long marketId, Category category)
+  {
+    this.name = name;
+    this.info = info;
+    this.cost = cost;
+    this.count = count;
+    this.marketId = marketId;
+    this.category = category;
   }
 
   @ManyToOne
@@ -56,17 +67,6 @@ public class Product extends AEntity {
 	public Set<Basket> getBasket() {
 		return basket;
 	}
-
-  @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-  public Set<Payment> getPayments()
-  {
-    return payments;
-  }
-
-  public void setPayments(Set<Payment> payments)
-  {
-    this.payments = payments;
-  }
 
 	public void setBasket(Set<Basket> basket) {
 		this.basket = basket;

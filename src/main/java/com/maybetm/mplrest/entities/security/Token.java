@@ -1,13 +1,18 @@
 package com.maybetm.mplrest.entities.security;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.maybetm.mplrest.commons.AEntity;
-import com.maybetm.mplrest.commons.datetime.ZonedDateTimeSerialization;
+import com.maybetm.mplrest.commons.datetime.LocalDateTimeDeserializer;
+import com.maybetm.mplrest.commons.datetime.LocalDateTimeSerializer;
 import com.maybetm.mplrest.entities.account.Account;
 
-import javax.persistence.*;
-import java.time.ZonedDateTime;
-import java.util.Optional;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import java.time.LocalDateTime;
 
 /**
  * Сущность используется для хранения токенов
@@ -22,8 +27,9 @@ public class Token extends AEntity
 
   private Account account;
 
-  @JsonSerialize(using = ZonedDateTimeSerialization.class)
-  private ZonedDateTime timeRegistration;
+  @JsonSerialize(using = LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+  private LocalDateTime timeReg;
 
   private String token;
 
@@ -31,11 +37,11 @@ public class Token extends AEntity
   {
   }
 
-  public Token(Account account, String token, ZonedDateTime timeRegistration)
+  public Token(Account account, String token, LocalDateTime timeRegistration)
   {
     this.account = account;
     this.token = token;
-    this.timeRegistration = timeRegistration;
+    this.timeReg = timeRegistration;
   }
 
   @ManyToOne
@@ -60,21 +66,19 @@ public class Token extends AEntity
     this.token = token;
   }
 
-  public ZonedDateTime getTimeRegistration()
-  {
-    return timeRegistration;
+  public LocalDateTime getTimeReg() {
+    return timeReg;
   }
 
-  public void setTimeRegistration(ZonedDateTime timeRegistration)
-  {
-    this.timeRegistration = timeRegistration;
+  public void setTimeReg(LocalDateTime timeReg) {
+    this.timeReg = timeReg;
   }
 
   // используется для сверки параметров входящего токена с токеном из бд
-  public boolean equalsTokenFromJwt(Optional<Token> token)
+  public boolean equalsTokenFromJwt(Token token)
   {
-    return token.isPresent() && this.account != null && this.account.getRole() != null &&
-           this.account.getId().equals(token.get().getAccount().getId()) &&
-           this.account.getRole().getId().equals(token.get().account.getRole().getId());
+    return this.account != null && this.account.getRole() != null &&
+           this.account.getId().equals(token.getAccount().getId()) &&
+           this.account.getRole().getId().equals(token.account.getRole().getId());
   }
 }

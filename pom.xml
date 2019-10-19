@@ -11,18 +11,25 @@
   </parent>
 
   <groupId>com.maybetm</groupId>
-  <artifactId>matket-place-rest</artifactId>
-  <version>0.0.1</version>
+  <artifactId>market-place-rest</artifactId>
+  <version>0.9.11</version>
   <packaging>jar</packaging>
-  <name>matket-place-rest</name>
-  <description>matket-place-rest</description>
+  <name>market-place-rest</name>
+  <description>Рест ядро интернет-магазина</description>
 
   <properties>
     <java.version>8</java.version>
-    <spring.version>5.1.4.RELEASE</spring.version>
+    <project.build.encoding>UTF-8</project.build.encoding>
     <lombok.version>1.18.8</lombok.version>
     <postgresql.version>42.2.5</postgresql.version>
+    <postgresql.embedded.version>2.10</postgresql.embedded.version>
     <hibernate.types.version>2.5.0</hibernate.types.version>
+    <maven.surefire.plugin>2.9</maven.surefire.plugin>
+    <json.web.token>0.9.0</json.web.token>
+    <!--Директория с модульными тестами. По умолчанию исключаем их из жизненного цикла сборки-->
+    <mplerst.unit.tests>com/maybetm/mplrest/**</mplerst.unit.tests>
+    <!--Директория с интеграционными тестами. По умолчанию включена в жизненный цикл сборки проекта-->
+    <mplerst.integration.tests>com/maybetm/integration/**</mplerst.integration.tests>
   </properties>
 
   <dependencies>
@@ -36,6 +43,7 @@
       <artifactId>spring-boot-devtools</artifactId>
       <scope>runtime</scope>
     </dependency>
+
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
@@ -47,14 +55,18 @@
       <artifactId>spring-boot-starter-data-jpa</artifactId>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/postgresql/postgresql -->
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
       <version>${postgresql.version}</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+    <dependency>
+      <groupId>ru.yandex.qatools.embed</groupId>
+      <artifactId>postgresql-embedded</artifactId>
+      <version>${postgresql.embedded.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
@@ -62,13 +74,11 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
     <dependency>
       <groupId>io.jsonwebtoken</groupId>
       <artifactId>jjwt</artifactId>
-      <version>0.9.0</version>
+      <version>${json.web.token}</version>
     </dependency>
-
   </dependencies>
 
   <build>
@@ -77,10 +87,26 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven.surefire.plugin}</version>
+        <configuration>
+          <!--иначе плывёт кодировка в фильтрах логирования-->
+          <argLine>-Dfile.encoding=${project.build.encoding}</argLine>
+          <excludes>
+            <exclude>${mplerst.unit.tests}</exclude>
+          </excludes>
+          <includes>
+            <include>${mplerst.integration.tests}</include>
+          </includes>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
   <profiles>
+    <!--Профиль по умолчанию подключается к локальной бд.-->
     <profile>
       <id>dev-local</id>
       <activation>
@@ -95,6 +121,7 @@
       </build>
     </profile>
 
+    <!--Релизный профиль подключается к внешней бд. Крутится на удалённом, выделенном виртуальном хосте.-->
     <profile>
       <id>release</id>
       <properties>
@@ -109,5 +136,4 @@
       </build>
     </profile>
   </profiles>
-
 </project>

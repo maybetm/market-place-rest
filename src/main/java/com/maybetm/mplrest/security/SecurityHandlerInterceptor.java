@@ -1,6 +1,5 @@
 package com.maybetm.mplrest.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maybetm.mplrest.exceptions.security.access_exception.AccessException;
 import com.maybetm.mplrest.security.annotations.RolesMapper;
 import com.maybetm.mplrest.security.constants.SecurityConstants;
@@ -15,7 +14,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.function.BiConsumer;
@@ -38,7 +36,7 @@ public class SecurityHandlerInterceptor extends HandlerInterceptorAdapter
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   @Override
-  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
+  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
     if (handler instanceof HandlerMethod) {
 
@@ -87,7 +85,7 @@ public class SecurityHandlerInterceptor extends HandlerInterceptorAdapter
   private final BiConsumer<Optional<RolesMapper>, Optional<String>> validateSecurity = ((rolesMapper, jwt) -> {
     // если метод рест контроллера содержит маркер RolesMapper и пришёл jwt токен
     if (rolesMapper.isPresent() && jwt.isPresent()) {
-      // логгируем данные токена
+      // логируем данные токена
       jwt.ifPresent(loggerJwtParamsInterceptor);
       // выполяем проверку токена на валидность
       if (!jwtService.isValid(rolesMapper.get(), jwt.get())){
@@ -95,7 +93,7 @@ public class SecurityHandlerInterceptor extends HandlerInterceptorAdapter
       }
     }
     // если метод промаркирован, но токена нет, отправляем ошибку.
-    if(rolesMapper.isPresent() && !jwt.isPresent()) {
+    if (rolesMapper.isPresent() && !jwt.isPresent()) {
       throw new AccessException("Отсутствует ключ доступа.");
     }
   });

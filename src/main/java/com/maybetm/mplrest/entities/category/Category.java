@@ -23,7 +23,16 @@ public class Category extends AEntity {
 
 	private Set<Product> product;
 
-	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+  public Category()
+  {
+  }
+
+  public Category(long id)
+  {
+    this.id = id;
+  }
+
+  @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
 	public Set<Product> getProduct() {
 		return product;
 	}

@@ -1,5 +1,7 @@
 package com.maybetm.mplrest.configurations;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +20,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -31,9 +34,9 @@ import java.util.stream.Collectors;
  * @version 26.08.2019 18:35
  */
 @Component
-public class RequestAndResponseLoggingFilter extends OncePerRequestFilter {
+public class LoggingFilter extends OncePerRequestFilter {
 
-	private final Logger logger = LoggerFactory.getLogger(RequestAndResponseLoggingFilter.class);
+	private final Logger logger = LoggerFactory.getLogger(LoggingFilter.class);
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
@@ -55,7 +58,8 @@ public class RequestAndResponseLoggingFilter extends OncePerRequestFilter {
 		}
 	}
 
-	private void loggingRequestAndResponse(ContentCachingRequestWrapper request, ContentCachingResponseWrapper response) {
+	private void loggingRequestAndResponse(ContentCachingRequestWrapper request, ContentCachingResponseWrapper response) throws JsonProcessingException
+  {
 
 		final String prefixRq = "Request from: " + request.getRemoteAddr() + ":" + request.getLocalPort() + ";";
 		final String prefixRs = "Response to: " + request.getRemoteAddr() + ":" + request.getLocalPort() + ";";
@@ -66,9 +70,11 @@ public class RequestAndResponseLoggingFilter extends OncePerRequestFilter {
 		}
 	}
 
-	private void loggingRequest(ContentCachingRequestWrapper request, String prefix) {
+	private void loggingRequest(ContentCachingRequestWrapper request, String prefix) throws JsonProcessingException
+  {
 		logRequestHeader(request, prefix);
 		logRequestBody(request, prefix);
+		logRequestParams(request, prefix);
 	}
 
 	private void loggingResponse(ContentCachingResponseWrapper response, String prefix){
@@ -85,7 +91,16 @@ public class RequestAndResponseLoggingFilter extends OncePerRequestFilter {
 		logger.info("{} headers : {}", prefix, getHeaders.apply(request));
 	}
 
-	private void logRequestBody(ContentCachingRequestWrapper request, String prefix) {
+  private void logRequestParams(ContentCachingRequestWrapper request, String prefix) throws JsonProcessingException
+  {
+    final Map<String, String[]> reqParamsMap = request.getParameterMap();
+    if (reqParamsMap.size() > 0) {
+      final String reqParams = new ObjectMapper().writeValueAsString(reqParamsMap);
+      logger.info("{} request params: {};", prefix, reqParams);
+    }
+  }
+
+  private void logRequestBody(ContentCachingRequestWrapper request, String prefix) {
 		final byte[] content = request.getContentAsByteArray();
 		if (content.length > 0) {
 			loggingBody(content, request.getContentType(), StandardCharsets.UTF_8.displayName(), prefix);
@@ -105,7 +120,6 @@ public class RequestAndResponseLoggingFilter extends OncePerRequestFilter {
 		response.getHeaderNames().forEach(headerName ->
 				response.getHeaders(headerName).forEach(headerValue ->
 						logger.info("{} headers: [{}: {}]", prefix, headerName, headerValue)));
-
 		final byte[] content = response.getContentAsByteArray();
 		if (content.length > 0) {
 			loggingBody(content, response.getContentType(), StandardCharsets.UTF_8.displayName(), prefix);

@@ -1,6 +1,8 @@
 package com.maybetm.mplrest.exceptions.sql;
 
 import com.maybetm.mplrest.commons.exeptions.AHandlerException;
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
+import org.hibernate.exception.spi.SQLExceptionConverter;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -22,12 +24,8 @@ public class HandlerSqlException extends AHandlerException<SqlExceptionRS, DataI
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public SqlExceptionRS handle(DataIntegrityViolationException exception)
   {
-    final String localizedMessage = "Повторяющееся значение ключа нарушает ограничение уникальности";
-
-    logger.error("localizedMessage: {}; NativeMessage: {};", localizedMessage, exception.getMessage());
-    return new SqlExceptionRS(localizedMessage, HttpStatus.INTERNAL_SERVER_ERROR.value(),
+    return new SqlExceptionRS(exception.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(),
                               handlerExceptionType, "DataIntegrityViolationException");
-
   }
 
 }

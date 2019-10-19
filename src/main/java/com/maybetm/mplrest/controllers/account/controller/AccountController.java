@@ -9,11 +9,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
-import static com.maybetm.mplrest.security.constants.Roles.admin;
 
 /**
  * Контроллер для управления
@@ -24,9 +29,8 @@ import static com.maybetm.mplrest.security.constants.Roles.admin;
  */
 @RestController
 @RequestMapping (value = "account")
-public class AccountController implements IAccountController<Account>
+public class AccountController
 {
-
   private AccountService accountService;
 
   @Autowired
@@ -35,14 +39,23 @@ public class AccountController implements IAccountController<Account>
     this.accountService = accountService;
   }
 
-  @Override
+  /**
+   * Создание учетной записи пользователя
+   *
+   * @param account - модель учетной записи
+   * @return возвращает учетную запись пользователя
+   */
   @PostMapping(value = "createAccount")
-  public ResponseEntity<Account> createAccount(@RequestBody(required = true) Account account)
+  public ResponseEntity<Account> createAccount(@RequestBody Account account)
   {
     return ResponseEntity.of(accountService.save(account));
   }
 
-  @Override
+  /**
+   * Удаление учетной записи из системы
+   *
+   * @param id - уникальный идентификатор учетной записи
+   */
   @DeleteMapping(value = "deleteAccount")
   @RolesMapper(roles = {Roles.admin, Roles.client, Roles.market})
   public void deleteAccount(@RequestParam Long id)
@@ -50,7 +63,11 @@ public class AccountController implements IAccountController<Account>
     accountService.deleteById(id);
   }
 
-  @Override
+  /**
+   * Обновление учётной записи в системе
+   *
+   * @return возвращает учетную запись с обновленными данными
+   */
   @PatchMapping(value = "updateAccount")
   @RolesMapper(roles = {Roles.admin, Roles.client, Roles.market})
   public ResponseEntity<Account> updateAccount(@RequestParam ("id") Account fromDB, @RequestBody Account toEdit)
@@ -58,8 +75,14 @@ public class AccountController implements IAccountController<Account>
     return ResponseEntity.of(accountService.updateEntity(fromDB, toEdit));
   }
 
+  /**
+   * Метод для получения постраничного получения учетных записей
+   *
+   * @param pageable - объект для пагинации списка
+   * @return возвращает список учетных записей в записимости от свойств объекта pageable
+   */
   @GetMapping(value = "getAccounts")
-  @RolesMapper (roles = {admin})
+  @RolesMapper(roles = {Roles.admin})
   public List<Account> getAccounts(@PageableDefault (sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable)
   {
     return accountService.getEntityOnPage(pageable).getContent();
