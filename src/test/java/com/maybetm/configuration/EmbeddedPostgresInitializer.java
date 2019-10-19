@@ -8,8 +8,6 @@ import ru.yandex.qatools.embed.postgresql.EmbeddedPostgres;
 import java.io.IOException;
 
 /**
- * fixme тут надо что-то придумать с конфигурацией
- *
  * @author zebzeev-sv
  * @version 29.09.2019 23:37
  */

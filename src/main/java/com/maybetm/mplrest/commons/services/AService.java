@@ -37,7 +37,6 @@ public abstract class AService<E extends AEntity, R extends ICommonRepository<E>
   @Override
   public Optional<E> save(E entity)
   {
-    // fixme думаю стоит запретить через этот метод редактировать записи
     return Optional.of(repository.save(entity));
   }
 
