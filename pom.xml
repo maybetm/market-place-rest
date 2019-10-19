@@ -68,13 +68,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <version>${lombok.version}</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
       <groupId>io.jsonwebtoken</groupId>
       <artifactId>jjwt</artifactId>
       <version>${json.web.token}</version>
@@ -109,9 +102,6 @@
     <!--Профиль по умолчанию подключается к локальной бд.-->
     <profile>
       <id>dev-local</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
       <build>
         <resources>
           <resource>
@@ -124,9 +114,6 @@
     <!--Релизный профиль подключается к внешней бд. Крутится на удалённом, выделенном виртуальном хосте.-->
     <profile>
       <id>release</id>
-      <properties>
-        <type>release</type>
-      </properties>
       <build>
         <resources>
           <resource>
