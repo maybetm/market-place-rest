@@ -8,7 +8,6 @@ import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.commons.datetime.LocalDateTimeDeserializer;
 import com.maybetm.mplrest.commons.datetime.LocalDateTimeSerializer;
 import com.maybetm.mplrest.entities.basket.Basket;
-import com.maybetm.mplrest.entities.payments.Payment;
 import com.maybetm.mplrest.entities.roles.Role;
 import com.maybetm.mplrest.entities.security.Token;
 
@@ -46,8 +45,6 @@ public class Account extends AEntity {
 	private Role role;
 
 	private Set<Basket> basket;
-
-	private Set<Payment> payments;
 
 	private Set<Token> tokens;
 
@@ -87,11 +84,6 @@ public class Account extends AEntity {
 	}
 
 	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
-	public Set<Payment> getPayments() {
-		return payments;
-	}
-
-	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
 	public Set<Token> getTokens() {
 		return tokens;
 	}
@@ -103,10 +95,6 @@ public class Account extends AEntity {
 
 	public void setTokens(Set<Token> tokens) {
 		this.tokens = tokens;
-	}
-
-	public void setPayments(Set<Payment> payments) {
-		this.payments = payments;
 	}
 
 	public void setBasket(Set<Basket> baskets) {

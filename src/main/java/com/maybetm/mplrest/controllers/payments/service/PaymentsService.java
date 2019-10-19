@@ -1,11 +1,13 @@
 package com.maybetm.mplrest.controllers.payments.service;
 
 import com.maybetm.mplrest.commons.services.AService;
+import com.maybetm.mplrest.controllers.account.service.AccountService;
+import com.maybetm.mplrest.controllers.product.service.ProductService;
+import com.maybetm.mplrest.entities.account.Account;
 import com.maybetm.mplrest.entities.basket.Basket;
 import com.maybetm.mplrest.entities.basket.IDBBasket;
 import com.maybetm.mplrest.entities.payments.IDBPayment;
 import com.maybetm.mplrest.entities.payments.Payment;
-import com.maybetm.mplrest.entities.product.IDBProduct;
 import com.maybetm.mplrest.entities.product.Product;
 import com.maybetm.mplrest.exceptions.payments.PaymentException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,44 +30,59 @@ import java.util.stream.Collectors;
 @Service
 public class PaymentsService extends AService<Payment, IDBPayment> {
 
-	private IDBProduct idbProduct;
 	private IDBBasket idbBasket;
+	private ProductService productService;
+	private AccountService accountService;
 
 	@Autowired
-	public PaymentsService(IDBPayment repository, IDBProduct idbProduct, IDBBasket idbBasket) {
+	public PaymentsService(IDBPayment repository, ProductService productService, IDBBasket idbBasket, AccountService accountService) {
 		super(repository);
-		this.idbProduct = idbProduct;
+		this.productService = productService;
 		this.idbBasket = idbBasket;
+		this.accountService = accountService;
 	}
 
-	public List<Payment> getPaymentStatistics (Long clientId, Pageable pageable) {
-	  return repository.findByAccountId(clientId, pageable).getContent();
-  }
+	public List<Payment> getPaymentStatistics(Long clientId, Pageable pageable) {
+		return repository.findByAccountId(clientId, pageable).getContent();
+	}
 
-	@Transactional(timeout = 30)
-	public void createPayment(Set<Basket> baskets, Long clientId) {
-	  // получаем мапу id товара и его количество из корзины, на основе данных от клиента
-		final Map<Long, Long> productsFromBasketMap = baskets.stream().collect(
-		    Collectors.toMap(o -> o.getProduct().getId(), o -> o.getProduct().getCount()));
-    // получаем свежие данные по товарам из бд, по идентификаторам которые прислал клиент
-		final Set<Product> productsFromStore = idbProduct.findByIdIn(productsFromBasketMap.keySet());
+	@Transactional(timeout = 40)
+	public void createPayment(Set<Basket> baskets, Long clientId, String token) {
+		// получаем мапу id товара и его количество из корзины, на основе данных полученных от клиента
+		final Map<Long, Long> productsFromBasketMap = baskets.stream()
+				.collect(Collectors.toMap(o -> o.getProduct().getId(), o -> o.getProduct().getCount()));
+		// получаем свежие данные по товарам из бд, по идентификаторам которые прислал клиент
+		final Set<Product> productsDb = productService.findProductsByIds(productsFromBasketMap.keySet());
 		// получаем мапу id товара и его количество на основе выборки из бд
-		final Map<Long, Long> productsFromStoreMap = productsFromStore
+		final Map<Long, Long> productsFromStoreMap = productsDb
 				.stream().collect(Collectors.toMap(Product::getId, Product::getCount));
 
+		// наконец выполняем валидацию
 		verificationCountProducts.accept(productsFromBasketMap, productsFromStoreMap);
+		// выполняем создание платежа
+		createPaymentTransaction(baskets, clientId, token);
+	}
 
-    final Function<Product, Long> getUpdatedCountInStore = (p) -> p.getCount() - productsFromStoreMap.get(p.getId());
-    for (Basket basket : baskets) {
-      // обновляем количесво товаров после покупки
-      idbProduct.save(new Product(basket.getProduct().getId(), getUpdatedCountInStore.apply(basket.getProduct())));
-      // Добавляем записи в таблицу учёта платежей fixme тут денормализовать таблицу payments, писать в неё
-      repository.save(new Payment(clientId, basket.getProduct(), basket.getProduct().getCost(), LocalDateTime.now()));
-      // Удаляем выбранные продукты из корзины
-      idbBasket.deleteById(basket.getId());
-    }
-  }
+	private void createPaymentTransaction(Set<Basket> baskets, Long clientId, String token) {
+		final Function<Basket, Long> getNewProductCount = (b) -> b.getProduct().getCount() - b.getCount();
+		for (Basket basket : baskets) {
+			final Product productDB = productService.findById(basket.getProduct().getId()).get();
+			final Product productUp = new Product(basket.getProduct().getId(), getNewProductCount.apply(basket));
+			// обновляем количесво товаров после покупки
+			productService.updateEntity(productDB, productUp);
 
+			final Account client = accountService.findById(clientId).get();
+			// Добавляем записи в таблицу учёта платежей
+			repository.save(new Payment(client, token));
+			// Удаляем выбранные продукты из корзины
+			idbBasket.deleteById(basket.getId());
+		}
+	}
+
+	/**
+	 * Сверяем количество товаров которые запросил пользователь,
+	 * с тем что имеется в бд
+	 */
 	private final BiConsumer<Map<Long, Long>, Map<Long, Long>> verificationCountProducts = (fromBasket, fromStore) -> {
 
 		if (fromBasket.isEmpty()) {

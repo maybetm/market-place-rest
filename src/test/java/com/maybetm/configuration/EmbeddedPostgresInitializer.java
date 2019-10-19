@@ -38,7 +38,7 @@ public class EmbeddedPostgresInitializer implements ApplicationContextInitialize
       applicationContext.registerBean(EmbeddedPostgres.class,
                                       () -> postgres,
                                       (beanDefinition) -> beanDefinition.setDestroyMethodName("stop"));
-    } catch (IOException e) {
+    } catch (Throwable e) {
       postgres.stop();
       throw new RuntimeException(e);
     }

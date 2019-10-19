@@ -8,26 +8,28 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author zebzeev-sv
  * @version 01.07.2019 12:29
  */
 @Service
-public class ProductService extends AService<Product, IDBProduct>
-{
-  @Autowired
-  public ProductService(IDBProduct repository)
-  {
-    super(repository);
-  }
+public class ProductService extends AService<Product, IDBProduct> {
+	@Autowired
+	public ProductService(IDBProduct repository) {
+		super(repository);
+	}
 
-  public List<Product> getProductsFromDb(String search,Pageable pageable)
-  {
-    if (search != null && !search.isEmpty()) {
-      return repository.findProductsByNameIgnoreCase(search, pageable).getContent();
-    } else {
-      return repository.findAll(pageable).getContent();
-    }
-  }
+	public List<Product> getProductsFromDb(String search, Pageable pageable) {
+		if (search != null && !search.isEmpty()) {
+			return repository.findProductsByNameIgnoreCase(search, pageable).getContent();
+		} else {
+			return repository.findAll(pageable).getContent();
+		}
+	}
+
+	public Set<Product> findProductsByIds(Set<Long> ids) {
+		return repository.findByIdIn(ids);
+	}
 }

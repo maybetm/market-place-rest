@@ -4,6 +4,7 @@ import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.entities.account.Account;
 import com.maybetm.mplrest.entities.product.Product;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -49,6 +50,7 @@ public class Basket extends AEntity {
 		return account;
 	}
 
+	@Column(nullable = false)
 	public Long getCount() {
 		return count;
 	}

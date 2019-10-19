@@ -4,9 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.maybetm.mplrest.commons.AEntity;
 import com.maybetm.mplrest.entities.basket.Basket;
 import com.maybetm.mplrest.entities.category.Category;
-import com.maybetm.mplrest.entities.payments.Payment;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.util.Set;
 
 /**
@@ -34,8 +37,6 @@ public class Product extends AEntity {
   private Category category;
 
 	private Set<Basket> basket;
-
-  private Set<Payment> payments;
 
   public Product()
   {
@@ -66,17 +67,6 @@ public class Product extends AEntity {
 	public Set<Basket> getBasket() {
 		return basket;
 	}
-
-  @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-  public Set<Payment> getPayments()
-  {
-    return payments;
-  }
-
-  public void setPayments(Set<Payment> payments)
-  {
-    this.payments = payments;
-  }
 
 	public void setBasket(Set<Basket> basket) {
 		this.basket = basket;
