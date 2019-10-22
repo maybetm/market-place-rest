@@ -8,18 +8,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collections;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * Перехватчик используется для управления доступом
@@ -62,15 +59,6 @@ public class SecurityHandlerInterceptor extends HandlerInterceptorAdapter
   // ищем RolesMapper над методм и оборачиваем результат в Optional
   private Function<Object, Optional<RolesMapper>> getRolesMapper = (handler) ->
       Optional.ofNullable(AnnotationUtils.findAnnotation(((HandlerMethod)handler).getMethod(), RolesMapper.class));
-
-  // преобразуем входящие хидеры в строку для логгирования
-  private final Function<HttpServletRequest, String> getHeaders = (request) -> {
-    HttpHeaders httpHeaders = Collections.list(request.getHeaderNames()).stream()
-        .collect(Collectors.toMap(Function.identity(),
-            (header) -> Collections.list(request.getHeaders(header)),
-            (oldValue, newValue) -> newValue, HttpHeaders::new));
-    return httpHeaders.toString();
-  };
 
   // консумер нужен для более удобного логгирования входных обезличенных параметров
   private final Consumer<String> loggerJwtParamsInterceptor = (jwt) -> {
