@@ -52,7 +52,7 @@ public class SecurityHandlerInterceptor extends HandlerInterceptorAdapter
       if (methodRolesMapper.isPresent() && jwt.isPresent() && jwtService.isValid(methodRolesMapper.get(), jwt.get())) {
         return true;
       }
-      // если метод не промаркирован, вернётся истина.
+      // если метод не промаркирован, вернётся истина. Значит метод публичный.
       return !methodRolesMapper.isPresent();
     }
     // по умолчанию все входящие запросы запрещены.
