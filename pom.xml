@@ -12,7 +12,7 @@
 
   <groupId>com.maybetm</groupId>
   <artifactId>market-place-rest</artifactId>
-  <version>0.9.11</version>
+  <version>1.0</version>
   <packaging>jar</packaging>
   <name>market-place-rest</name>
   <description>Рест ядро интернет-магазина</description>
