@@ -21,7 +21,7 @@
     <java.version>8</java.version>
     <project.build.encoding>UTF-8</project.build.encoding>
     <lombok.version>1.18.8</lombok.version>
-    <postgresql.version>42.3.3</postgresql.version>
+    <postgresql.version>42.3.8</postgresql.version>
     <postgresql.embedded.version>2.10</postgresql.embedded.version>
     <hibernate.types.version>2.5.0</hibernate.types.version>
     <maven.surefire.plugin>2.9</maven.surefire.plugin>
